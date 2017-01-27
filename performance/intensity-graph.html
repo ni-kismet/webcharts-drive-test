@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Webcharts Intensity Graph performance test</title>
+    <link rel="stylesheet" href="../Styles/niControlStyles.css" />
+    <link rel="import" href="../node_modules/ni-webcharts/dist/webcharts.min.html"/>
+    <script type="text/javascript" src="../node_modules/webcomponents-lite/webcomponents-lite.js"></script>
+
+    <style>
+        ni-intensity-graph {
+            display: inline-block;
+            width:800px;
+            height: 300px;
+            min-height: 50px;
+        }
+
+        ni-intensity-graph text {
+            stroke: none;
+            stroke-width: 1px;
+            font-size: 12px;
+            font-family: sans-serif;
+            fill: #222266;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Webcharts Intensity Graph performance</h1>
+
+    <ni-intensity-graph id="graph1">
+      <ni-cartesian-axis show show-tick-labels grid-lines label="Time" axis-position="bottom" auto-scale></ni-cartesian-axis>
+      <ni-cartesian-axis show show-tick-labels grid-lines label="Amplitude" axis-position="left" auto-scale></ni-cartesian-axis>
+      <ni-color-scale show> </ni-color-scale>
+  </ni-intensity-graph>
+
+    <div id="settings">
+        <fieldset id="samples_form" style="display: inline-block;">
+            <legend>Samples</legend>
+            <input type="radio" name="samples" value="100" />100<br />
+            <input type="radio" name="samples" value="1000" />1000<br />
+            <input type="radio" name="samples" value="10000" />10000<br />
+            <input type="radio" name="samples" value="100000" checked="checked" />100000<br />
+            <input type="radio" name="samples" value="250000" />250000<br />
+        </fieldset>
+    </div>
+
+    <div id="fps"></div>
+    <script defer type="text/javascript" src="fps_display.js"></script>
+    <script defer type="text/javascript" src="intensity_graphing.js"></script>
+</body>
+</html>

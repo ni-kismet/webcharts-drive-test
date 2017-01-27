@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Webcharts Graph performance test</title>
+    <link rel="stylesheet" href="../Styles/niControlStyles.css" />
+    <link rel="import" href="../node_modules/ni-webcharts/dist/webcharts.min.html"/>
+    <script type="text/javascript" src="../node_modules/webcomponents-lite/webcomponents-lite.js"></script>
+
+    <style>
+        ni-cartesian-graph {
+            display: inline-block;
+            width:800px;
+            height: 300px;
+            min-height: 50px;
+        }
+
+        ni-cartesian-graph text {
+            stroke: none;
+            stroke-width: 1px;
+            font-size: 12px;
+            font-family: sans-serif;
+            fill: #222266;
+        }
+
+    </style>
+</head>
+<body>
+    <h2>AnalogWaveform Graph</h2>
+    <ni-cartesian-graph id="graph" value="[]">
+      <ni-cartesian-axis show show-tick-labels grid-lines label="Time" axis-position="bottom" auto-scale format="LVTime"></ni-cartesian-axis>
+      <ni-cartesian-axis show show-tick-labels grid-lines label="Amplitude" axis-position="left" auto-scale></ni-cartesian-axis>
+      <ni-cartesian-plot show label="Plot 1">
+        <ni-cartesian-plot-renderer line-width="1" line-stroke="#a84716"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+    </ni-cartesian-graph>
+
+    <div id="settings">
+        <fieldset id="plots_form" style="display: inline-block;">
+            <legend>Plots</legend>
+            <input type="radio" name="plots" value="1" checked="checked"/>1<br />
+            <input type="radio" name="plots" value="2" />2<br />
+            <input type="radio" name="plots" value="4"/>4<br />
+            <input type="radio" name="plots" value="50"/>50<br />
+            <input type="radio" name="plots" value="200" />200<br />
+        </fieldset>
+
+        <fieldset id="samples_form" style="display: inline-block;">
+            <legend>Samples</legend>
+            <input type="radio" name="samples" value="100" />100<br />
+            <input type="radio" name="samples" value="1000" />1000<br />
+            <input type="radio" name="samples" value="10000" />10000<br />
+            <input type="radio" name="samples" value="100000" checked="checked" />100000<br />
+            <input type="radio" name="samples" value="250000" />250000<br />
+        </fieldset>
+    </div>
+
+    <div id="fps"></div>
+    <script type="text/javascript" src="fps_display.js"></script>
+  <script type="text/javascript" src="graphing_analogWaveform.js"></script>
+</body>
+</html>

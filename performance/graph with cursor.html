@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Webcharts Graph performance test</title>
+    <link rel="stylesheet" href="../Styles/niControlStyles.css" />
+    <link rel="import" href="../node_modules/ni-webcharts/dist/webcharts.min.html"/>
+    <script type="text/javascript" src="../node_modules/webcomponents-lite/webcomponents-lite.js"></script>
+
+    <style>
+        ni-cartesian-graph {
+            display: inline-block;
+            width:800px;
+            height: 300px;
+            min-height: 50px;
+        }
+
+        ni-cartesian-graph text {
+            stroke: none;
+            stroke-width: 1px;
+            font-size: 12px;
+            font-family: sans-serif;
+            fill: #222266;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Webcharts Graph</h1>
+
+    <h2>Array of numbers</h2>
+    <ni-cartesian-graph id="graph1" value="[0, 10, 200, 3, 40, 500, 6, 70, 800]">
+      <ni-cartesian-axis show show-tick-labels grid-lines label="Time" axis-position="bottom" auto-scale></ni-cartesian-axis>
+      <ni-cartesian-axis show show-tick-labels grid-lines label="Amplitude" axis-position="left" auto-scale></ni-cartesian-axis>
+      <ni-cartesian-plot show label="Plot 1">
+        <ni-cartesian-plot-renderer line-width="2" line-stroke="#a84716"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+      <ni-cursor label="Cursor 1" show show-label snap-to-data cursor-color="#10e357"></ni-cursor>
+    </ni-cartesian-graph>
+
+  <script defer type="text/javascript" src="graphing_with_cursor.js"></script>
+</body>
+</html>
