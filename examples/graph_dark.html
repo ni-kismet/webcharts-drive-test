@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Webcharts Graph</title>
+    <link rel="stylesheet" href="../node_modules/ni-webcharts/styles/webchartsDark.css" />
+    <link rel="import" href="../node_modules/ni-webcharts/dist/webcharts.min.html"/>
+    <script type="text/javascript" src="../node_modules/webcomponents-lite/webcomponents-lite.js"></script>
+
+    <style>
+        ni-cartesian-graph {
+            display: inline-block;
+            width:800px;
+            height: 300px;
+            min-height: 50px;
+        }
+
+        ni-cartesian-graph text {
+            stroke: none;
+            stroke-width: 1px;
+            font-size: 12px;
+            font-family: sans-serif;
+            fill: #222266;
+        }
+
+    </style>
+</head>
+<body style ="background-color: #303030; color: #e0e0e0">
+    <h1>Webcharts Graph</h1>
+
+    <h2>Arrays of numbers</h2>
+    <ni-cartesian-graph id="graph1" value="[[0, 10, 200, 3, 40, 500, 6, 70, 800], [1, 20, 600, 40, 5]]">
+      <ni-cartesian-axis show show-tick-labels show-ticks show-minor-ticks show-label label="Time" axis-position="bottom" auto-scale grid-lines></ni-cartesian-axis>
+      <ni-cartesian-axis show show-tick-labels show-ticks show-minor-ticks show-label label="Amplitude" axis-position="left" auto-scale grid-lines></ni-cartesian-axis>
+      <ni-cartesian-plot show label="Plot 1">
+        <ni-cartesian-plot-renderer line-width="1.5" line-stroke="#82A3D1"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+      <ni-cartesian-plot show label="Plot 2">
+        <ni-cartesian-plot-renderer line-width="1.5" line-stroke="#862323"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+  </ni-cartesian-graph>
+</body>
+</html>

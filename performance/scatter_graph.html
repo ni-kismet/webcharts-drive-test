@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>Webcharts Graph performance test</title>
-    <link rel="stylesheet" href="../Styles/niControlStyles.css" />
+    <link rel="stylesheet" href="../node_modules/ni-webcharts/styles/webchartsLight.css" />
     <link rel="import" href="../node_modules/ni-webcharts/dist/webcharts.min.html"/>
     <script type="text/javascript" src="../node_modules/webcomponents-lite/webcomponents-lite.js"></script>
 
@@ -57,9 +57,9 @@
         <fieldset id="samples_form" style="display: inline-block;">
             <legend>Samples</legend>
             <input type="radio" name="samples" value="100" />100<br />
-            <input type="radio" name="samples" value="1000" />1000<br />
+            <input type="radio" name="samples" value="1000" checked="checked"/>1000<br />
             <input type="radio" name="samples" value="10000" />10000<br />
-            <input type="radio" name="samples" value="100000" checked="checked" />100000<br />
+            <input type="radio" name="samples" value="100000" />100000<br />
             <input type="radio" name="samples" value="250000" />250000<br />
         </fieldset>
 
