@@ -10,14 +10,14 @@
 }
 
 img {
-    border-radius: 50%;
-    width: 70px;
+    width: 30px;
     margin: 10px;
 }
 
 h2 {
     font-weight: lighter;
     margin-left: 50px;
+    margin-top: -42px;
 }
 
 p {
