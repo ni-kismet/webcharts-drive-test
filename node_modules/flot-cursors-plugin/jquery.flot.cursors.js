@@ -612,26 +612,34 @@ Licensed under the MIT license.
     }
 
     function drawValues(plot, ctx, cursor) {
-        if (typeof cursor.showValuesRelativeToSeries === 'number') {
-            ctx.beginPath();
-            var dataset = plot.getData();
+       if (typeof cursor.showValuesRelativeToSeries === 'number') {
+            var dataset = plot.getData(),
+                series = dataset[cursor.showValuesRelativeToSeries],
+                xaxis = series.xaxis,
+                yaxis = series.yaxis,
+                htmlSpace = '&nbsp;',
+                xFormattedValue = xaxis.tickFormatter(xaxis.c2p(cursor.x), xaxis),
+			    spaceIndex = xFormattedValue.indexOf(htmlSpace),
+			    yFormattedValue = yaxis.tickFormatter(yaxis.c2p(cursor.y), yaxis);
 
-            var series = dataset[cursor.showValuesRelativeToSeries];
-            var xaxis = series.xaxis;
-            var yaxis = series.yaxis;
-
-            var text = '' + xaxis.c2p(cursor.x).toFixed(2) + ', ' + yaxis.c2p(cursor.y).toFixed(2);
-
-            var position = computeRowPosition(plot, cursor, valuesRowIndex(cursor), rowCount(cursor));
+			spaceIndex = xFormattedValue.indexOf(htmlSpace);
+            if(spaceIndex !== -1) { 
+                xFormattedValue = xFormattedValue.slice(0, spaceIndex);
+            }
+            
+			spaceIndex = yFormattedValue.indexOf(htmlSpace);
+            if(spaceIndex !== -1) {
+                yFormattedValue = yFormattedValue.slice(0, spaceIndex);
+            }
+			
+            var text = xFormattedValue + ', ' + yFormattedValue,
+                position = computeRowPosition(plot, cursor, valuesRowIndex(cursor), rowCount(cursor));
 
             ctx.fillStyle = cursor.color;
             ctx.textAlign = position.textAlign;
-            ctx.font = cursor.fontStyle + ' ' + cursor.fontWeight + ' ' + cursor.fontSize + ' ' + cursor.fontFamily;
-            ctx.fillText(text, position.x, position.y);
-
             ctx.textAlign = 'left';
-
-            ctx.stroke();
+            ctx.font = cursor.fontStyle + ' ' + cursor.fontWeight + ' ' + cursor.fontSize + ' ' + cursor.fontFamily;             
+			ctx.fillText(text, position.x, position.y);
         }
     }
 
