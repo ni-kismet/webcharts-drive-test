@@ -16,6 +16,7 @@
     var audioBuffer;
     var sourceNode;
     var javascriptNode;
+    var data = [];
 
     // load the sound
     setupAudioNodes();
@@ -67,23 +68,21 @@
     // when the javascript node is called
     // we send the data in the buffers to the graph
     javascriptNode.onaudioprocess = function (audioProcessingEvent) {
-        var data = [];
         var inputBuffer = audioProcessingEvent.inputBuffer;
         // The output buffer contains the samples that will be modified and played
         var outputBuffer = audioProcessingEvent.outputBuffer;
 
         // Loop through the output channels (in this case there is only one)
         for (var channel = 0; channel < outputBuffer.numberOfChannels; channel++) {
+            if (data[channel] === undefined) {
+                data[channel] = [];
+            }
             var inputData = inputBuffer.getChannelData(channel);
             var outputData = outputBuffer.getChannelData(channel);
-/*
-            // Loop through the samples
+            // Loop through the samples and copy them in the data buffer
             for (var sample = 0; sample < inputBuffer.length; sample++) {
-                // make output equal to the same as the input
-                outputData[sample] = inputData[sample];
+                data[channel][sample] = inputData[sample];
             }
-*/
-            data.push(Array.prototype.slice.call(inputData));
         }
         graph.setData(data);
     }
