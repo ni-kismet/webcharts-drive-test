@@ -69,20 +69,13 @@
     // we send the data in the buffers to the graph
     javascriptNode.onaudioprocess = function (audioProcessingEvent) {
         var inputBuffer = audioProcessingEvent.inputBuffer;
-        // The output buffer contains the samples that will be modified and played
-        var outputBuffer = audioProcessingEvent.outputBuffer;
 
-        // Loop through the output channels (in this case there is only one)
-        for (var channel = 0; channel < outputBuffer.numberOfChannels; channel++) {
+        // Loop through the input channels
+        for (var channel = 0; channel < inputBuffer.numberOfChannels; channel++) {
             if (data[channel] === undefined) {
                 data[channel] = [];
             }
-            var inputData = inputBuffer.getChannelData(channel);
-            var outputData = outputBuffer.getChannelData(channel);
-            // Loop through the samples and copy them in the data buffer
-            for (var sample = 0; sample < inputBuffer.length; sample++) {
-                data[channel][sample] = inputData[sample];
-            }
+            data[channel] = inputBuffer.getChannelData(channel);
         }
         graph.setData(data);
     }
