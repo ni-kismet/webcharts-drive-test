@@ -69,7 +69,7 @@ function IntensityGraph() {
 
     function processRawData(plot, s, sData, sDatapoints) {
         var opts = plot.getOptions();
-        if (opts.series.intensitygraph.show === true) {
+        if (opts.series.intensitygraph.show === true && sData[0].length > 0) {
             sDatapoints.pointsize = 2;
 
             // push two data points, one with xmin, ymin, the other one with xmax, ymax
