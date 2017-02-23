@@ -68,7 +68,7 @@
         fps_display.update(plots * samples);
     };
 
-    function setAutoscale(state) {
+    function setAutoscale(autoScale) {
         var axes = [].slice.call(graph.querySelectorAll('ni-cartesian-axis'));
 
         var av= axes.map(function (axis) {
@@ -77,19 +77,18 @@
         });
 
         axes.forEach(function (axis, i) {
-            if (!state) {
-                var fa = axis.getFlotAxis();
+            if (autoScale === 'none') {
                 axis.minimum = av[i].minimum;
                 axis.maximum = av[i].maximum;
             }
-            axis.autoScale = state;
+            axis.autoScale = autoScale;
         });
     }
 
     var autoscale_form = document.querySelector('#autoscale_form');
     var rad = autoscale_form.querySelectorAll('input[name="autoscale"]');
     var onClick = function() {
-        setAutoscale(this.value === '1');
+        setAutoscale(this.value);
     };
 
     for(var i = 0; i < rad.length; i++) {
