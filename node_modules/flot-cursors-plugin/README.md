@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ni-kismet/flot-cursors-plugin.svg?branch=master)](https://travis-ci.org/ni-kismet/flot-cursors-plugin)
+[![Build Status](https://travis-ci.org/ni-kismet/flot-cursors-plugin.svg?branch=master)](https://travis-ci.org/ni-kismet/flot-cursors-plugin) [![Coverage Status](https://coveralls.io/repos/github/ni-kismet/flot-cursors-plugin/badge.svg?branch=master)](https://coveralls.io/github/ni-kismet/flot-cursors-plugin?branch=master)
 
 flot.cursors
 ============

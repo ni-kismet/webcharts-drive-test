@@ -81,8 +81,10 @@
                 var fa = axis.getFlotAxis();
                 axis.minimum = av[i].minimum;
                 axis.maximum = av[i].maximum;
+                axis.autoScale = 'none';
+            } else {
+                axis.autoScale = 'exact';
             }
-            axis.autoScale = state;
         });
     }
 
