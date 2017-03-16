@@ -14,6 +14,8 @@
 
     <script type="text/javascript" src="../node_modules/webcomponents-lite/webcomponents-lite.js"></script>
 
+    <script type="text/javascript" src="../node_modules/pako/dist/pako.min.js"></script>
+
 
     <style>
         #page-wrap {
@@ -43,7 +45,7 @@
 
         <p>
             This graph shows the raw data recorded by the Hanford, Washington and
-            Livingston, Lousiana Observatories of a gravitational wave sampled at 16384 Hz.
+            Livingston, Lousiana Observatories of a gravitational wave sampled at 4096 Hz.
         </p>
         <p>
             It is also demonstating the legends and tools of the webcharts.
@@ -75,15 +77,39 @@
         </p>
     </div>
 
-    <script type="text/javascript" src="./data/ligo.js"></script>
-
     <script>
-        var graph = document.querySelector('#graph1');
-        var data = [window.H_H1_LOSC_16_V1_1126259446_32, window.L_L1_LOSC_16_V1_1126259446_32];
 
-        graph.value = JSON.stringify(data);
+        /* In order to create the data file, follow these steps:
+            1. create a JSON file with this structure:
+                {
+                    "H_H1_LOSC_4_V1_1126259446_32": [1, 2, 3, 4, ...],
+                    "L_L1_LOSC_4_V1_1126259446_32": [1, 2, 3, 4, ...]
+                }
+            2. install pako globally:
+                    npm install pako -g
+            3. run in Node or copy-paste this snippet in a .js file and run it with Node:
+                    var pako = require('pako');
+                    var data = require('C:/ligo.json');
+                    var str = JSON.stringify(data);
+                    var smallStr = pako.deflate(str, { to: 'string' });
+                    var fs = require('fs');
+                    fs.writeFileSync('C:/ligo', smallStr);
+        */
 
-        console.log(graph.value);
+        $.ajax({
+            url: 'data/ligo',
+            type: 'GET',
+            success: function(response) {
+                var str = pako.inflate(response, { to: 'string' }),
+                    restored = JSON.parse(str),
+                    graph = document.querySelector('#graph1'),
+                    data = [restored.H_H1_LOSC_4_V1_1126259446_32, restored.L_L1_LOSC_4_V1_1126259446_32];
+                graph.setData(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR, textStatus, errorThrown);
+            }
+        });
     </script>
 </body>
 
