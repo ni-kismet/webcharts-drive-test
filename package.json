@@ -7,6 +7,6 @@
   "homepage": "https://github.com/ni-kismet/",
   "dependencies": {
     "ni-webcharts": "0.4.3",
-    "ni-webcharts-legends": "0.0.2"
+    "ni-webcharts-legends": "0.0.3"
   }
 }
