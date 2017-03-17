@@ -1,0 +1,3 @@
+node_modules/jqwidgets-framework/*
+
+!node_modules/jqwidgets-framework/jqwidgets/
