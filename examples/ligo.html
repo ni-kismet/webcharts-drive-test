@@ -96,20 +96,32 @@
                     fs.writeFileSync('C:/ligo', smallStr);
         */
 
-        $.ajax({
-            url: 'data/ligo',
-            type: 'GET',
-            success: function(response) {
-                var str = pako.inflate(response, { to: 'string' }),
-                    restored = JSON.parse(str),
-                    graph = document.querySelector('#graph1'),
-                    data = [restored.H_H1_LOSC_4_V1_1126259446_32, restored.L_L1_LOSC_4_V1_1126259446_32];
-                graph.setData(data);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR, textStatus, errorThrown);
+        var loadData = function() {
+            var graph = document.querySelector('#graph1'),
+                appReady = typeof graph.updateData === 'function';
+
+            if (!appReady) {
+                setTimeout(loadData, 5);
+                return;
             }
-        });
+
+            $.ajax({
+                url: 'data/ligo',
+                type: 'GET',
+                success: function(response) {
+                    var str = pako.inflate(response, { to: 'string' }),
+                        restored = JSON.parse(str),
+                        data = [restored.H_H1_LOSC_4_V1_1126259446_32, restored.L_L1_LOSC_4_V1_1126259446_32];
+                    graph.setData(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR, textStatus, errorThrown);
+                }
+            });
+        };
+
+        setTimeout(loadData, 5);
+
     </script>
 </body>
 
