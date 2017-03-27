@@ -36,6 +36,22 @@
             font-family: sans-serif;
             fill: #222266;
         }
+
+        ni-intensity-graph {
+            display: block;
+            width:400px;
+            height: 300px;
+            min-height: 50px;
+            margin: auto;
+        }
+
+        ni-intensity-graph text {
+            stroke: none;
+            stroke-width: 1px;
+            font-size: 12px;
+            font-family: sans-serif;
+            fill: #222266;
+        }
     </style>
 </head>
 
@@ -71,6 +87,11 @@
         <p>
             <ni-cursor-legend ni-control-id='37' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='28'></ni-cursor-legend>
         </p>
+        <ni-intensity-graph id="intensity1">
+          <ni-cartesian-axis show show-ticks show-minor-ticks grid-lines show-label label="Time" axis-position="bottom" minimum="2000" maximum="3000" auto-scale='none'></ni-cartesian-axis>
+          <ni-cartesian-axis show show-ticks show-minor-ticks show-endpoints grid-lines show-label label="Frequency (Hz)" axis-position="left"  minimum="0" maximum="50" auto-scale='none'></ni-cartesian-axis>
+          <ni-color-scale show show-tick-labels="all" auto-scale='none' markers='[{"value":-10.6564876212321,"color":"rgba(255,0,0,1)"},{"value":-6,"color":"rgba(255,0,0,1)"},{"value":-1.6357794943288377,"color":"rgba(255,242,0,1)"}]'></ni-color-scale>
+        </ni-intensity-graph>
         <p>
             Read more <a href="https://en.wikipedia.org/wiki/GW151226">here</a>
             and <a href="https://losc.ligo.org/s/events/GW150914/GW150914_tutorial.html">here</a>.
@@ -98,6 +119,7 @@
 
         var loadData = function() {
             var graph = document.querySelector('#graph1'),
+                intensity1 = document.querySelector('#intensity1'),
                 appReady = typeof graph.updateData === 'function';
 
             if (!appReady) {
@@ -113,6 +135,28 @@
                         restored = JSON.parse(str),
                         data = [restored.H_H1_LOSC_4_V1_1126259446_32, restored.L_L1_LOSC_4_V1_1126259446_32];
                     graph.setData(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR, textStatus, errorThrown);
+                }
+            });
+
+            $.ajax({
+                url: 'data/specgram',
+                type: 'GET',
+                success: function(response) {
+                    var str = pako.inflate(response, { to: 'string' }),
+                        restored = JSON.parse(str);
+                    // the color scale doesn't handle log data so patching this here
+                    // the min and max of the color scale gradient were updated as well:
+                    //     log10(2.205527e-11) = -10.6564876212321
+                    //     log10(0.02313239) = -1.6357794943288377
+                    for(var i = 0; i < restored.H_H1_LOSC_4_V1_specgram.length; i++) {
+                        for(var j = 0; j < restored.H_H1_LOSC_4_V1_specgram[i].length; j++) {
+                            restored.H_H1_LOSC_4_V1_specgram[i][j] = Math.log10(restored.H_H1_LOSC_4_V1_specgram[i][j]);
+                        }
+                    }
+                    intensity1.setData(restored.H_H1_LOSC_4_V1_specgram);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR, textStatus, errorThrown);
