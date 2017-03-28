@@ -22,14 +22,35 @@
             width: 800px;
             margin: 0 auto;
         }
-        ni-cartesian-graph {
+
+        h1 {
+            font-family: Georgia, serif;
+            font-size: 26px;
+            font-weight: bold;
+            color: #333333;
+            letter-spacing: 1.4px;
+            border-bottom: solid 1px #333333;
+            margin-top: 44px;
+        }
+
+        .story {
+            font-family: Verdana;
+            font-size: 11px;
+            color: #555555;
+            line-height: 1.5;
+            letter-spacing: .25px;
+            margin-top: 44px;
+            margin-bottom: 18px;
+        }
+
+        .originalSignal ni-cartesian-graph {
             display: inline-block;
             width: 800px;
             height: 300px;
             min-height: 50px;
         }
 
-        ni-cartesian-graph text {
+        .originalSignal ni-cartesian-graph text {
             stroke: none;
             stroke-width: 1px;
             font-size: 12px;
@@ -37,62 +58,81 @@
             fill: #222266;
         }
 
-        ni-intensity-graph {
+        .spectrogram {
+            position: relative;
             display: block;
-            width:400px;
+            margin: auto;
+            width: 700px;
+            height: 300px;
+        }
+
+        .spectrogram ni-intensity-graph {
+            position: absolute;
+            left: 150px;
+            width: 400px;
             height: 300px;
             min-height: 50px;
-            margin: auto;
         }
 
-        ni-intensity-graph text {
+        .spectrogram ni-intensity-graph text {
             stroke: none;
             stroke-width: 1px;
             font-size: 12px;
             font-family: sans-serif;
             fill: #222266;
+        }
+
+        .spectrogram ni-graph-tools {
+            position: absolute;
+            left: 550px;
+            bottom: -5px;
         }
     </style>
 </head>
 
 <body>
     <div id="page-wrap">
-        <h1>32 seconds around the GW150914 event recorded by Laser Interferometer Gravitational-wave Observatory</h1>
+        <h1>The GW150914 event recorded by Laser Interferometer Gravitational-wave Observatory</h1>
 
-        <p>
-            This graph shows the raw data recorded by the Hanford, Washington and
-            Livingston, Lousiana Observatories of a gravitational wave sampled at 4096 Hz.
-        </p>
-        <p>
+        <p class="story">
+            This graph shows the raw data recorded by the Hanford, Washington and Livingston, Lousiana Observatories of a gravitational wave sampled at 4096 Hz.
             It is also demonstating the legends and tools of the webcharts.
         </p>
-        <ni-cartesian-graph id="graph1" ni-control-id="28" value="[]">
-            <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Time" axis-position="bottom"></ni-cartesian-axis>
-            <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="H Strain" axis-position="left" grid-lines format="LVSI"></ni-cartesian-axis>
-            <ni-cartesian-axis axis-ref = "L" show show-ticks show-minor-ticks show-label label="L Strain" axis-position="right" format="LVSI"></ni-cartesian-axis>
-            <ni-cartesian-plot show label="Hanford Observatory">
-                <ni-cartesian-plot-renderer line-width="1"></ni-cartesian-plot-renderer>
-            </ni-cartesian-plot>
-            <ni-cartesian-plot show label="Livingston Observatory" yaxis = "L">
-                <ni-cartesian-plot-renderer line-width="1"></ni-cartesian-plot-renderer>
-            </ni-cartesian-plot>
-        </ni-cartesian-graph>
-        <p>
-            <ni-scale-legend ni-control-id='35' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='28'></ni-scale-legend>
-            <ni-graph-tools ni-control-id='38' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='28'></ni-graph-tools>
+        <p class="story">
+            This is a 32 seconds long fragment of the original signal recorded by both the Hanford and Livingston Observatories sampled at 4096 Hz.
         </p>
-        <p>
-            <ni-plot-legend ni-control-id='36' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='28'></ni-plot-legend>
+        <div class="originalSignal">
+            <ni-cartesian-graph id="graph1" ni-control-id="28" value="[]">
+                <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Time" axis-position="bottom"></ni-cartesian-axis>
+                <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="H Strain" axis-position="left" grid-lines format="LVSI"></ni-cartesian-axis>
+                <ni-cartesian-axis axis-ref = "L" show show-ticks show-minor-ticks show-label label="L Strain" axis-position="right" format="LVSI"></ni-cartesian-axis>
+                <ni-cartesian-plot show label="Hanford Observatory">
+                    <ni-cartesian-plot-renderer line-width="1"></ni-cartesian-plot-renderer>
+                </ni-cartesian-plot>
+                <ni-cartesian-plot show label="Livingston Observatory" yaxis = "L">
+                    <ni-cartesian-plot-renderer line-width="1"></ni-cartesian-plot-renderer>
+                </ni-cartesian-plot>
+            </ni-cartesian-graph>
+            <p>
+                <ni-scale-legend ni-control-id='35' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='28'></ni-scale-legend>
+                <ni-graph-tools ni-control-id='38' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='28'></ni-graph-tools>
+                <ni-plot-legend ni-control-id='36' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='28'></ni-plot-legend>
+                <ni-cursor-legend ni-control-id='37' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='28'></ni-cursor-legend>
+            </p>
+        </div>
+        <p class="story">
+            The next graph is the spectrogram of the whitened signal recorded by the Handford Observatory zoomed in around the moment of the merging of the two black holes.
+            Zoom out to see the spectrogram of the hole 32 seconds long record.
         </p>
-        <p>
-            <ni-cursor-legend ni-control-id='37' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='28'></ni-cursor-legend>
-        </p>
-        <ni-intensity-graph id="intensity1">
-          <ni-cartesian-axis show show-ticks show-minor-ticks grid-lines show-label label="Time" axis-position="bottom" minimum="2000" maximum="3000" auto-scale='none'></ni-cartesian-axis>
-          <ni-cartesian-axis show show-ticks show-minor-ticks show-endpoints grid-lines show-label label="Frequency (Hz)" axis-position="left"  minimum="0" maximum="50" auto-scale='none'></ni-cartesian-axis>
-          <ni-color-scale show show-tick-labels="all" auto-scale='none' markers='[{"value":-10.6564876212321,"color":"rgba(255,0,0,1)"},{"value":-6,"color":"rgba(255,0,0,1)"},{"value":-1.6357794943288377,"color":"rgba(255,242,0,1)"}]'></ni-color-scale>
-        </ni-intensity-graph>
-        <p>
+        <div class="spectrogram">
+            <ni-intensity-graph id="intensity1" ni-control-id="50">
+              <ni-cartesian-axis show show-ticks show-minor-ticks grid-lines show-label label="Time" axis-position="bottom" minimum="2000" maximum="3000" auto-scale='none'></ni-cartesian-axis>
+              <ni-cartesian-axis show show-ticks show-minor-ticks show-endpoints grid-lines show-label label="Frequency (Hz)" axis-position="left"  minimum="0" maximum="50" auto-scale='none'></ni-cartesian-axis>
+              <ni-color-scale show show-tick-labels="all" auto-scale='none' markers='[{"value":-10.6564876212321,"color":"rgba(255,0,0,1)"},{"value":-6,"color":"rgba(255,0,0,1)"},{"value":-1.6357794943288377,"color":"rgba(255,242,0,1)"}]'></ni-color-scale>
+            </ni-intensity-graph>
+            <ni-graph-tools ni-control-id='50' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='50'></ni-graph-tools>
+        </div>
+        <p class="story">
             Read more <a href="https://en.wikipedia.org/wiki/GW151226">here</a>
             and <a href="https://losc.ligo.org/s/events/GW150914/GW150914_tutorial.html">here</a>.
         </p>
@@ -101,10 +141,19 @@
     <script>
 
         /* In order to create the data file, follow these steps:
-            1. create a JSON file with this structure:
+            1a. for the original signal data create a JSON file with this structure:
                 {
                     "H_H1_LOSC_4_V1_1126259446_32": [1, 2, 3, 4, ...],
                     "L_L1_LOSC_4_V1_1126259446_32": [1, 2, 3, 4, ...]
+                }
+            1b. for the spectrogram of the whitened signal create a JSON file with this structure:
+                {
+                    "H_H1_LOSC_4_V1_specgram": [
+                        [...],
+                        [...],
+                        ...
+                        [...]
+                    ]
                 }
             2. install pako globally:
                     npm install pako -g
