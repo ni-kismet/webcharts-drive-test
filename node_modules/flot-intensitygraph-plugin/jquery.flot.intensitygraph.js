@@ -56,7 +56,8 @@ function IntensityGraph() {
     };
 
     function createArray(length) {
-        var arr = new Array(length || 0),
+        length = Math.ceil(length) || 0;
+        var arr = new Array(length),
             i = length;
 
         if (arguments.length > 1) {
