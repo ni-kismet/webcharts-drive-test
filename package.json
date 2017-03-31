@@ -8,6 +8,6 @@
   "dependencies": {
     "ni-webcharts": "0.4.7",
     "ni-webcharts-legends": "0.0.4",
-    "pako": "^1.0.4"
+    "pako": "1.0.4"
   }
 }
