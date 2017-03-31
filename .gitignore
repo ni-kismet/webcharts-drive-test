@@ -1,3 +1,5 @@
 node_modules/jqwidgets-framework/*
-
 !node_modules/jqwidgets-framework/jqwidgets/
+
+node_modules/**/coverage/*
+node_modules/jquery/src/*

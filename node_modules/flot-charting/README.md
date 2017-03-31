@@ -1,4 +1,4 @@
-# flot-charting [![Build Status](https://travis-ci.org/cipix2000/flot-charting.svg?branch=master)](https://travis-ci.org/cipix2000/flot-charting)
+# flot-charting [![Build Status](https://travis-ci.org/cipix2000/flot-charting.svg?branch=master)](https://travis-ci.org/cipix2000/flot-charting) [![Coverage Status](https://coveralls.io/repos/github/cipix2000/flot-charting/badge.svg)](https://coveralls.io/github/cipix2000/flot-charting)
 
 A Flot plugin to make charting easy and efficient.
 
@@ -48,9 +48,7 @@ Appending an array of length n to a history buffer is a linear time operation _O
 
 The complexity of drawing a chart of width P pixels with a history buffer of length N, of which M are newly added elements is _O(p)*O(log(N))*O(M logM)_  explain this in a standalone doc!!
 
-Examples and tests
+Examples
 ------------------
 
 Interactive example: https://rawgit.com/cipix2000/flot-charting/master/example.html
-
-Run the tests in your browser: https://rawgit.com/cipix2000/flot-charting/master/SpecRunner.html
