@@ -43,6 +43,7 @@
             margin-bottom: 18px;
         }
 
+        .thereticalTemplate ni-cartesian-graph,
         .originalSignal ni-cartesian-graph {
             display: inline-block;
             width: 800px;
@@ -68,8 +69,8 @@
 
         .spectrogram ni-intensity-graph {
             position: absolute;
-            left: 150px;
-            width: 400px;
+            left: 100px;
+            width: 500px;
             height: 300px;
             min-height: 50px;
         }
@@ -84,7 +85,7 @@
 
         .spectrogram ni-graph-tools {
             position: absolute;
-            left: 550px;
+            left: 600px;
             bottom: -5px;
         }
     </style>
@@ -93,6 +94,19 @@
 <body>
     <div id="page-wrap">
         <h1>The GW150914 event recorded by Laser Interferometer Gravitational-wave Observatory</h1>
+
+        <p class="story">
+            This is the theoretical model:
+        </p>
+        <div class="thereticalTemplate">
+            <ni-cartesian-graph id="graph0" ni-control-id="26" value="[]">
+                <ni-cartesian-axis show show-label show-tick-labels="false" auto-scale="exact" label="Time" axis-position="bottom"></ni-cartesian-axis>
+                <ni-cartesian-axis show show-label show-tick-labels="false" auto-scale="exact" label="Strain" axis-position="left"></ni-cartesian-axis>
+                <ni-cartesian-plot show label="Theoretical template">
+                    <ni-cartesian-plot-renderer line-width="1"></ni-cartesian-plot-renderer>
+                </ni-cartesian-plot>
+            </ni-cartesian-graph>
+        </div>
 
         <p class="story">
             This graph shows the raw data recorded by the Hanford, Washington and Livingston, Lousiana Observatories of a gravitational wave sampled at 4096 Hz.
@@ -104,8 +118,8 @@
         <div class="originalSignal">
             <ni-cartesian-graph id="graph1" ni-control-id="28" value="[]">
                 <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Time" axis-position="bottom"></ni-cartesian-axis>
-                <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="H Strain" axis-position="left" grid-lines format="LVSI"></ni-cartesian-axis>
-                <ni-cartesian-axis axis-ref = "L" show show-ticks show-minor-ticks show-label label="L Strain" axis-position="right" format="LVSI"></ni-cartesian-axis>
+                <ni-cartesian-axis show show-ticks show-minor-ticks show-label auto-scale="exact" label="H Strain" axis-position="left" format="LVSI" grid-lines></ni-cartesian-axis>
+                <ni-cartesian-axis show show-ticks show-minor-ticks show-label auto-scale="exact" label="L Strain" axis-position="right" format="LVSI" axis-ref = "L"></ni-cartesian-axis>
                 <ni-cartesian-plot show label="Hanford Observatory">
                     <ni-cartesian-plot-renderer line-width="1"></ni-cartesian-plot-renderer>
                 </ni-cartesian-plot>
@@ -126,8 +140,8 @@
         </p>
         <div class="spectrogram">
             <ni-intensity-graph id="intensity1" ni-control-id="50">
-              <ni-cartesian-axis show show-ticks show-minor-ticks grid-lines show-label label="Time" axis-position="bottom" minimum="2000" maximum="3000" auto-scale='none'></ni-cartesian-axis>
-              <ni-cartesian-axis show show-ticks show-minor-ticks show-endpoints grid-lines show-label label="Frequency (Hz)" axis-position="left"  minimum="0" maximum="50" auto-scale='none'></ni-cartesian-axis>
+              <ni-cartesian-axis show show-ticks show-minor-ticks grid-lines show-label label="Time" axis-position="bottom" minimum="2300" maximum="2800" auto-scale='none'></ni-cartesian-axis>
+              <ni-cartesian-axis show show-ticks show-minor-ticks show-endpoints grid-lines show-label label="Frequency (Hz)" axis-position="left"  minimum="0" maximum="30" auto-scale='none'></ni-cartesian-axis>
               <ni-color-scale show show-tick-labels="all" auto-scale='none' markers='[{"value":-10.6564876212321,"color":"rgba(255,0,0,1)"},{"value":-6,"color":"rgba(255,0,0,1)"},{"value":-1.6357794943288377,"color":"rgba(255,242,0,1)"}]'></ni-color-scale>
             </ni-intensity-graph>
             <ni-graph-tools ni-control-id='50' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='50'></ni-graph-tools>
@@ -167,14 +181,27 @@
         */
 
         var loadData = function() {
-            var graph = document.querySelector('#graph1'),
+            var graph0 = document.querySelector('#graph0'),
+                graph1 = document.querySelector('#graph1'),
                 intensity1 = document.querySelector('#intensity1'),
-                appReady = typeof graph.updateData === 'function';
+                appReady = typeof graph0.updateData === 'function';
 
             if (!appReady) {
                 setTimeout(loadData, 5);
                 return;
             }
+
+            $.ajax({
+                url: 'data/ligoTheoreticalTemplate.json',
+                type: 'GET',
+                success: function(response) {
+                    var data = response.GW150914_4_NR_waveform;
+                    graph0.setData(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR, textStatus, errorThrown);
+                }
+            });
 
             $.ajax({
                 url: 'data/ligo',
@@ -183,7 +210,7 @@
                     var str = pako.inflate(response, { to: 'string' }),
                         restored = JSON.parse(str),
                         data = [restored.H_H1_LOSC_4_V1_1126259446_32, restored.L_L1_LOSC_4_V1_1126259446_32];
-                    graph.setData(data);
+                    graph1.setData(data);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR, textStatus, errorThrown);
