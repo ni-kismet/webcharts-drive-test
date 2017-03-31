@@ -44,7 +44,8 @@
         }
 
         .thereticalTemplate ni-cartesian-graph,
-        .originalSignal ni-cartesian-graph {
+        .originalSignal ni-cartesian-graph,
+        .asd ni-cartesian-graph{
             display: inline-block;
             width: 800px;
             height: 300px;
@@ -135,6 +136,26 @@
             </p>
         </div>
         <p class="story">
+            Amplitude spectral density:
+        </p>
+        <div class="asd">
+            <ni-cartesian-graph id="graph2" ni-control-id="30" value="[]">
+                <ni-cartesian-axis show show-ticks show-minor-ticks show-label log-scale auto-scale="none" minimum="10" maximum="2048" label="Frequency (Hz)" axis-position="bottom"></ni-cartesian-axis>
+                <ni-cartesian-axis show show-ticks show-minor-ticks show-label log-scale auto-scale="none" minimum="1.0e-24" maximum="1.0e-19" label="ASD Strain" axis-position="left" format="LVSI" grid-lines></ni-cartesian-axis>
+                <ni-cartesian-plot show="false" label="Hanford Observatory">
+                    <ni-cartesian-plot-renderer line-width="1"></ni-cartesian-plot-renderer>
+                </ni-cartesian-plot>
+                <ni-cartesian-plot show label="Livingston Observatory">
+                    <ni-cartesian-plot-renderer bar-fill="auto" line-stroke></ni-cartesian-plot-renderer>
+                </ni-cartesian-plot>
+            </ni-cartesian-graph>
+            <p>
+                <!-- cursors + bar-fill don't play well together -->
+                <ni-graph-tools ni-control-id='38' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='30'></ni-graph-tools>
+                <ni-plot-legend ni-control-id='36' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='30'></ni-plot-legend>
+            </p>
+        </div>
+        <p class="story">
             The next graph is the spectrogram of the whitened signal recorded by the Handford Observatory zoomed in around the moment of the merging of the two black holes.
             Zoom out to see the spectrogram of the hole 32 seconds long record.
         </p>
@@ -183,6 +204,7 @@
         var loadData = function() {
             var graph0 = document.querySelector('#graph0'),
                 graph1 = document.querySelector('#graph1'),
+                graph2 = document.querySelector('#graph2'),
                 intensity1 = document.querySelector('#intensity1'),
                 appReady = typeof graph0.updateData === 'function';
 
@@ -211,6 +233,18 @@
                         restored = JSON.parse(str),
                         data = [restored.H_H1_LOSC_4_V1_1126259446_32, restored.L_L1_LOSC_4_V1_1126259446_32];
                     graph1.setData(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR, textStatus, errorThrown);
+                }
+            });
+
+            $.ajax({
+                url: 'data/ligoAsd.json',
+                type: 'GET',
+                success: function(response) {
+                    var data = [response.asd_H1, response.asd_L1];
+                    graph2.setData(data);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR, textStatus, errorThrown);
