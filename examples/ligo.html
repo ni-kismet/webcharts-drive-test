@@ -33,6 +33,17 @@
             margin-top: 44px;
         }
 
+        ni-plot-legend {
+            width: 200px;
+            z-index: 100;
+        }
+
+        .originalSignal ni-plot-legend .jqx-expander-content,
+        .asd ni-plot-legend .jqx-expander-content {
+            border: 1px solid #cacdd5;
+            border-top: 0px;
+        }
+
         .story {
             font-family: Verdana;
             font-size: 11px;
@@ -43,7 +54,11 @@
             margin-bottom: 18px;
         }
 
-        .thereticalTemplate ni-cartesian-graph,
+        .originalSignal {
+            position: relative;
+        }
+
+        .theoreticalTemplate ni-cartesian-graph,
         .originalSignal ni-cartesian-graph,
         .asd ni-cartesian-graph,
         .whitened ni-cartesian-graph {
@@ -53,6 +68,17 @@
             min-height: 50px;
         }
 
+        .theoreticalTemplate ni-cartesian-axis {
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .originalSignal ni-cartesian-graph {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            height: 320px;
+        }
+
+
         .originalSignal ni-cartesian-graph text {
             stroke: none;
             stroke-width: 1px;
@@ -61,16 +87,40 @@
             fill: #222266;
         }
 
-        .spectrogram {
+        .originalSignal ni-graph-tools {
+            position: absolute;
+            top: 5px;
+            left: 0px;
+        }
+
+        .originalSignal ni-plot-legend {
+            position: absolute;
+            border: 0px;
+            top: 265px;
+            left: 5px;
+        }
+
+        .asd ni-plot-legend {
+            position: absolute;
+            border: 0px;
+            top: 265px;
+            left: 5px;
+        }
+
+        .spectrogram,
+        .whitened,
+        .asd {
             position: relative;
             display: block;
             margin: auto;
-            width: 700px;
-            height: 300px;
+        }
+
+        .whitened {
+            height: 380px;
         }
 
         .spectrogram ni-intensity-graph {
-            position: absolute;
+            position: relative;;
             left: 100px;
             width: 450px;
             height: 200px;
@@ -87,8 +137,14 @@
 
         .spectrogram ni-graph-tools {
             position: absolute;
-            left: 600px;
-            bottom: -5px;
+            left: 100px;
+            top: 5px;
+        }
+
+        .whitened ni-plot-legend {
+            position: absolute;
+            left: 0px;
+            top: 299px;
         }
     </style>
 </head>
@@ -100,7 +156,7 @@
         <p class="story">
             This is the theoretical model:
         </p>
-        <div class="thereticalTemplate">
+        <div class="theoreticalTemplate">
             <ni-cartesian-graph id="graph0" ni-control-id="26" value="[]">
                 <ni-cartesian-axis show show-label show-tick-labels="none" auto-scale="exact" label="Time" axis-position="bottom"></ni-cartesian-axis>
                 <ni-cartesian-axis show show-label show-tick-labels="none" auto-scale="exact" label="Strain" axis-position="left"></ni-cartesian-axis>
@@ -129,12 +185,8 @@
                     <ni-cartesian-plot-renderer line-width="1" line-stroke="rgb(175,216,248)"></ni-cartesian-plot-renderer>
                 </ni-cartesian-plot>
             </ni-cartesian-graph>
-            <p>
-                <ni-scale-legend ni-control-id='35' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='28'></ni-scale-legend>
-                <ni-graph-tools ni-control-id='38' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='28'></ni-graph-tools>
-                <ni-plot-legend ni-control-id='36' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='28'></ni-plot-legend>
-                <ni-cursor-legend ni-control-id='37' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='28'></ni-cursor-legend>
-            </p>
+            <ni-graph-tools ni-control-id='38' graph-name='28'></ni-graph-tools>
+            <ni-plot-legend ni-control-id='36' graph-name='28'></ni-plot-legend>
         </div>
         <p class="story">
             Amplitude spectral density:
@@ -150,11 +202,8 @@
                     <ni-cartesian-plot-renderer bar-fill="rgb(175,216,248)" line-stroke></ni-cartesian-plot-renderer>
                 </ni-cartesian-plot>
             </ni-cartesian-graph>
-            <p>
-                <!-- cursors + bar-fill don't play well together -->
-                <ni-graph-tools ni-control-id='38' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='30'></ni-graph-tools>
-                <ni-plot-legend ni-control-id='36' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='30'></ni-plot-legend>
-            </p>
+            <!-- cursors + bar-fill don't play well together -->
+            <ni-plot-legend ni-control-id='36' graph-name='30'></ni-plot-legend>
         </div>
         <p class="story">
             Whitened and [20, 300] Hz bandpass filter:
@@ -181,11 +230,8 @@
                 </ni-cartesian-plot>
 
             </ni-cartesian-graph>
-            <p>
                 <!-- cursors + bar-fill don't play well together -->
-                <ni-graph-tools ni-control-id='38' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='32'></ni-graph-tools>
-                <ni-plot-legend ni-control-id='36' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='32'></ni-plot-legend>
-            </p>
+            <ni-plot-legend ni-control-id='36' graph-name='32'></ni-plot-legend>
         </div>
         <p class="story">
             The next graph is the spectrogram of the whitened signal recorded by the Handford Observatory zoomed in around the moment of the merging of the two black holes.
@@ -197,7 +243,7 @@
               <ni-cartesian-axis show show-ticks show-minor-ticks show-tick-labels="none" show-endpoints grid-lines show-label label="Frequency (Hz)" axis-position="left"  minimum="0" maximum="30" auto-scale='none'></ni-cartesian-axis>
               <ni-color-scale show show-tick-labels="all" auto-scale='none' markers='[{"value":-10.6564876212321,"color":"rgba(255,0,0,1)"},{"value":-6,"color":"rgba(255,0,0,1)"},{"value":-1.6357794943288377,"color":"rgba(255,242,0,1)"}]'></ni-color-scale>
             </ni-intensity-graph>
-            <ni-graph-tools ni-control-id='50' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='50'></ni-graph-tools>
+            <ni-graph-tools ni-control-id='50' graph-name='50'></ni-graph-tools>
         </div>
         <p class="story">
             Read more <a href="https://en.wikipedia.org/wiki/GW151226">here</a>
