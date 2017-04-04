@@ -3,3 +3,4 @@ node_modules/jqwidgets-framework/*
 
 node_modules/**/coverage/*
 node_modules/jquery/src/*
+node_modules/jquery-mobile/dist/demos/*
