@@ -72,8 +72,8 @@
         .spectrogram ni-intensity-graph {
             position: absolute;
             left: 100px;
-            width: 500px;
-            height: 300px;
+            width: 450px;
+            height: 200px;
             min-height: 50px;
         }
 
@@ -163,7 +163,7 @@
             <ni-cartesian-graph id="graph3" ni-control-id="32" value="[]">
 
                 <ni-cartesian-axis show axis-position="bottom" show-ticks show-tick-labels="endpoints" auto-scale="none" minimum="67060" maximum="67360" label="Time" axis-position="bottom" axis-ref="xaxis1ref"></ni-cartesian-axis>
-                <ni-cartesian-axis show axis-position="bottom" show-ticks show-tick-labels="endpoints" auto-scale="none" minimum="67058" maximum="67458" label="Time" axis-position="bottom" axis-ref="xaxis2ref"></ni-cartesian-axis>
+                <ni-cartesian-axis show axis-position="bottom" show-ticks show-tick-labels="endpoints" auto-scale="none" minimum="67057" maximum="67357" label="Time" axis-position="bottom" axis-ref="xaxis2ref"></ni-cartesian-axis>
                 <ni-cartesian-axis show axis-position="bottom" show-ticks show-tick-labels="endpoints" auto-scale="none" minimum="2331" maximum="2624" label="Time" axis-position="bottom" axis-ref="xaxis3ref"></ni-cartesian-axis>
 
                 <ni-cartesian-axis axis-position="left" show-tick-labels="none" auto-scale="none" minimum="-4" maximum="4" label="Whitened Strain" axis-position="left" format="LVSI" grid-lines="false" axis-ref="yaxis1ref"></ni-cartesian-axis>
@@ -193,8 +193,8 @@
         </p>
         <div class="spectrogram">
             <ni-intensity-graph id="intensity1" ni-control-id="50">
-              <ni-cartesian-axis show show-ticks show-minor-ticks grid-lines show-label label="Time" axis-position="bottom" minimum="2300" maximum="2800" auto-scale='none'></ni-cartesian-axis>
-              <ni-cartesian-axis show show-ticks show-minor-ticks show-endpoints grid-lines show-label label="Frequency (Hz)" axis-position="left"  minimum="0" maximum="30" auto-scale='none'></ni-cartesian-axis>
+              <ni-cartesian-axis show show-ticks show-minor-ticks show-tick-labels="none" grid-lines show-label label="Time" axis-position="bottom" minimum="2300" maximum="2800" auto-scale='none'></ni-cartesian-axis>
+              <ni-cartesian-axis show show-ticks show-minor-ticks show-tick-labels="none" show-endpoints grid-lines show-label label="Frequency (Hz)" axis-position="left"  minimum="0" maximum="30" auto-scale='none'></ni-cartesian-axis>
               <ni-color-scale show show-tick-labels="all" auto-scale='none' markers='[{"value":-10.6564876212321,"color":"rgba(255,0,0,1)"},{"value":-6,"color":"rgba(255,0,0,1)"},{"value":-1.6357794943288377,"color":"rgba(255,242,0,1)"}]'></ni-color-scale>
             </ni-intensity-graph>
             <ni-graph-tools ni-control-id='50' binding-info='{"prop":"value","sync":false}' label-id='' graph-name='50'></ni-graph-tools>
