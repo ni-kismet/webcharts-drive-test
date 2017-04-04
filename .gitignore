@@ -3,6 +3,9 @@ node_modules/jqwidgets-framework/*
 
 node_modules/**/coverage/*
 node_modules/jquery/src/*
+node_modules/jquery/build/*
+node_modules/jquery/speed/*
+node_modules/jquery/test/*
 node_modules/jquery-mobile/dist/demos/*
 node_modules/jquery-mobile/dist/jquery.mobile.images.zip
 node_modules/jquery-mobile/dist/jquery.mobile.zip
