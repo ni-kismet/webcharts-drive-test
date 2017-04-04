@@ -260,6 +260,9 @@
 
     <script>
 
+        $(window.document).delegate('ni-cartesian-graph', 'touchmove', false);
+        $(window.document).delegate('ni-intensity-graph', 'touchmove', false);
+
         /* In order to create the data file, follow these steps:
             1a. for the original signal data create a JSON file with this structure:
                 {
