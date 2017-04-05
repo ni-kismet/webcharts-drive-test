@@ -146,6 +146,15 @@
             left: 0px;
             top: 299px;
         }
+
+        .button {
+            border: none;
+            color: #4CAF50;
+            text-align: center;
+            text-decoration: underline;
+            display: inline-block;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -246,6 +255,9 @@
             <ni-graph-tools ni-control-id='50' graph-name='50'></ni-graph-tools>
         </div>
         <p class="story">
+            The signal is in the hearing range. Click <a class="button" onclick="playSound()">here</a> to listen to it.
+        </p>
+        <p class="story">
             Read more <a href="https://en.wikipedia.org/wiki/GW151226">here</a>
             and <a href="https://losc.ligo.org/s/events/GW150914/GW150914_tutorial.html">here</a>.
         </p>
@@ -285,7 +297,8 @@
                 graph2 = document.querySelector('#graph2'),
                 graph3 = document.querySelector('#graph3'),
                 intensity1 = document.querySelector('#intensity1'),
-                appReady = typeof graph0.updateData === 'function';
+                appReady = typeof graph0.updateData === 'function',
+                audio;
 
             if (!appReady) {
                 setTimeout(loadData, 5);
@@ -365,7 +378,19 @@
             });
         };
 
+        var setupSound = function() {
+            audio = new Audio('data/ligoSound.mp3');
+            audio.play();
+        }
+
+        var playSound = function() {
+            if (audio) {
+                audio.play();
+            }
+        }
+
         setTimeout(loadData, 5);
+        setupSound();
 
     </script>
 </body>
