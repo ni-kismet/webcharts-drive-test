@@ -119,9 +119,12 @@
             height: 380px;
         }
 
+        .spectrogram {
+            left: 200px;
+        }
+
         .spectrogram ni-intensity-graph {
-            position: relative;;
-            left: 100px;
+            position: relative;
             width: 450px;
             height: 200px;
             min-height: 50px;
@@ -133,12 +136,6 @@
             font-size: 12px;
             font-family: sans-serif;
             fill: #222266;
-        }
-
-        .spectrogram ni-graph-tools {
-            position: absolute;
-            left: 100px;
-            top: 5px;
         }
 
         .whitened ni-plot-legend {
@@ -244,15 +241,13 @@
         </div>
         <p class="story">
             The next graph is the spectrogram of the whitened signal recorded by the Handford Observatory zoomed in around the moment of the merging of the two black holes.
-            Zoom out to see the spectrogram of the hole 32 seconds long record.
         </p>
         <div class="spectrogram">
             <ni-intensity-graph id="intensity1" ni-control-id="50">
               <ni-cartesian-axis show show-ticks show-minor-ticks show-tick-labels="none" grid-lines show-label label="Time" axis-position="bottom" minimum="2300" maximum="2800" auto-scale='none'></ni-cartesian-axis>
               <ni-cartesian-axis show show-ticks show-minor-ticks show-tick-labels="none" show-endpoints grid-lines show-label label="Frequency (Hz)" axis-position="left"  minimum="0" maximum="30" auto-scale='none'></ni-cartesian-axis>
-              <ni-color-scale show show-tick-labels="all" auto-scale='none' markers='[{"value":-10.6564876212321,"color":"rgba(255,0,0,1)"},{"value":-6,"color":"rgba(255,0,0,1)"},{"value":-1.6357794943288377,"color":"rgba(255,242,0,1)"}]'></ni-color-scale>
+              <ni-color-scale show show-tick-labels="endpoints" auto-scale="none" markers='[{"value":-11,"color":"rgba(255,0,0,1)"},{"value":-6,"color":"rgba(255,0,0,1)"},{"value":-1.5,"color":"rgba(255,242,0,1)"}]'></ni-color-scale>
             </ni-intensity-graph>
-            <ni-graph-tools ni-control-id='50' graph-name='50'></ni-graph-tools>
         </div>
         <p class="story">
             The signal is in the hearing range. Click <a class="button" onclick="playSound()">here</a> to listen to it.
@@ -380,7 +375,6 @@
 
         var setupSound = function() {
             audio = new Audio('data/ligoSound.mp3');
-            audio.play();
         }
 
         var playSound = function() {
