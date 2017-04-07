@@ -213,6 +213,16 @@
             <ni-plot-legend ni-control-id='36' graph-name='30'></ni-plot-legend>
         </div>
         <p class="story">
+            The next graph is the spectrogram of the whitened signal recorded by the Handford Observatory zoomed in around the moment of the merging of the two black holes.
+        </p>
+        <div class="spectrogram">
+            <ni-intensity-graph id="intensity1" ni-control-id="50">
+              <ni-cartesian-axis show show-ticks show-minor-ticks show-tick-labels="none" grid-lines show-label label="Time" axis-position="bottom" minimum="2300" maximum="2800" auto-scale='none'></ni-cartesian-axis>
+              <ni-cartesian-axis show show-ticks show-minor-ticks show-tick-labels="none" show-endpoints grid-lines show-label label="Frequency (Hz)" axis-position="left"  minimum="0" maximum="30" auto-scale='none'></ni-cartesian-axis>
+              <ni-color-scale show show-tick-labels="endpoints" auto-scale="none" markers='[{"value":-11,"color":"rgba(255,0,0,1)"},{"value":-6,"color":"rgba(255,0,0,1)"},{"value":-1.5,"color":"rgba(255,242,0,1)"}]'></ni-color-scale>
+            </ni-intensity-graph>
+        </div>
+        <p class="story">
             Whitened and [20, 300] Hz bandpass filter:
         </p>
         <div class="whitened">
@@ -239,16 +249,6 @@
             </ni-cartesian-graph>
                 <!-- cursors + bar-fill don't play well together -->
             <ni-plot-legend ni-control-id='36' graph-name='32'></ni-plot-legend>
-        </div>
-        <p class="story">
-            The next graph is the spectrogram of the whitened signal recorded by the Handford Observatory zoomed in around the moment of the merging of the two black holes.
-        </p>
-        <div class="spectrogram">
-            <ni-intensity-graph id="intensity1" ni-control-id="50">
-              <ni-cartesian-axis show show-ticks show-minor-ticks show-tick-labels="none" grid-lines show-label label="Time" axis-position="bottom" minimum="2300" maximum="2800" auto-scale='none'></ni-cartesian-axis>
-              <ni-cartesian-axis show show-ticks show-minor-ticks show-tick-labels="none" show-endpoints grid-lines show-label label="Frequency (Hz)" axis-position="left"  minimum="0" maximum="30" auto-scale='none'></ni-cartesian-axis>
-              <ni-color-scale show show-tick-labels="endpoints" auto-scale="none" markers='[{"value":-11,"color":"rgba(255,0,0,1)"},{"value":-6,"color":"rgba(255,0,0,1)"},{"value":-1.5,"color":"rgba(255,242,0,1)"}]'></ni-color-scale>
-            </ni-intensity-graph>
         </div>
         <p class="story">
             The signal is in the hearing range. Click <a class="button" onclick="playSound()">here</a> to listen to it.
@@ -304,6 +304,9 @@
                 return;
             }
 
+            $('.ui-loader').remove();
+            $('.ui-mobile-viewport').removeClass();
+
             $.ajax({
                 url: 'data/ligoTheoreticalTemplate.json',
                 type: 'GET',
@@ -343,18 +346,6 @@
             });
 
             $.ajax({
-                url: 'data/ligoWhitened.json',
-                type: 'GET',
-                success: function(response) {
-                    var data = [response.strain_H1_whitenbp, response.strain_L1_shift, response.NR_H1_whitenbp];
-                    graph3.setData(data);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR, textStatus, errorThrown);
-                }
-            });
-
-            $.ajax({
                 url: 'data/specgram',
                 type: 'GET',
                 success: function(response) {
@@ -370,6 +361,18 @@
                         }
                     }
                     intensity1.setData(restored.H_H1_LOSC_4_V1_specgram);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR, textStatus, errorThrown);
+                }
+            });
+
+            $.ajax({
+                url: 'data/ligoWhitened.json',
+                type: 'GET',
+                success: function(response) {
+                    var data = [response.strain_H1_whitenbp, response.strain_L1_shift, response.NR_H1_whitenbp];
+                    graph3.setData(data);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR, textStatus, errorThrown);
