@@ -1,5 +1,8 @@
 node_modules/jqwidgets-framework/*
+!node_modules/jqwidgets-framework/package.json
 !node_modules/jqwidgets-framework/jqwidgets/
 
 node_modules/**/coverage/*
 node_modules/jquery/src/*
+
+Thumbs.db
