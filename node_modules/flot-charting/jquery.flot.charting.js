@@ -66,19 +66,24 @@ Licensed under the MIT license.
         plot.draw();
     }
 
-    // called on every history buffer change.
-    function triggerDataUpdate(plot, historyBuffer) {
-        if (!plot.dataUpdateTriggered) {
-            plot.dataUpdateTriggered = requestAnimationFrame(function () { // throttle charting computation/drawing to the browser frame rate
-                updateSeries(plot, historyBuffer);
-                drawChart(plot);
-                plot.dataUpdateTriggered = null;
-            });
-        }
-    }
-
     // plugin entry point
     function init(plot) {
+
+        var isShutdown = false;
+
+        // called on every history buffer change.
+        function triggerDataUpdate(plot, historyBuffer) {
+            if (!plot.dataUpdateTriggered) {
+                plot.dataUpdateTriggered = requestAnimationFrame(function () { // throttle charting computation/drawing to the browser frame rate
+                    if (!isShutdown) {
+                        updateSeries(plot, historyBuffer);
+                        drawChart(plot);
+                    }
+                    plot.dataUpdateTriggered = null;
+                });
+            }
+        }
+
         plot.hooks.processOptions.push(function (plot) {
             var historyBuffer = plot.getOptions().series.historyBuffer; // looks for the historyBuffer option
             if (historyBuffer) {
@@ -88,6 +93,10 @@ Licensed under the MIT license.
                 });
                 updateSeries(plot, historyBuffer);
             }
+        });
+
+        plot.hooks.shutdown.push(function() {
+            isShutdown = true;
         });
     }
 

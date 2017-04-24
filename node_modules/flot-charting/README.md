@@ -1,4 +1,4 @@
-# flot-charting [![Build Status](https://travis-ci.org/cipix2000/flot-charting.svg?branch=master)](https://travis-ci.org/cipix2000/flot-charting) [![Coverage Status](https://coveralls.io/repos/github/cipix2000/flot-charting/badge.svg)](https://coveralls.io/github/cipix2000/flot-charting)
+# flot-charting [![Build Status](https://travis-ci.org/ni-kismet/flot-charting.svg?branch=master)](https://travis-ci.org/ni-kismet/flot-charting) [![Coverage Status](https://coveralls.io/repos/github/ni-kismet/flot-charting/badge.svg)](https://coveralls.io/github/ni-kismet/flot-charting)
 
 A Flot plugin to make charting easy and efficient.
 
