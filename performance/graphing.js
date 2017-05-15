@@ -98,6 +98,19 @@
         rad[i].onclick = onClick;
     }
 
+    var pointshape_form = document.querySelector('#pointshape_form');
+    if (pointshape_form) {
+        var ps = pointshape_form.querySelectorAll('input[name="pointshape"]');
+        for (var i = 0; i < ps.length; i++) {
+            ps[i].onclick = function() {
+                var renderers = document.querySelectorAll('ni-cartesian-plot-renderer');
+                for (var j = 0; j < renderers.length; j ++) {
+                    renderers[j].pointShape = this.value;
+                }
+            };
+        }
+    }
+
     var domReady = function (readyCallback) {
         if (window.HTMLImports && window.HTMLImports.whenReady) {
             HTMLImports.whenReady(readyCallback);
