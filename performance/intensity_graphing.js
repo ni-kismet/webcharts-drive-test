@@ -29,14 +29,13 @@
     // update data reuses the same buffer, so no memory is allocated here, except the first time when it runs
     function updateData() {
         var offset;
-        var iindex;
         samples = Number(document.querySelector('input[name="samples"]:checked').value);
 
         initBuffer();
 
         for (var j=0 ; j < y; j++) {
             offset = j * isamples;
-            for (var i = 0; i < x; i++, iindex++) {
+            for (var i = 0; i < x; i++) {
                 buffer[i][j] = ((globalIndex + i + j) % x) /x;
             }
         }
