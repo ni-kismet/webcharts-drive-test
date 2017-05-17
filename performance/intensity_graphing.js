@@ -14,11 +14,11 @@
     var y = 0;
 
     function initBuffer() {
-        var newx = Math.sqrt(samples/2) | 0;
+        var newy = Math.sqrt(samples/2) | 0;
 
-        if (x !== newx) {
-            x = newx;
-            y = newx/2;
+        if (y !== newy) {
+            x = 2*newy;
+            y = newy;
             buffer = []
             for (var i =0; i < x; i++) {
                 buffer[i] = [];
