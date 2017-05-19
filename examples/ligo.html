@@ -12,7 +12,7 @@
 
     <link rel="import" href="../node_modules/ni-webcharts-legends/dist/webcharts-legends.min.html"/>
 
-    <script type="text/javascript" src="../node_modules/webcomponents-lite/webcomponents-lite.js"></script>
+    <script type="text/javascript" src="../node_modules/webcomponentsjs/lite.js"></script>
 
     <script type="text/javascript" src="../node_modules/pako/dist/pako.min.js"></script>
 
@@ -61,7 +61,8 @@
         .theoreticalTemplate ni-cartesian-graph,
         .originalSignal ni-cartesian-graph,
         .asd ni-cartesian-graph,
-        .whitened ni-cartesian-graph {
+        .whitened ni-cartesian-graph,
+        .spectrogram ni-intensity-graph {
             display: inline-block;
             width: 800px;
             height: 300px;
@@ -107,7 +108,6 @@
             left: 5px;
         }
 
-        .spectrogram,
         .whitened,
         .asd {
             position: relative;
@@ -121,13 +121,6 @@
 
         .spectrogram {
             left: 200px;
-        }
-
-        .spectrogram ni-intensity-graph {
-            position: relative;
-            width: 450px;
-            height: 200px;
-            min-height: 50px;
         }
 
         .spectrogram ni-intensity-graph text {
@@ -292,10 +285,9 @@
                 graph2 = document.querySelector('#graph2'),
                 graph3 = document.querySelector('#graph3'),
                 intensity1 = document.querySelector('#intensity1'),
-                appReady = typeof graph0.updateData === 'function',
                 audio;
 
-            if (!appReady) {
+            if (!graph0.isReady) {
                 setTimeout(loadData, 5);
                 return;
             }
