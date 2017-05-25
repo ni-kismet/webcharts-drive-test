@@ -67,8 +67,8 @@
     };
 
     domReady(function () {
-        NationalInstruments.HtmlVI.Elements.NIElement.addNIEventListener('attached', function () {
+        graph.onReady = function() {
             window.requestAnimationFrame(updateDataAndRAF);
-        });
+        };
     });
 })();
