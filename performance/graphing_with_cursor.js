@@ -32,7 +32,11 @@
         window.requestAnimationFrame(updateDataAndRAF);
     };
 
-    NationalInstruments.HtmlVI.Elements.NIElement.addNIEventListener('attached', function () {
+    if (graph.isReady) {
         window.requestAnimationFrame(updateDataAndRAF);
-    });
+    } else {
+        graph.onReady = function() {
+            window.requestAnimationFrame(updateDataAndRAF);
+        };
+    }
 })();

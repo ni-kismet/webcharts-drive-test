@@ -111,19 +111,11 @@
         }
     }
 
-    var domReady = function (readyCallback) {
-        if (window.HTMLImports && window.HTMLImports.whenReady) {
-            HTMLImports.whenReady(readyCallback);
-        } else if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', readyCallback);
-        } else {
-            readyCallback();
-        }
-    };
-
-    domReady( function () {
+    if (graph.isReady) {
+        window.requestAnimationFrame(updateDataAndRAF);
+    } else {
         graph.onReady = function() {
             window.requestAnimationFrame(updateDataAndRAF);
         };
-    });
+    }
 })();
