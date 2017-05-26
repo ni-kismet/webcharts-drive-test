@@ -80,19 +80,11 @@
         graph.setData(data);
     }
 
-    var domReady = function (readyCallback) {
-        if (window.HTMLImports && window.HTMLImports.whenReady) {
-            HTMLImports.whenReady(readyCallback);
-        } else if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', readyCallback);
-        } else {
-            readyCallback();
-        }
-    };
-
-    domReady(function () {
-        NationalInstruments.HtmlVI.Elements.NIElement.addNIEventListener('attached', function () {
-            loadSound("media/Delia Derbyshire - Doctor Who Theme.mp3");
-        });
-    });
+    if (graph.isReady) {
+        loadSound('media/Delia Derbyshire - Doctor Who Theme.mp3');
+    } else {
+        graph.onReady = function() {
+            loadSound('media/Delia Derbyshire - Doctor Who Theme.mp3');
+        };
+    }
 })();
