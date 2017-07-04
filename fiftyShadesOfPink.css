@@ -2,11 +2,11 @@ body {
   background-color: #303030;
 }
 
-.hyperL {
+.hyperlink {
   color: #CA4BCB;
 }
 
-.hCustom {
+.customTitle {
      font-family: "Times New Roman";
      color: #d2b4b4;
 }
@@ -27,19 +27,19 @@ ni-intensity-graph ni-grid-div {
     border-style: none;
     border-width: 0px 0px 0px 0px;
     border-color: #d2b4b4;
-    background-color: inherit;
     color: inherit;
 }
 
 ni-cartesian-graph,
 ni-chart,
 ni-intensity-graph {
-      border: 1px solid #d2b4b4;
+      border: 1px solid #575C60;
       padding: 20px;
       display: inline-block;
       min-height: 20px;
       color: #d2b4b4;
- }
+      background-image: url("/examples/peace.png");
+  }
 
  ni-cartesian-axis {
      font-family: "Times New Roman";
