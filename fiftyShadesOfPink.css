@@ -27,6 +27,7 @@ ni-intensity-graph ni-grid-div {
     border-style: none;
     border-width: 0px 0px 0px 0px;
     border-color: #d2b4b4;
+    background-color: inherit;
     color: inherit;
 }
 
@@ -38,7 +39,7 @@ ni-intensity-graph {
       display: inline-block;
       min-height: 20px;
       color: #d2b4b4;
-      background-image: url("/examples/peace.png");
+      background-image: url("./examples/peace.png");
   }
 
  ni-cartesian-axis {
