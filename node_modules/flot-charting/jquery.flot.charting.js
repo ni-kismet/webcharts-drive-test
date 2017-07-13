@@ -16,7 +16,8 @@ Licensed under the MIT license.
             var size = historyBuffer.buffer.size;
             indexMap = historyBuffer.indexMap;
             var width = plot.width();
-            var step;
+            var step,
+                data;
 
             if (width > 0) {
                 step = Math.floor(size / plot.width());
@@ -25,7 +26,12 @@ Licensed under the MIT license.
             }
 
             var index = plot.getData().indexOf(dataSeries);
-            var data = dataSeries.historyBuffer.query(historyBuffer.startIndex(), historyBuffer.lastIndex(), step, index);
+
+            if (index < historyBuffer.width) {
+                data = dataSeries.historyBuffer.query(historyBuffer.startIndex(), historyBuffer.lastIndex(), step, index);
+            } else {
+                data = [];
+            }
 
             var points = datapoints.points;
             for (var i = 0, j=0; i < data.length; i++, j+=2) {
@@ -47,14 +53,10 @@ Licensed under the MIT license.
                 // although it would be nice to reuse data points, flot does nasty
                 // things with the dataSeries (deep copy, showing with ~50% percent
                 // on the timeline)
-                delete dataSeries[i].datapoints;
+                dataSeries[i].datapoints = undefined;
             } else {
                 dataSeries[i] = [];
             }
-        }
-
-        if (dataSeries.length > historyBuffer.width) {
-            dataSeries.length = historyBuffer.width;
         }
 
         plot.setData(dataSeries);
