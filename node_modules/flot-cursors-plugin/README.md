@@ -60,7 +60,7 @@ The plugin supports these options:
 
 **showValues** the coordinate of the cursor (relative to the specified plot or axis) will be displayed next to the cursor manipulator.
 
-**snapToPlot** specifies a plot to which the cursor will snap. If not specified (or undefined) the cursor will be free. If set to -1 then the cursor will snap to any plot.
+**snapToPlot** specifies a plot to which the cursor will snap. If set to -1 then the cursor will snap to any plot. If not specified or set to undefined, NaN or any value smaller than -1 then the cursor will be free.
 
 **defaultxaxis**: the one-based index of the x axis to follow when the cursor is snapping to no plot
 

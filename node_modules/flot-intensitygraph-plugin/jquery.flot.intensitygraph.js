@@ -183,13 +183,16 @@ function IntensityGraph() {
                     wstop = Math.ceil(Math.min(serie.data.length, serie.xaxis.max)) | 0,
                     hstart = Math.floor(Math.max(serie.yaxis.min, 0)) | 0,
                     hstop = Math.ceil(Math.min(serie.data[0].length, serie.yaxis.max)) | 0,
-                    xaxisStart = serie.xaxis.p2c(wstart),
+                    xaxisStart = serie.xaxis.p2c(Math.max(serie.xaxis.min, 0)),
                     xaxisStop = serie.xaxis.p2c(wstop),
-                    yaxisStart = serie.yaxis.p2c(hstart),
+                    yaxisStart = serie.yaxis.p2c(Math.max(serie.yaxis.min, 0)),
                     yaxisStop = serie.yaxis.p2c(hstop),
                     xpctsPerPx = Math.abs((wstop - wstart) / (xaxisStop - xaxisStart)),
                     ypctsPerPx = Math.abs((hstop - hstart) / (yaxisStop - yaxisStart)),
-                    decimate = xpctsPerPx > 1 && ypctsPerPx > 1;
+                    decimate = xpctsPerPx > 1 && ypctsPerPx > 1,
+                    colorScaleAxis = plot.getYAxes().filter(function (axis) { return IntensityGraph.prototype.isColorScale(axis); })[0],
+                    minData = (colorScaleAxis && colorScaleAxis.options.autoscale !== 'none') ? colorScaleAxis.min : serie.intensitygraph.min,
+                    maxData = (colorScaleAxis && colorScaleAxis.options.autoscale !== 'none') ? colorScaleAxis.max : serie.intensitygraph.max;
 
                 if (decimate) {
                     var w2Start = Math.floor(xaxisStart),
@@ -201,7 +204,7 @@ function IntensityGraph() {
                     if (w > 0 && h > 0) {
                         imgData = getImageData(ctx, w, h);
                         drawSeriesPointByPoint(imgData, wstart, wstop, hstart, hstop, w, h, xpctsPerPx, ypctsPerPx,
-                            serie.intensitygraph.palette, serie.data, serie.intensitygraph.min, serie.intensitygraph.max)
+                            serie.intensitygraph.palette, serie.data, minData, maxData);
                         ctx.putImageData(imgData, Math.ceil(xaxisStart + offset.left), Math.ceil(yaxisStop + offset.top));
                     }
                 } else {
@@ -210,7 +213,7 @@ function IntensityGraph() {
                     if (w > 0 && h > 0) {
                         imgData = getHiddenImageData(w, h);
                         drawSeriesRectByRect(imgData, wstart, wstop, hstart, hstop, w, h,
-                            serie.intensitygraph.palette, serie.data, serie.intensitygraph.min, serie.intensitygraph.max);
+                            serie.intensitygraph.palette, serie.data, minData, maxData);
                         hiddenCanvas.getContext('2d').putImageData(imgData, 0, 0);
                         ctx.imageSmoothingEnabled = false;
                         ctx.webkitImageSmoothingEnabled = false;

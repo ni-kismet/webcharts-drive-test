@@ -13,35 +13,73 @@ Licensed under the MIT license.
         var indexMap; // this a "dictionary" from 0 based indexes in the history buffer to target values
         if (dataSeries.historyBuffer) {
             var historyBuffer = dataSeries.historyBuffer;
-            var size = historyBuffer.buffer.size;
             indexMap = historyBuffer.indexMap;
-            var width = plot.width();
-            var step,
-                data;
-
-            if (width > 0) {
-                step = Math.floor(size / plot.width());
-            } else {
-                step = Math.floor(size / 500);
-            }
+            var data;
 
             var index = plot.getData().indexOf(dataSeries);
 
             if (index < historyBuffer.width) {
-                data = dataSeries.historyBuffer.query(historyBuffer.startIndex(), historyBuffer.lastIndex(), step, index);
+                data = dataRange(historyBuffer, index);
             } else {
                 data = [];
             }
 
             var points = datapoints.points;
-            for (var i = 0, j=0; i < data.length; i++, j+=2) {
-                points[j] = indexMap ? indexMap[data[i][0]] : data[i][0];
-                points[j+1] = data[i][1];
+
+            for (var i = 0; i < data.length; i+=2) {
+                points[i] = indexMap ? indexMap[data[i]] : data[i];
+                points[i + 1] = data[i + 1];
             }
 
-            points.length = data.length * 2;
+            points.length = data.length;
             datapoints.pointsize = 2;
+            dataSeries.decimate = decimateChartData;
+            dataSeries.decimatePoints = decimateChartData;
+            dataSeries.index = index;
         }
+    }
+
+    function dataRange(historyBuffer, index) {
+        var data = historyBuffer.range(index);
+        var result = [];
+
+        if (data.xmin === undefined || data.xmax === undefined) {
+            return [];
+        }
+
+        result[0] = data.xmin;
+        result[2] = data.xmax;
+        result[1] = data.ymin;
+        result[3] = data.ymax;
+
+        return result;
+    }
+
+    function decimateChartData (series, start, end, width) {
+        var historyBuffer = series.historyBuffer,
+            size = end - start,
+            indexMap = historyBuffer.indexMap,
+            datapoints = series.datapoints,
+            step = Math.floor(size / width),
+            data;
+
+        var index = series.index;
+        if (index < historyBuffer.width) {
+            var data = series.historyBuffer.query(start, end, step, index);
+        } else {
+            data = [];
+        }
+
+        var points = datapoints.points;
+        for (var i = 0; i < data.length; i+=2) {
+            points[i] = indexMap ? indexMap[data[i]] : data[i];
+            points[i+1] = data[i+1];
+        }
+
+        points.length = data.length;
+        datapoints.pointsize = 2;
+
+        return points;
     }
 
     // remove old data series and trigger the computation of a new one from the history buffer
@@ -55,7 +93,9 @@ Licensed under the MIT license.
                 // on the timeline)
                 dataSeries[i].datapoints = undefined;
             } else {
-                dataSeries[i] = [];
+                dataSeries[i] = {
+                    data: [],
+                };
             }
         }
 
@@ -70,7 +110,6 @@ Licensed under the MIT license.
 
     // plugin entry point
     function init(plot) {
-
         var isShutdown = false;
 
         // called on every history buffer change.
@@ -94,11 +133,11 @@ Licensed under the MIT license.
                     triggerDataUpdate(plot, historyBuffer); // call triggerDataUpdate on every historyBuffer modification
                 });
                 updateSeries(plot, historyBuffer);
-            }
-        });
 
-        plot.hooks.shutdown.push(function() {
-            isShutdown = true;
+                plot.hooks.shutdown.push(function() {
+                    isShutdown = true;
+                });
+            }
         });
     }
 
