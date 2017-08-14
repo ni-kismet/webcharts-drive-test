@@ -171,7 +171,16 @@ function IntensityGraph() {
 
         function drawSeries(plot, ctx, serie) {
             var offset = plot.getPlotOffset(),
+                pixelRatio = plot.getSurface().pixelRatio,
                 w, h, imgData;
+
+            //  The pixelRatio needs to be took into account because the size
+            //of the element can be different from the canvas backing store size.
+            //  The Flot CanvasWrapper adds a scaling transformation which helps
+            //the user don't care about the pixelRatio. So most of the drawing
+            //functions of the canvas are automatically scaling the drawings,
+            //but putImageData() is ignoring the scale factor and is writing the
+            //data dirrectly to the backing store matrix.
 
             if (serie.data.length > 0 && serie.data[0].length > 0) {
                 ctx.save();
@@ -187,25 +196,25 @@ function IntensityGraph() {
                     xaxisStop = serie.xaxis.p2c(wstop),
                     yaxisStart = serie.yaxis.p2c(Math.max(serie.yaxis.min, 0)),
                     yaxisStop = serie.yaxis.p2c(hstop),
-                    xpctsPerPx = Math.abs((wstop - wstart) / (xaxisStop - xaxisStart)),
-                    ypctsPerPx = Math.abs((hstop - hstart) / (yaxisStop - yaxisStart)),
+                    xpctsPerPx = Math.abs((wstop - wstart) / (xaxisStop - xaxisStart)) / pixelRatio,
+                    ypctsPerPx = Math.abs((hstop - hstart) / (yaxisStop - yaxisStart)) / pixelRatio,
                     decimate = xpctsPerPx > 1 && ypctsPerPx > 1,
                     colorScaleAxis = plot.getYAxes().filter(function (axis) { return IntensityGraph.prototype.isColorScale(axis); })[0],
                     minData = (colorScaleAxis && colorScaleAxis.options.autoscale !== 'none') ? colorScaleAxis.min : serie.intensitygraph.min,
                     maxData = (colorScaleAxis && colorScaleAxis.options.autoscale !== 'none') ? colorScaleAxis.max : serie.intensitygraph.max;
 
                 if (decimate) {
-                    var w2Start = Math.floor(xaxisStart),
-                        w2Stop = Math.floor(xaxisStop),
-                        h2Start = Math.floor(yaxisStop),
-                        h2Stop = Math.floor(yaxisStart);
+                    var w2Start = Math.floor(xaxisStart * pixelRatio),
+                        w2Stop = Math.floor(xaxisStop * pixelRatio),
+                        h2Start = Math.floor(yaxisStop * pixelRatio),
+                        h2Stop = Math.floor(yaxisStart * pixelRatio);
                     w = w2Stop - w2Start;
                     h = h2Stop - h2Start;
                     if (w > 0 && h > 0) {
                         imgData = getImageData(ctx, w, h);
                         drawSeriesPointByPoint(imgData, wstart, wstop, hstart, hstop, w, h, xpctsPerPx, ypctsPerPx,
                             serie.intensitygraph.palette, serie.data, minData, maxData);
-                        ctx.putImageData(imgData, Math.ceil(xaxisStart + offset.left), Math.ceil(yaxisStop + offset.top));
+                        ctx.putImageData(imgData, Math.ceil((xaxisStart + offset.left) * pixelRatio), Math.ceil((yaxisStop + offset.top) * pixelRatio));
                     }
                 } else {
                     w = wstop - wstart;
