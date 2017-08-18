@@ -94,8 +94,8 @@ console.log(hb1.toDataSeries()); //[[4, 1], [5, 2], [6, 3], [null, null], [1, 1]
 
         var t0 = new NITimestamp(aw.t0);
 
-        var waveformStart = 0 + t0;
-        var waveformEnd = 0 + t0 + aw.Y.length * aw.dt;
+        var waveformStart = t0.toAbsoluteTime();
+        var waveformEnd = t0.toAbsoluteTime() + aw.Y.length * aw.dt;
 
         if (waveformStart < start && waveformEnd < start) {
             return false;
@@ -115,7 +115,7 @@ console.log(hb1.toDataSeries()); //[[4, 1], [5, 2], [6, 3], [null, null], [1, 1]
             floatCurrentTS;
 
         for (var i=0; i < Y.length; i++) {
-            floatCurrentTS = currentTS.valueOf();
+            floatCurrentTS = currentTS.toAbsoluteTime();
 
             if (floatCurrentTS >= (start - aw.dt) && floatCurrentTS <= (end + aw.dt)) {
                 buffer.push(floatCurrentTS);
@@ -132,7 +132,7 @@ console.log(hb1.toDataSeries()); //[[4, 1], [5, 2], [6, 3], [null, null], [1, 1]
             floatCurrentTS;
 
         for (var i=0; i < Y.length; i++) {
-            floatCurrentTS = currentTS.valueOf();
+            floatCurrentTS = currentTS.toAbsoluteTime();
             buffer.push([floatCurrentTS, Y[i]]);
             currentTS.add(aw.dt);
         }
@@ -205,8 +205,9 @@ console.log(hb1.toDataSeries()); //[[4, 1], [5, 2], [6, 3], [null, null], [1, 1]
 
         waveforms.forEach(function (aw) {
             t0 = new NITimestamp(aw.t0);
-            startTS = 0 + t0;
-            endTS = 0 + t0.add(aw.dt * aw.Y.length);
+            startTS = t0.toAbsoluteTime();
+            endTS = (new NITimestamp(t0)).add(aw.dt * aw.Y.length).toAbsoluteTime();
+
             if (startTS < minTS) {
                 minTS = startTS;
             }
@@ -237,11 +238,11 @@ console.log(hb1.toDataSeries()); //[[4, 1], [5, 2], [6, 3], [null, null], [1, 1]
         }
 
         if (start === null || start === undefined){
-            start = 0 + new NITimestamp(waveforms[0].t0);
+            start = (new NITimestamp(waveforms[0].t0)).toAbsoluteTime();
         }
         if (end === null || end === undefined){
             var aw = waveforms[waveforms.length - 1];
-            end =  0 + new NITimestamp(aw.t0).add(aw.dt * aw.Y.length);
+            end = (new NITimestamp(aw.t0)).add(aw.dt * aw.Y.length).toAbsoluteTime();
         }
 
         waveforms.forEach(function (waveform) {
@@ -264,15 +265,15 @@ console.log(hb1.toDataSeries()); //[[4, 1], [5, 2], [6, 3], [null, null], [1, 1]
             return;
         }
 
-        startTS = 0 + t0;
-        endTS = 0 + (new NITimestamp(t0)).add(aw.dt * aw.Y.length);
+        startTS = t0.toAbsoluteTime();
+        endTS = (new NITimestamp(t0)).add(aw.dt * aw.Y.length).toAbsoluteTime();
 
         if (startTS > end || endTS < start) {
             return;
         }
 
         for (var i = 0; i < Y.length; i++) {
-            t = 0 + (new NITimestamp(t0)).add(aw.dt * i);
+            t = (new NITimestamp(t0)).add(aw.dt * i).toAbsoluteTime();
             if (t < start || t > end) {
                 continue;
             }

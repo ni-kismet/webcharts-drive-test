@@ -155,18 +155,15 @@ Licensed under the MIT license.
 
         var pan = {
             start: function (e) {
-                var touchX, touchY;
-                touchX = getXCoordinate(e.detail.touches[0].pageX);
-                touchY = getYCoordinate(e.detail.touches[0].pageY);
-                drawCursorStart(e, touchX, touchY, e.detail.touches[0].pageX, e.detail.touches[0].pageY)
+                var x = getPlotX(e.detail.touches[0].pageX);
+                var y = getPlotY(e.detail.touches[0].pageY);
+                handleCursorMoveStart(e, x, y, e.detail.touches[0].pageX, e.detail.touches[0].pageY)
             },
 
             drag: function(e) {
-                var touchX, touchY;
-                touchX = getXCoordinate(e.detail.touches[0].pageX);
-                touchY = getYCoordinate(e.detail.touches[0].pageY);
-
-                drawCursorMove(e, touchX, touchY, e.detail.touches[0].pageX, e.detail.touches[0].pageY);
+                var x = getPlotX(e.detail.touches[0].pageX);
+                var y = getPlotY(e.detail.touches[0].pageY);
+                handleCursorMove(e, x, y, e.detail.touches[0].pageX, e.detail.touches[0].pageY);
             },
 
             end: function(e) {
@@ -179,18 +176,16 @@ Licensed under the MIT license.
 
         var pinch = {
             start: function(e) {
-                var touchX, touchY;
-                touchX = getXCoordinate(e.detail.touches[0].pageX);
-                touchY = getYCoordinate(e.detail.touches[0].pageY);
-                drawCursorStart(e, touchX, touchY, e.detail.touches[0].pageX, e.detail.touches[0].pageY)
+                var x = getPlotX(e.detail.touches[0].pageX);
+                var y = getPlotY(e.detail.touches[0].pageY);
+                handleCursorMoveStart(e, x, y, e.detail.touches[0].pageX, e.detail.touches[0].pageY)
             },
 
             drag: function(e) {
-                var touchX, touchY;
-                touchX = getXCoordinate(e.detail.touches[0].pageX);
-                touchY = getYCoordinate(e.detail.touches[0].pageY);
+                var x = getPlotX(e.detail.touches[0].pageX);
+                var y = getPlotY(e.detail.touches[0].pageY);
 
-                drawCursorMove(e, touchX, touchY, e.detail.touches[0].pageX, e.detail.touches[0].pageY);
+                handleCursorMove(e, x, y, e.detail.touches[0].pageX, e.detail.touches[0].pageY);
             },
 
             end: function(e) {
@@ -199,50 +194,30 @@ Licensed under the MIT license.
                     currentlySelectedCursor.selected = false;
                 }
             }
-        }
+        };
 
-        function onMouseDown(e) {
-            var mouseX = getXCoordinate(e.pageX);
-            var mouseY = getYCoordinate(e.pageY);
+        var mouseMove = {
+            start: function(e) {
+                var x = getPlotX(e.pageX);
+                var y = getPlotY(e.pageY);
 
-            drawCursorStart(e, mouseX, mouseY, e.pageX, e.pageY);
-        }
+                handleCursorMoveStart(e, x, y, e.pageX, e.pageY);
+            },
 
-        function onMouseUp(e) {
-            var mouseX = getXCoordinate(e.pageX);
-            var mouseY = getYCoordinate(e.pageY);
+            move: function(e) {
+                var x = getPlotX(e.pageX);
+                var y = getPlotY(e.pageY);
 
-            var currentlySelectedCursor = selectedCursor(cursors);
+                handleCursorMove(e, x, y, e.pageX, e.pageY);
+            },
 
-            if (currentlySelectedCursor) {
-                if (!correctMouseButton(currentlySelectedCursor, e.button)) {
-                    return;
-                }
-                // lock the free cursor to current position
-                currentlySelectedCursor.selected = false;
-                if (currentlySelectedCursor.dragmode.indexOf('x') !== -1) {
-                    currentlySelectedCursor.x = mouseX;
-                    currentlySelectedCursor.mousePosition.relativeX = mouseX / plot.width();
-                    currentlySelectedCursor.position.relativeX = currentlySelectedCursor.x / plot.width();
-                }
+            end: function(e) {
+                var x = getPlotX(e.pageX);
+                var y = getPlotY(e.pageY);
 
-                if (currentlySelectedCursor.dragmode.indexOf('y') !== -1) {
-                    currentlySelectedCursor.y = mouseY;
-                    currentlySelectedCursor.mousePosition.relativeY = mouseY / plot.height();
-                    currentlySelectedCursor.position.relativeY = currentlySelectedCursor.y / plot.height();
-                }
-
-                plot.getPlaceholder().css('cursor', 'default');
-                plot.triggerRedrawOverlay();
+                handleCursorMoveEnd(e, x, y, e.pageX, e.pageY);
             }
-        }
-
-        function onMouseMove(e) {
-            var mouseX = getXCoordinate(e.pageX);
-            var mouseY = getYCoordinate(e.pageY);
-
-            drawCursorMove(e, mouseX, mouseY, e.pageX, e.pageY);
-        }
+        };
 
         plot.hooks.bindEvents.push(function (plot, eventHolder) {
             eventHolder[0].addEventListener('panstart', pan.start, false);
@@ -252,9 +227,9 @@ Licensed under the MIT license.
             eventHolder[0].addEventListener('pinchdrag', pinch.drag, false);
             eventHolder[0].addEventListener('pinchend', pinch.end, false);
 
-            eventHolder.mousedown(onMouseDown);
-            eventHolder.mouseup(onMouseUp);
-            eventHolder.mousemove(onMouseMove);
+            eventHolder.mousedown(mouseMove.start);
+            eventHolder.mouseup(mouseMove.end);
+            eventHolder.mousemove(mouseMove.move);
         });
 
         function findIntersections(plot, cursor) {
@@ -288,10 +263,10 @@ Licensed under the MIT license.
             return intersections;
         }
 
-        function drawCursorMove(e, x, y, pageX, pageY) {
+        function handleCursorMove(e, x, y, pageX, pageY) {
             var currentlySelectedCursor = selectedCursor(cursors);
 
-            if (currentlySelectedCursor) {
+            if (currentlySelectedCursor && e.buttons !== 0) {
                 if (currentlySelectedCursor.dragmode.indexOf('x') !== -1) {
                     currentlySelectedCursor.x = x;
                     currentlySelectedCursor.position.relativeX = currentlySelectedCursor.x / plot.width();
@@ -306,7 +281,13 @@ Licensed under the MIT license.
 
                 plot.triggerRedrawOverlay();
                 e.stopImmediatePropagation();
+                e.preventDefault();
             } else {
+                // in case the mouse button was released outside the plot area
+                if (currentlySelectedCursor && e.buttons === 0) {
+                    currentlySelectedCursor.selected = false;
+                    plot.triggerRedrawOverlay();
+                }
                 visibleCursors(cursors).forEach(function (cursor) {
                     if (!cursor.movable) {
                         return;
@@ -343,7 +324,7 @@ Licensed under the MIT license.
             }
         }
 
-        function drawCursorStart(e, x, y, pageX, pageY) {
+        function handleCursorMoveStart(e, x, y, pageX, pageY) {
             var currentlySelectedCursor = selectedCursor(cursors);
             if (currentlySelectedCursor) {
                 plot.getPlaceholder().css('cursor', 'default');
@@ -393,18 +374,47 @@ Licensed under the MIT license.
                     plot.getPlaceholder().css('cursor', 'move');
                     plot.triggerRedrawOverlay();
                     e.stopImmediatePropagation();
+                    e.preventDefault();
                 }
             }
         }
 
-        function getXCoordinate(eX) {
-            var offset = plot.offset();
-            return Math.max(0, Math.min(eX - offset.left, plot.width()));
+        function handleCursorMoveEnd(e, x, y, pageX, pageY) {
+            var currentlySelectedCursor = selectedCursor(cursors);
+
+            if (currentlySelectedCursor) {
+                if (!correctMouseButton(currentlySelectedCursor, e.button)) {
+                    return;
+                }
+                // lock the free cursor to current position
+                currentlySelectedCursor.selected = false;
+                if (currentlySelectedCursor.dragmode.indexOf('x') !== -1) {
+                    currentlySelectedCursor.x = x;
+                    currentlySelectedCursor.mousePosition.relativeX = x / plot.width();
+                    currentlySelectedCursor.position.relativeX = currentlySelectedCursor.x / plot.width();
+                }
+
+                if (currentlySelectedCursor.dragmode.indexOf('y') !== -1) {
+                    currentlySelectedCursor.y = y;
+                    currentlySelectedCursor.mousePosition.relativeY = y / plot.height();
+                    currentlySelectedCursor.position.relativeY = currentlySelectedCursor.y / plot.height();
+                }
+
+                plot.getPlaceholder().css('cursor', 'default');
+                plot.triggerRedrawOverlay();
+                e.stopImmediatePropagation();
+                e.preventDefault();
+            }
         }
 
-        function getYCoordinate(eY) {
+        function getPlotX(pageX) {
             var offset = plot.offset();
-            return Math.max(0, Math.min(eY - offset.top, plot.height()));
+            return Math.max(0, Math.min(pageX - offset.left, plot.width()));
+        }
+
+        function getPlotY(pageY) {
+            var offset = plot.offset();
+            return Math.max(0, Math.min(pageY - offset.top, plot.height()));
         }
 
         plot.hooks.drawOverlay.push(function (plot, ctx) {
@@ -466,9 +476,9 @@ Licensed under the MIT license.
             eventHolder.unbind('pinchstart', pinch.start);
             eventHolder.unbind('pinchdrag', pinch.drag);
             eventHolder.unbind('pinchend', pinch.end);
-            eventHolder.unbind('mousedown', onMouseDown);
-            eventHolder.unbind('mouseup', onMouseUp);
-            eventHolder.unbind('mousemove', onMouseMove);
+            eventHolder.unbind('mousedown', mouseMove.start);
+            eventHolder.unbind('mouseup', mouseMove.end);
+            eventHolder.unbind('mousemove', mouseMove.move);
             eventHolder.unbind('cursorupdates');
             plot.getPlaceholder().css('cursor', 'default');
         });

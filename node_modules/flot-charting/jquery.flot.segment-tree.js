@@ -275,6 +275,10 @@ Licensed under the MIT license.
             return minmax;
         }
 
+        if (level > this.tree.levels.length) {
+            level =  this.tree.levels.length;
+        }
+
         var step = Math.pow(hb.branchFactor, level);
         var truncatedStart = Math.ceil(start / step) * step;
         var truncatedEnd = floorInBase(end, step);

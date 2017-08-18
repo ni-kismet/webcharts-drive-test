@@ -192,9 +192,9 @@ function IntensityGraph() {
                     wstop = Math.ceil(Math.min(serie.data.length, serie.xaxis.max)) | 0,
                     hstart = Math.floor(Math.max(serie.yaxis.min, 0)) | 0,
                     hstop = Math.ceil(Math.min(serie.data[0].length, serie.yaxis.max)) | 0,
-                    xaxisStart = serie.xaxis.p2c(Math.max(serie.xaxis.min, 0)),
+                    xaxisStart = serie.xaxis.p2c(wstart),
                     xaxisStop = serie.xaxis.p2c(wstop),
-                    yaxisStart = serie.yaxis.p2c(Math.max(serie.yaxis.min, 0)),
+                    yaxisStart = serie.yaxis.p2c(hstart),
                     yaxisStop = serie.yaxis.p2c(hstop),
                     xpctsPerPx = Math.abs((wstop - wstart) / (xaxisStop - xaxisStart)) / pixelRatio,
                     ypctsPerPx = Math.abs((hstop - hstart) / (yaxisStop - yaxisStart)) / pixelRatio,
@@ -228,7 +228,7 @@ function IntensityGraph() {
                         ctx.webkitImageSmoothingEnabled = false;
                         ctx.msImageSmoothingEnabled = false;
                         ctx.drawImage(hiddenCanvas, 0, 0, w, h,
-                            Math.floor(xaxisStart + offset.left), Math.floor(yaxisStop + offset.top),
+                            xaxisStart + offset.left, yaxisStop + offset.top,
                             Math.max(xaxisStop - xaxisStart, 1), Math.max(yaxisStart - yaxisStop, 1));
                     }
                 }
