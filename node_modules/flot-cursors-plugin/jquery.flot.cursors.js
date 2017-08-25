@@ -753,21 +753,17 @@ Licensed under the MIT license.
         var xaxis = findXAxis(plot, cursor),
             yaxis = findYAxis(plot, cursor),
             htmlSpace = '&nbsp;',
+            htmlNewline = '<br>',
             xaxisPrecision = computeCursorsPrecision(plot, xaxis, cursor.x),
-            xFormattedValue = xaxis.tickFormatter(xaxis.c2p(cursor.x), xaxis, xaxisPrecision),
-            spaceIndex = xFormattedValue.indexOf(htmlSpace),
+            xFormattedValue = xaxis.tickFormatter(xaxis.c2p(cursor.x), xaxis, xaxisPrecision, plot),
             yaxisPrecision = computeCursorsPrecision(plot, yaxis, cursor.y),
-            yFormattedValue = yaxis.tickFormatter(yaxis.c2p(cursor.y), yaxis, yaxisPrecision);
+            yFormattedValue = yaxis.tickFormatter(yaxis.c2p(cursor.y), yaxis, yaxisPrecision, plot);
 
-        spaceIndex = xFormattedValue.indexOf(htmlSpace);
-        if (spaceIndex !== -1) {
-            xFormattedValue = xFormattedValue.slice(0, spaceIndex);
-        }
+        xFormattedValue = xFormattedValue.replace(htmlNewline, " ");
+        xFormattedValue = xFormattedValue.replace(htmlSpace, " ");
 
-        spaceIndex = yFormattedValue.indexOf(htmlSpace);
-        if (spaceIndex !== -1) {
-            yFormattedValue = yFormattedValue.slice(0, spaceIndex);
-        }
+        yFormattedValue = yFormattedValue.replace(htmlNewline, " ");
+        yFormattedValue = yFormattedValue.replace(htmlSpace, " ");
 
         return {
             xTextValue: xFormattedValue,

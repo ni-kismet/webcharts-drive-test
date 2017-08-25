@@ -113,10 +113,11 @@ Licensed under the MIT license.
                 }),
             yseriesLength = yseries.length;
         for (j = 0; j < yseriesLength; j++) {
+            index = yseries[j].index;
             xmin =  yseries[j].xaxis.min ? yseries[j].xaxis.min : yseries[j].xaxis.options.min;
             xmax =  yseries[j].xaxis.max ? yseries[j].xaxis.max : yseries[j].xaxis.options.max;
             if (j < yseries[j].historyBuffer.width) {
-                range =  yseries[j].historyBuffer.rangeY(xmin, xmax, j);
+                range =  yseries[j].historyBuffer.rangeY(xmin, xmax, index);
                 if (j === 0) {
                     yaxis.datamin = range.ymin;
                     yaxis.datamax = range.ymax;
