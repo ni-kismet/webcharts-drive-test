@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Vostok ice core temperatures and CO2 concentrations</title>
+    <link rel="stylesheet" href="../node_modules/ni-webcharts/styles/webchartsLight.css" />
+    <link rel="import" href="../node_modules/ni-webcharts/dist/webcharts.min.html"/>
+    <script type="text/javascript" src="../node_modules/webcomponents-lite/webcomponents-lite.js"></script>
+
+    <style>
+        #page-wrap {
+            width: 800px;
+            margin: 0 auto;
+        }
+        ni-intensity-graph {
+            display: inline-block;
+            width: 800px;
+            height: 300px;
+            min-height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="page-wrap">
+        <h1>Intensity graph</h1>
+
+        <ni-intensity-graph id="intensity1" ni-control-id="50">
+          <ni-cartesian-axis show log-scale show-ticks show-minor-ticks show-tick-labels="all" grid-lines show-label label="Width" axis-position="bottom" minimum="1" maximum="1000" auto-scale='none'></ni-cartesian-axis>
+          <ni-cartesian-axis show log-scale show-ticks show-minor-ticks show-tick-labels="all" show-endpoints grid-lines show-label label="Height" axis-position="left"  minimum="1" maximum="1000" auto-scale='none'></ni-cartesian-axis>
+          <ni-color-scale show show-tick-labels="endpoints" auto-scale="none" markers='[{"value":0,"color":"rgba(255, 255, 255,1)"},{"value":1,"color":"rgba(0,0,0,1)"}]'></ni-color-scale>
+        </ni-intensity-graph>
+    </div>
+
+    <script>
+        var graph = document.querySelector('#intensity1');
+        var data = [], column, i, j, w = 1000, h = 1000;
+
+        for(i = 0; i < w; i++) {
+            column = [];
+            for(j = 0; j < h; j++) {
+                column.push(0);
+            }
+            data.push(column);
+        }
+
+        for(i = w/4; i < 3*w/4; i++) {
+            data[i][h/4] = 1;
+            data[i][3*h/4] = 1;
+        }
+        for(j = w/4; j < 3*h/4; j++) {
+            data[w/4][j] = 1;
+            data[3*w/4][j] = 1;
+        }
+
+        graph.setAttribute('value', JSON.stringify(data));
+    </script>
+</body>
+
+</html>
