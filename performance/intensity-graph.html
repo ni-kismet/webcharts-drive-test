@@ -28,8 +28,8 @@
     <h1>Webcharts Intensity Graph performance</h1>
 
     <ni-intensity-graph id="graph1">
-      <ni-cartesian-axis show grid-lines label="Time" axis-position="bottom" auto-scale='exact'></ni-cartesian-axis>
-      <ni-cartesian-axis show grid-lines label="Amplitude" axis-position="left" ></ni-cartesian-axis>
+      <ni-cartesian-axis id="horizontalAxis" show grid-lines label="Time" axis-position="bottom" auto-scale='exact'></ni-cartesian-axis>
+      <ni-cartesian-axis id="verticalAxis" show grid-lines label="Amplitude" axis-position="left" ></ni-cartesian-axis>
       <ni-color-scale show markers='[{"value":0,"color":"rgba(0,0,0,1)"},{"value":0.5,"color":"rgba(0,0,255,1)"},{"value":1,"color":"rgba(255,255,255,1)"}]'></ni-color-scale>
   </ni-intensity-graph>
 
@@ -43,6 +43,11 @@
             <input type="radio" name="samples" value="250000" />250000<br />
             <input type="radio" name="samples" value="1000000" />1000000<br />
             <input type="radio" name="samples" value="2500000" />2500000<br />
+        </fieldset>
+        <fieldset id="axisMode" style="display: inline-block;">
+            <legend>Axis mode</legend>
+            <input type="radio" id="r1" name="axisMode" value="log" /> Log <br />
+            <input type="radio" id="r2" name="axisMode" value="linear" checked="checked" /> Linear <br />
         </fieldset>
     </div>
 
