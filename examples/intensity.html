@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Vostok ice core temperatures and CO2 concentrations</title>
+    <link rel="stylesheet" href="../node_modules/ni-webcharts/styles/webchartsLight.css" />
+    <link rel="import" href="../node_modules/ni-webcharts/dist/webcharts.min.html"/>
+    <script type="text/javascript" src="../node_modules/webcomponents-lite/webcomponents-lite.js"></script>
+
+    <style>
+        #page-wrap {
+            width: 800px;
+            margin: 0 auto;
+        }
+        ni-intensity-graph {
+            display: inline-block;
+            width: 800px;
+            height: 300px;
+            min-height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="page-wrap">
+        <h1>Intensity graph</h1>
+
+        <ni-intensity-graph id="intensity1" ni-control-id="50">
+          <ni-cartesian-axis id="horizontalAxis" show log-scale show-ticks show-minor-ticks show-tick-labels="all" grid-lines show-label label="Width" axis-position="bottom" minimum="1" maximum="1000" auto-scale='none'></ni-cartesian-axis>
+          <ni-cartesian-axis id="verticalAxis" show log-scale show-ticks show-minor-ticks show-tick-labels="all" show-endpoints grid-lines show-label label="Height" axis-position="left"  minimum="1" maximum="1000" auto-scale='none'></ni-cartesian-axis>
+          <ni-color-scale show show-tick-labels="endpoints" auto-scale="none" markers='[{"value":-3.14,"color":"rgba(255,255,255,0.25)"},{"value":0,"color":"rgba(0,0,0,1)"},{"value":3.14,"color":"rgba(255,255,255,0.25)"}]'></ni-color-scale>
+        </ni-intensity-graph>
+
+        <td style="vertical-align: top;">
+            <fieldset id="horizontalAxisMode">
+                <legend>Horizontal axis mode</legend>
+                <input type="radio" id="r1" name="horizontalAxisMode" value="log" checked="checked" /> Log <br />
+                <input type="radio" id="r2" name="horizontalAxisMode" value="linear" /> Linear <br />
+            </fieldset>
+            <fieldset id="verticalAxisMode">
+                <legend>Horizontal axis mode</legend>
+                <input type="radio" id="r1" name="verticalAxisMode" value="log" checked="checked" /> Log <br />
+                <input type="radio" id="r2" name="verticalAxisMode" value="linear" /> Linear <br />
+            </fieldset>
+        </td>
+    </div>
+
+    <script>
+        var graph = document.querySelector('#intensity1'),
+            data = [], column, i, j, w = 1000, h = 1000,
+            log = Math.log, exp = Math.exp, sin = Math.sin, cos = Math.cos, min = Math.min, PI = Math.PI,
+            logw = log(w), logh = log(h);
+
+        function set(i, j, v) {
+            data[i|0][j|0] = v;
+        }
+
+        for(i = 0; i < w; i++) {
+            column = [];
+            for(j = 0; j < h; j++) {
+                column.push(-3.14);
+            }
+            data.push(column);
+        }
+
+        // rectangle
+        for(i = exp(logw/4); i < exp(3*logw/4); i++) {
+            set(i, exp(logh/4), 1);
+            set(i, exp(3*logh/4), 1);
+        }
+        for(j = exp(logh/4); j < exp(3*logh/4); j++) {
+            set(exp(logw/4), j, 1);
+            set(exp(3*logw/4), j, 1);
+        }
+
+        // circle
+        var cx = logw/2, cy = logh/2, r = min(logw, logh) / 8;
+        for(i = -PI; i <= PI; i += 0.01) {
+            set(exp(cx + r*cos(i)), exp(cy + r*sin(i)), i);
+        }
+
+        graph.setAttribute('value', JSON.stringify(data));
+
+        var horizontalAxisMode = document.querySelector("#horizontalAxisMode");
+        horizontalAxisMode.onclick = function () {
+            var sel = document.querySelector('input[name="horizontalAxisMode"]:checked').value,
+                axis = document.querySelector('#horizontalAxis');
+
+            horizontalAxis.logScale = sel === 'log';
+        }
+
+        var horizontalAxisMode = document.querySelector("#verticalAxisMode");
+        verticalAxisMode.onclick = function () {
+            var sel = document.querySelector('input[name="verticalAxisMode"]:checked').value,
+                axis = document.querySelector('#verticalAxis');
+
+            verticalAxis.logScale = sel === 'log';
+        }
+    </script>
+</body>
+
+</html>

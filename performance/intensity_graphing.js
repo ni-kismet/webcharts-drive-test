@@ -63,4 +63,14 @@
             window.requestAnimationFrame(updateDataAndRAF);
         };
     }
+
+    var axisMode = document.querySelector("#axisMode");
+    axisMode.onclick = function () {
+        var sel = document.querySelector('input[name="axisMode"]:checked').value,
+            horizontalAxis = document.querySelector('#horizontalAxis'),
+            verticalAxis = document.querySelector('#verticalAxis');
+
+        horizontalAxis.logScale = sel === 'log';
+        verticalAxis.logScale = sel === 'log';
+    }
 })();
