@@ -1,0 +1,23 @@
+<body>
+  <canvas id="myCanvas"></canvas>
+  <svg id="mySvg" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="10" cy="10" r="5"/>
+  </svg>
+  <img id="myImg"></img>
+  <script>
+
+    var canvas = document.getElementById("myCanvas"),
+        ctx = canvas.getContext('2d');
+    ctx.beginPath();
+    ctx.moveTo(10, 20);
+    ctx.lineTo(30, 40);
+    ctx.stroke();
+
+    var img = document.getElementById('myImg');
+    img.src = canvas.toDataURL('image/png');
+
+    var svg = document.getElementById('mySvg');
+
+    https://stackoverflow.com/questions/27230293/how-to-convert-svg-to-png-using-html5-canvas-javascript-jquery-and-save-on-serve
+  </script>
+</body>
