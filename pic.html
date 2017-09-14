@@ -7,67 +7,128 @@
     </style>
 </head>
 <body>
-  <canvas id="canvasSource" width="100" height="200">></canvas>
-  <svg id="svgSource" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg" width="100" height="200">
+  <canvas id="canvasSource" width="100" height="100">></canvas>
+  <svg id="svgSource" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="100" height="100">
     <circle cx="10" cy="10" r="5"/>
   </svg>
-  <img id="canvasDestination" width="100" height="200"></img>
-  <img id="svgDestination" width="100" height="200"></img>
+  <img id="canvasDestination" width="100" height="100"></img>
+  <img id="svgDestination" width="100" height="100"></img>
+  <canvas id="destination" width="100" height="100"></canvas>
+  <a id="downloadElement" href="link here" download>Download merged image</a>
   <script>
 
-    var canvas = document.getElementById('canvasSource'),
-        ctx = canvas.getContext('2d');
-    ctx.beginPath();
-    ctx.moveTo(10, 20);
-    ctx.lineTo(30, 40);
-    ctx.stroke();
+    // *** https://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
+    //
+    // Opera 8.0+
+    var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
 
-    var canvasDestination = document.getElementById('canvasDestination');
-    canvasDestination.src = canvas.toDataURL('image/png');
+    // Firefox 1.0+
+    var isFirefox = typeof InstallTrigger !== 'undefined';
 
+    // Safari 3.0+ "[object HTMLElementConstructor]"
+    var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
 
+    // Internet Explorer 6-11
+    var isIE = /*@cc_on!@*/false || !!document.documentMode;
 
-    var styleSheets = document.styleSheets,
-        rulesText = '';
-    for (var i = 0; i < styleSheets.length; i++) {
-        var rules = styleSheets[i].cssRules || [];
-        for (var j = 0; j < rules.length; j++) {
-            var rule = rules[j];
-            rulesText += rule.cssText;
-            rulesText += '\n';
-        }
+    // Edge 20+
+    var isEdge = !isIE && !!window.StyleMedia;
+
+    // Chrome 1+
+    var isChrome = !!window.chrome && !!window.chrome.webstore;
+
+    // Blink engine detection
+    var isBlink = (isChrome || isOpera) && !!window.CSS;
+    // ***
+
+    function writeSomethingToCanvas(canvas) {
+        var ctx = canvas.getContext('2d');
+        ctx.beginPath();
+        ctx.moveTo(5, 5);
+        ctx.lineTo(40, 40);
+        ctx.stroke();
     }
 
+    function copyCanvasToImg(canvas, img) {
+        img.src = canvas.toDataURL('image/png');
+    }
 
-    var svg = document.getElementById('svgSource'),
-        text = [
-            '<svg width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">',
+    function getCSSRules(document) {
+        var styleSheets = document.styleSheets,
+            rulesList = [];
+        for (var i = 0; i < styleSheets.length; i++) {
+            // in Chrome the external CSS files are empty when the page is loaded from directly disk
+            var rules = styleSheets[i].cssRules || [];
+            for (var j = 0; j < rules.length; j++) {
+                var rule = rules[j];
+                rulesList.push(rule.cssText);
+            }
+        }
+        return rulesList;
+    }
+
+    function embedCSSRulesInSVG(rules, svg) {
+        var text = [
+            '<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">',
             '<style>',
             '/* <![CDATA[ */',
-            rulesText,
+            rules.join('\n'),
             '/* ]]> */',
             '</style>',
             svg.innerHTML,
             '</svg>'
-        ].join('\n'),
-        blob = new Blob([text], {type:"image/svg+xml;charset=utf-8"}),
-        domURL = self.URL || self.webkitURL || self,
-        url = domURL.createObjectURL(blob),
-        svgDestination = document.getElementById('svgDestination');
-    svgDestination.src = url;
-
-
-
-    function dumpCSSText(element){
-      var s = [];
-      var o = getComputedStyle(element);
-      for(var i = 0; i < o.length; i++){
-        s[o[i]] = o.getPropertyValue(o[i]);
-      }
-      return s;
+        ].join('\n');
+        return text;
     }
 
-    var s = dumpCSSText(document.getElementsByTagName('circle')[0]);
+    function copySVGToImgMostBrowsers(svg, img) {
+        var rules = getCSSRules(document),
+            text = embedCSSRulesInSVG(rules, svg),
+            blob = new Blob([text], {type:"image/svg+xml;charset=utf-8"}),
+            domURL = self.URL || self.webkitURL || self,
+            url = domURL.createObjectURL(blob);
+        img.src = url;
+    }
+
+    function copySVGToImgSafari(svg, img) {
+        var rules = getCSSRules(document),
+            text = embedCSSRulesInSVG(rules, svg),
+            data = "data:image/svg+xml;base64," + btoa(text);
+        img.src = data;
+    }
+
+    function copySVGToImg(svg, img) {
+        if (isEdge || isIE || isFirefox || isOpera || isChrome) {
+            copySVGToImgMostBrowsers(svg, img);
+        } else {
+            copySVGToImgSafari(svg, img);
+        }
+    }
+
+    function copyImgsToCanvas(sources, destination) {
+        var destinationCtx = destination.getContext('2d');
+        for (var i = 0; i < sources.length; i++) {
+            destinationCtx.drawImage(sources[i], 0, 0);
+        }
+    }
+
+    function setDownloadableImgRef(linkElement, img) {
+        linkElement.href = img.toDataURL('image/png');
+    }
+
+    var originalCanvas = document.getElementById('canvasSource'),
+        originalSvg = document.getElementById('svgSource'),
+        tempImg1 = document.getElementById('canvasDestination'),
+        tempImg2 = document.getElementById('svgDestination'),
+        destinationImg = document.getElementById('destination'),
+        linkElement = document.getElementById('downloadElement');
+    writeSomethingToCanvas(originalCanvas);
+    copyCanvasToImg(originalCanvas, tempImg1);
+    copySVGToImg(originalSvg, tempImg2)
+    setTimeout(function() {
+        copyImgsToCanvas([tempImg1, tempImg2], destinationImg);
+        setDownloadableImgRef(linkElement, destinationImg);
+    }, 200);
 
   </script>
 </body>
