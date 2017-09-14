@@ -1,23 +1,73 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <style>
+        circle {
+            fill: red;
+        }
+    </style>
+</head>
 <body>
-  <canvas id="myCanvas"></canvas>
-  <svg id="mySvg" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+  <canvas id="canvasSource" width="100" height="200">></canvas>
+  <svg id="svgSource" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg" width="100" height="200">
     <circle cx="10" cy="10" r="5"/>
   </svg>
-  <img id="myImg"></img>
+  <img id="canvasDestination" width="100" height="200"></img>
+  <img id="svgDestination" width="100" height="200"></img>
   <script>
 
-    var canvas = document.getElementById("myCanvas"),
+    var canvas = document.getElementById('canvasSource'),
         ctx = canvas.getContext('2d');
     ctx.beginPath();
     ctx.moveTo(10, 20);
     ctx.lineTo(30, 40);
     ctx.stroke();
 
-    var img = document.getElementById('myImg');
-    img.src = canvas.toDataURL('image/png');
+    var canvasDestination = document.getElementById('canvasDestination');
+    canvasDestination.src = canvas.toDataURL('image/png');
 
-    var svg = document.getElementById('mySvg');
 
-    https://stackoverflow.com/questions/27230293/how-to-convert-svg-to-png-using-html5-canvas-javascript-jquery-and-save-on-serve
+
+    var styleSheets = document.styleSheets,
+        rulesText = '';
+    for (var i = 0; i < styleSheets.length; i++) {
+        var rules = styleSheets[i].cssRules || [];
+        for (var j = 0; j < rules.length; j++) {
+            var rule = rules[j];
+            rulesText += rule.cssText;
+            rulesText += '\n';
+        }
+    }
+
+
+    var svg = document.getElementById('svgSource'),
+        text = [
+            '<svg width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">',
+            '<style>',
+            '/* <![CDATA[ */',
+            rulesText,
+            '/* ]]> */',
+            '</style>',
+            svg.innerHTML,
+            '</svg>'
+        ].join('\n'),
+        blob = new Blob([text], {type:"image/svg+xml;charset=utf-8"}),
+        domURL = self.URL || self.webkitURL || self,
+        url = domURL.createObjectURL(blob),
+        svgDestination = document.getElementById('svgDestination');
+    svgDestination.src = url;
+
+
+
+    function dumpCSSText(element){
+      var s = [];
+      var o = getComputedStyle(element);
+      for(var i = 0; i < o.length; i++){
+        s[o[i]] = o.getPropertyValue(o[i]);
+      }
+      return s;
+    }
+
+    var s = dumpCSSText(document.getElementsByTagName('circle')[0]);
+
   </script>
 </body>
