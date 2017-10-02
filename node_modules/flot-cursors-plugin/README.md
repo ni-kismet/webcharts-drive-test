@@ -21,6 +21,8 @@ The plugin supports these options:
                 relativeX or x or x2 or x3 ..: number,
                 relativeY or y or y2 or y3 ..: number
             },
+            valign: 'below' or 'above',
+            halign: 'right' or 'left',
             show: true or false,
             showLabel: true or false,
             showValues: true or false,
@@ -44,7 +46,7 @@ The plugin supports these options:
     ]
 ```
 
-**name** is a string containing the name of the cursor.
+**name** is a string containing the name/label of the cursor.
 
 **mode** is one of "x", "y" or "xy". The "x" mode enables a vertical cursor that lets you trace the values on the x axis, "y" enables a horizontal cursor and "xy" enables them both. "xy" is default.
 
@@ -53,6 +55,10 @@ The plugin supports these options:
 **lineWidth** is the width of the drawn lines (default is 1). Setting lineWidth to zero creates an invisible cursor.
 
 **position** position of the cursor. It can be specified relative to the canvas, using a *relativeX, relativeY* pair of coordinates which are expressed as a number between 0 and 1. It can be also specified using axis based coordinates ( *x, x2, x3 .., y, y2, y3* ).
+
+**valign** is the vertical position of the label and values relative to the cursor symbol. Possible values: 'below' or 'above'. Default is 'below'.
+
+**valign** is the horizontal position of the label and values relative to the cursor symbol. Possible values: 'right' or 'left'. Default is 'right'.
 
 **show** if false the cursor won't be visible and the mouse interactions for it will be disabled. Default value: true.
 

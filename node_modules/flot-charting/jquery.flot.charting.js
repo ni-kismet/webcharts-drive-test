@@ -20,6 +20,7 @@ Licensed under the MIT license.
 
             if (index < historyBuffer.width) {
                 data = dataRange(historyBuffer, index);
+                dataSeries.index = index;
             } else {
                 data = [];
             }
@@ -35,7 +36,6 @@ Licensed under the MIT license.
             datapoints.pointsize = 2;
             dataSeries.decimate = decimateChartData;
             dataSeries.decimatePoints = decimateChartData;
-            dataSeries.index = index;
         }
     }
 
@@ -43,14 +43,17 @@ Licensed under the MIT license.
         var data = historyBuffer.rangeX(index);
         var result = [];
 
-        if (data.xmin === undefined || data.xmax === undefined) {
+        if (data.xmin === undefined || data.xmax === undefined || data.deltamin === undefined) {
             return [];
         }
 
         result[0] = data.xmin;
         result[2] = data.xmax;
+        result[4] = data.xmax - data.deltamin;
         result[1] = 0;
         result[3] = 1;
+        result[5] = 2;
+
 
         return result;
     }

@@ -41,6 +41,8 @@ Licensed under the MIT license.
                 },
                 x: 0, // canvas point
                 y: 0, // canvas point
+                valign: 'below',
+                halign: 'right',
                 show: true,
                 selected: false,
                 highlighted: false,
@@ -227,9 +229,9 @@ Licensed under the MIT license.
             eventHolder[0].addEventListener('pinchdrag', pinch.drag, false);
             eventHolder[0].addEventListener('pinchend', pinch.end, false);
 
-            eventHolder.mousedown(mouseMove.start);
-            eventHolder.mouseup(mouseMove.end);
-            eventHolder.mousemove(mouseMove.move);
+            eventHolder.bind('mousedown', mouseMove.start);
+            eventHolder.bind('mousemove', mouseMove.move);
+            eventHolder.bind('mouseup', mouseMove.end);
         });
 
         function findIntersections(plot, cursor) {
@@ -477,8 +479,8 @@ Licensed under the MIT license.
             eventHolder.unbind('pinchdrag', pinch.drag);
             eventHolder.unbind('pinchend', pinch.end);
             eventHolder.unbind('mousedown', mouseMove.start);
-            eventHolder.unbind('mouseup', mouseMove.end);
             eventHolder.unbind('mousemove', mouseMove.move);
+            eventHolder.unbind('mouseup', mouseMove.end);
             eventHolder.unbind('cursorupdates');
             plot.getPlaceholder().css('cursor', 'default');
         });
@@ -559,8 +561,6 @@ Licensed under the MIT license.
             cursor.halign = 'left';
         } else if (cursor.halign === 'left' && x - rowsWidth < width * lowerLimit) {
             cursor.halign = 'right';
-        } else if (!cursor.halign) {
-            cursor.halign = 'right';
         }
 
         rowsHeight = count * (fontSizeInPx + constants.labelPadding);
@@ -568,8 +568,6 @@ Licensed under the MIT license.
         if (cursor.valign === 'below' && y + rowsHeight > height * higherLimit) {
             cursor.valign = 'above';
         } else if (cursor.valign === 'above' && y - rowsHeight < height * lowerLimit) {
-            cursor.valign = 'below';
-        } else if (!cursor.valign) {
             cursor.valign = 'below';
         }
     }
