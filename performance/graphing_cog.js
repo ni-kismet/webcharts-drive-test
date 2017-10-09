@@ -9,19 +9,26 @@
     var plots = 1;
     var samples = 100000;
     var isamples = 100;
-    //var buffer = [];
-    //var buffer = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
-    var plotBuffer1 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
+    var plotBuffer1 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
     var plotBuffer2 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
-    var buffer1 = {a:[], b:[]};
-    var buffer2 = {a:[], b:[]};
-    var buffer3 = {a:[], b:[]};
-    var buffer4 = {a:[], b:[]};
-    var buffer5 = {a:[], b:[]};
-    var buffer6 = {a:[], b:[]};
-    var buffer7 = {a:[], b:[]};
-    var buffer8 = {a:[], b:[]};
-    var buffer9 = {a:[], b:[]};
+    var bigCogInteriorSamplesBuffer = {a:[], b:[]};
+    var bigCogExteriorSamplesBuffer = {a:[], b:[]};
+    var externalCogInteriorSamplesBuffer = {a:[], b:[]};
+    var externalCogExteriorSamplesBuffer = {a:[], b:[]};
+
+    var smallCog1_InteriorSamplesBuffer = {a:[], b:[]};
+    var smallCog1_ExteriorSamplesBuffer = {a:[], b:[]};
+    var smallCog2_InteriorSamplesBuffer = {a:[], b:[]};
+    var smallCog2_ExteriorSamplesBuffer = {a:[], b:[]};
+    var smallCog3_InteriorSamplesBuffer = {a:[], b:[]};
+    var smallCog3_ExteriorSamplesBuffer = {a:[], b:[]};
+    var smallCog4_InteriorSamplesBuffer = {a:[], b:[]};
+    var smallCog4_ExteriorSamplesBuffer = {a:[], b:[]};
+
+    var spiral1_SampleBuffer = {a:[], b:[]};
+    var spiral2_SampleBuffer = {a:[], b:[]};
+    var spiral3_SampleBuffer = {a:[], b:[]};
+
     var chartStep = 9/samples;
     var initbuffer = [[]];
 
@@ -95,22 +102,22 @@
         interiorScale = 0.95;
         exteriorScale = 1.05;
         velocityScale = 1;
-        generateCogPoints(buffer1, buffer2, isamples, globalIndex_div, 0, 0, angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(bigCogInteriorSamplesBuffer, bigCogExteriorSamplesBuffer, isamples, globalIndex_div, 0, 0, angleScale, velocityScale, interiorScale, exteriorScale);
 
         //spirals
         velocityScale = 1;
-        generateSpiralPoints(buffer7, isamples, globalIndex, 0,                0, 0, angleScale, velocityScale, isamples * 1.1);
-        generateSpiralPoints(buffer8, isamples, globalIndex, isamples / 3,     0, 0, angleScale, velocityScale, isamples * 1.1);
-        generateSpiralPoints(buffer9, isamples, globalIndex, isamples * 2 / 3, 0, 0, angleScale, velocityScale, isamples * 1.1);
+        generateSpiralPoints(spiral1_SampleBuffer, isamples, globalIndex, 0,                0, 0, angleScale, velocityScale, isamples * 1.1);
+        generateSpiralPoints(spiral2_SampleBuffer, isamples, globalIndex, isamples / 3,     0, 0, angleScale, velocityScale, isamples * 1.1);
+        generateSpiralPoints(spiral3_SampleBuffer, isamples, globalIndex, isamples * 2 / 3, 0, 0, angleScale, velocityScale, isamples * 1.1);
 
         //Update global buffer with samples from cogs and spirals buffers
         //big cog
-        updatePlotBufferForCogs(plotBuffer, buffer1, buffer2, isamples, 0);
+        updatePlotBufferForCogs(plotBuffer, bigCogInteriorSamplesBuffer, bigCogExteriorSamplesBuffer, isamples, 0);
 
         //spirals
-        updatePlotBufferForSpirals(plotBuffer, buffer7, isamples, 3);
-        updatePlotBufferForSpirals(plotBuffer, buffer8, isamples, 4);
-        updatePlotBufferForSpirals(plotBuffer, buffer9, isamples, 5);
+        updatePlotBufferForSpirals(plotBuffer, spiral1_SampleBuffer, isamples, 1);
+        updatePlotBufferForSpirals(plotBuffer, spiral2_SampleBuffer, isamples, 2);
+        updatePlotBufferForSpirals(plotBuffer, spiral3_SampleBuffer, isamples, 3);
     }
 
 
@@ -126,23 +133,36 @@
         interiorScale = 0.95;
         exteriorScale = 1.05;
         velocityScale = 1;
-        generateCogPoints(buffer1, buffer2, isamples, globalIndex_div, 0, 0, angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(bigCogInteriorSamplesBuffer, bigCogExteriorSamplesBuffer, isamples, globalIndex_div, 0, 0, angleScale, velocityScale, interiorScale, exteriorScale);
 
         //small cogs
         interiorScale = 0.95 * 0.333333 / 1.12;
         exteriorScale = 1.05 * 0.333333 * 1.12;
         velocityScale = 3.333333;
-        generateCogPoints(buffer3, buffer4, isamples / 3 + 2, -globalIndex_div, 1.38, 0.0333333, angleScale, velocityScale, interiorScale, exteriorScale);
-        generateCogPoints(buffer5, buffer6, isamples / 3 + 2, -globalIndex_div, 0,    1.38,      angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(smallCog1_InteriorSamplesBuffer, smallCog1_ExteriorSamplesBuffer, isamples / 3 + 2, -globalIndex_div, 1.38, 0.0333333,  angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(smallCog2_InteriorSamplesBuffer, smallCog2_ExteriorSamplesBuffer, isamples / 3 + 2, -globalIndex_div, 0,    1.38,       angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(smallCog3_InteriorSamplesBuffer, smallCog3_ExteriorSamplesBuffer, isamples / 3 + 2, -globalIndex_div, -1.38, 0.0333333, angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(smallCog4_InteriorSamplesBuffer, smallCog4_ExteriorSamplesBuffer, isamples / 3 + 2, -globalIndex_div, 0.0333333 * 2,    -1.38,      angleScale, velocityScale, interiorScale, exteriorScale);
+
+        //external cog
+        interiorScale = 0.97 * 1.77;
+        exteriorScale = 1.03 * 1.77;
+        velocityScale = 0.5;
+        generateCogPoints(externalCogInteriorSamplesBuffer, externalCogExteriorSamplesBuffer, isamples * 2, -globalIndex_div, 0, 0, angleScale * 4, velocityScale / 2, interiorScale, exteriorScale);
+
 
         //Update global buffer with samples from cogs and spirals buffers
         //big cog
-        updatePlotBufferForCogs(plotBuffer, buffer1, buffer2, isamples, 0);
+        updatePlotBufferForCogs(plotBuffer, bigCogInteriorSamplesBuffer, bigCogExteriorSamplesBuffer, isamples, 0);
 
         //small cogs
-        updatePlotBufferForCogs(plotBuffer, buffer3, buffer4, isamples / 3 - 3, 1);
-        updatePlotBufferForCogs(plotBuffer, buffer5, buffer6, isamples / 3 - 3, 2);
+        updatePlotBufferForCogs(plotBuffer, smallCog1_InteriorSamplesBuffer, smallCog1_ExteriorSamplesBuffer, isamples / 3 - 3, 1);
+        updatePlotBufferForCogs(plotBuffer, smallCog2_InteriorSamplesBuffer, smallCog2_ExteriorSamplesBuffer, isamples / 3 - 3, 2);
+        updatePlotBufferForCogs(plotBuffer, smallCog3_InteriorSamplesBuffer, smallCog3_ExteriorSamplesBuffer, isamples / 3 - 3, 3);
+        updatePlotBufferForCogs(plotBuffer, smallCog4_InteriorSamplesBuffer, smallCog4_ExteriorSamplesBuffer, isamples / 3 - 3, 4);
 
+        //external cog
+        updatePlotBufferForCogs(plotBuffer, externalCogInteriorSamplesBuffer, externalCogExteriorSamplesBuffer, isamples * 2, 5);
     }
 
 
