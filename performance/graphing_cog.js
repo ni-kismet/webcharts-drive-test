@@ -63,7 +63,7 @@
     function updatePlotBufferForCogs(thePlotBufferArray, interiorSamplesArray, exteriorSamplesArray, totalSamples, plotIndexInBuffer) {
         for (var i = 0; i <= totalSamples; i++) {
             thePlotBufferArray[plotIndexInBuffer][i] = {};
-            if (i % 2 === 0) {
+            if ((i & 1) === 0) {
                 thePlotBufferArray[plotIndexInBuffer][i].x = interiorSamplesArray.a[i];
                 thePlotBufferArray[plotIndexInBuffer][i].y = interiorSamplesArray.b[i];
             } else {
@@ -123,46 +123,17 @@
         updatePlotBufferForSpirals(plotBuffer, buffer8, isamples, 4);
         updatePlotBufferForSpirals(plotBuffer, buffer9, isamples, 5);
 
-        globalIndex += (isamples/60) | 0;
-        globalIndex %= isamples;
+
     }
 
-
-    // update data reuses the same buffer, so no memory is allocated here, except the first time when it runs
-
-        function updateData() {
-        var offset;
-        var iindex;
-        plots = Number(document.querySelector('input[name="plots"]:checked').value);
-        samples = Number(document.querySelector('input[name="samples"]:checked').value);
-
-        initBuffer();
-
-        for (var j=0 ; j < plots; j++) {
-            offset = j * isamples;
-            iindex = globalIndex;
-            for (var i = 0; i < samples; i++, iindex++) {
-                if (iindex > isamples -1) {
-                    iindex = 0;
-                }
-                //buffer[j][(i + j * 4000) % samples] = initbuffer[0][iindex];
-                //buffer[j][(i + j * 4000) % samples] += offset;     // trying hard to prvent numbers to be allocated on the heap;
-
-                buffer[j][i] = initbuffer[0][iindex];
-                buffer[j][i] += offset;     // trying hard to prvent numbers to be allocated on the heap;
-            }
-            if (buffer[j].length !== samples) {
-                buffer[j].length = samples;
-            }
-        }
-
-        globalIndex += (isamples/60) | 0;
-        globalIndex %= isamples;
-    }
 
     function updateDataAndDraw() {
         updateCircle(plotBuffer1);
         updateCircle(plotBuffer2);
+
+        globalIndex += (isamples/60) | 0;
+        globalIndex %= isamples;
+
         graph.setData(plotBuffer1);
         graph2.setData(plotBuffer2);
     }
