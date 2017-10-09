@@ -29,6 +29,14 @@
     var spiral2_SampleBuffer = {a:[], b:[]};
     var spiral3_SampleBuffer = {a:[], b:[]};
 
+    //Properties for cog with spirals
+    var cog1_MovementProperties = {
+        XOffset: 0.5,
+        YOffset: 1.7,
+        XDir: true,
+        YDir: true
+    }
+
     var chartStep = 9/samples;
     var initbuffer = [[]];
 
@@ -90,7 +98,7 @@
     }
 
 
-    function updateBufferForFirstGraph(plotBuffer) {
+    function updateBufferForFirstGraph(plotBuffer, cogXOffset, cogYOffset) {
         var globalIndex_div = globalIndex / 10;
         var interiorScale;
         var exteriorScale;
@@ -102,13 +110,13 @@
         interiorScale = 0.95;
         exteriorScale = 1.05;
         velocityScale = 1;
-        generateCogPoints(bigCogInteriorSamplesBuffer, bigCogExteriorSamplesBuffer, isamples, globalIndex_div, 0, 0, angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(bigCogInteriorSamplesBuffer, bigCogExteriorSamplesBuffer, isamples, globalIndex_div, cogXOffset, cogYOffset, angleScale, velocityScale, interiorScale, exteriorScale);
 
         //spirals
         velocityScale = 1;
-        generateSpiralPoints(spiral1_SampleBuffer, isamples, globalIndex, 0,                0, 0, angleScale, velocityScale, isamples * 1.1);
-        generateSpiralPoints(spiral2_SampleBuffer, isamples, globalIndex, isamples / 3,     0, 0, angleScale, velocityScale, isamples * 1.1);
-        generateSpiralPoints(spiral3_SampleBuffer, isamples, globalIndex, isamples * 2 / 3, 0, 0, angleScale, velocityScale, isamples * 1.1);
+        generateSpiralPoints(spiral1_SampleBuffer, isamples, globalIndex, 0,                cogXOffset, cogYOffset, angleScale, velocityScale, isamples * 1.1);
+        generateSpiralPoints(spiral2_SampleBuffer, isamples, globalIndex, isamples / 3,     cogXOffset, cogYOffset, angleScale, velocityScale, isamples * 1.1);
+        generateSpiralPoints(spiral3_SampleBuffer, isamples, globalIndex, isamples * 2 / 3, cogXOffset, cogYOffset, angleScale, velocityScale, isamples * 1.1);
 
         //Update global buffer with samples from cogs and spirals buffers
         //big cog
@@ -139,16 +147,24 @@
         interiorScale = 0.95 * 0.333333 / 1.12;
         exteriorScale = 1.05 * 0.333333 * 1.12;
         velocityScale = 3.333333;
-        generateCogPoints(smallCog1_InteriorSamplesBuffer, smallCog1_ExteriorSamplesBuffer, isamples / 3 + 2, -globalIndex_div, 1.38, 0.0333333,  angleScale, velocityScale, interiorScale, exteriorScale);
+
+        //right cog
+        generateCogPoints(smallCog1_InteriorSamplesBuffer, smallCog1_ExteriorSamplesBuffer, isamples / 3 + 2, -globalIndex_div + 0.0333333 * 6, 1.38, 0.0333333 / 2,  angleScale, velocityScale, interiorScale, exteriorScale);
+
+        //up cog
         generateCogPoints(smallCog2_InteriorSamplesBuffer, smallCog2_ExteriorSamplesBuffer, isamples / 3 + 2, -globalIndex_div, 0,    1.38,       angleScale, velocityScale, interiorScale, exteriorScale);
-        generateCogPoints(smallCog3_InteriorSamplesBuffer, smallCog3_ExteriorSamplesBuffer, isamples / 3 + 2, -globalIndex_div, -1.38, 0.0333333, angleScale, velocityScale, interiorScale, exteriorScale);
-        generateCogPoints(smallCog4_InteriorSamplesBuffer, smallCog4_ExteriorSamplesBuffer, isamples / 3 + 2, -globalIndex_div, 0.0333333 * 2,    -1.38,      angleScale, velocityScale, interiorScale, exteriorScale);
+
+        //left cog
+        generateCogPoints(smallCog3_InteriorSamplesBuffer, smallCog3_ExteriorSamplesBuffer, isamples / 3 + 2, -globalIndex_div - 0.0333333 * 6, -1.38, 0.0333333 / 2, angleScale, velocityScale, interiorScale, exteriorScale);
+
+        //down cog
+        generateCogPoints(smallCog4_InteriorSamplesBuffer, smallCog4_ExteriorSamplesBuffer, isamples / 3 + 2, -globalIndex_div + 0.0333333 * 12, 0.0333333,    -1.38,      angleScale, velocityScale, interiorScale, exteriorScale);
 
         //external cog
         interiorScale = 0.97 * 1.77;
         exteriorScale = 1.03 * 1.77;
         velocityScale = 0.5;
-        generateCogPoints(externalCogInteriorSamplesBuffer, externalCogExteriorSamplesBuffer, isamples * 2, -globalIndex_div, 0, 0, angleScale * 4, velocityScale / 2, interiorScale, exteriorScale);
+        generateCogPoints(externalCogInteriorSamplesBuffer, externalCogExteriorSamplesBuffer, isamples * 3, -globalIndex_div, 0, 0, angleScale * 2, velocityScale / 1.5, interiorScale, exteriorScale);
 
 
         //Update global buffer with samples from cogs and spirals buffers
@@ -162,13 +178,39 @@
         updatePlotBufferForCogs(plotBuffer, smallCog4_InteriorSamplesBuffer, smallCog4_ExteriorSamplesBuffer, isamples / 3 - 3, 4);
 
         //external cog
-        updatePlotBufferForCogs(plotBuffer, externalCogInteriorSamplesBuffer, externalCogExteriorSamplesBuffer, isamples * 2, 5);
+        updatePlotBufferForCogs(plotBuffer, externalCogInteriorSamplesBuffer, externalCogExteriorSamplesBuffer, isamples * 3, 5);
+    }
+
+
+    function booleanToDir(aBool, increment)
+    {
+        if (aBool === true) {
+            return increment
+        } else {
+            return -increment
+        }
+
+    }
+
+    function computeCog1_Dirs(cogMovementProperties) {
+        cogMovementProperties.XOffset = cogMovementProperties.XOffset + booleanToDir(cogMovementProperties.XDir, 0.03);
+        cogMovementProperties.YOffset = cogMovementProperties.YOffset + booleanToDir(cogMovementProperties.YDir, 0.01);
+
+        if ((cogMovementProperties.XOffset >= 3) || (cogMovementProperties.XOffset <= -3)) {
+            cogMovementProperties.XDir = !cogMovementProperties.XDir;
+        }
+
+        if ((cogMovementProperties.YOffset >= 3) || (cogMovementProperties.YOffset <= -3)) {
+            cogMovementProperties.YDir = !cogMovementProperties.YDir;
+        }
     }
 
 
     function updateDataAndDraw() {
-        updateBufferForFirstGraph(plotBuffer1);
+        updateBufferForFirstGraph(plotBuffer1, cog1_MovementProperties.XOffset, cog1_MovementProperties.YOffset);
         updateBufferForSecondGraph(plotBuffer2);
+
+        computeCog1_Dirs(cog1_MovementProperties);
 
         globalIndex += (isamples/60) | 0;
         globalIndex %= isamples;
@@ -177,7 +219,7 @@
         graph2.setData(plotBuffer2);
     }
 
-    updateBufferForFirstGraph(plotBuffer1);
+    updateBufferForFirstGraph(plotBuffer1, cog1_MovementProperties.XOffset, cog1_MovementProperties.YOffset);
     updateBufferForSecondGraph(plotBuffer2);
 
     graph = document.querySelector("#graph1");
