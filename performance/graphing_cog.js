@@ -11,23 +11,23 @@
     var isamples = 100;
     var plotBuffer1 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
     var plotBuffer2 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
-    var bigCogInteriorSamplesBuffer = {a:[], b:[]};
-    var bigCogExteriorSamplesBuffer = {a:[], b:[]};
-    var externalCogInteriorSamplesBuffer = {a:[], b:[]};
-    var externalCogExteriorSamplesBuffer = {a:[], b:[]};
+    var bigCogInteriorSamplesBuffer = {x:[], y:[]};
+    var bigCogExteriorSamplesBuffer = {x:[], y:[]};
+    var externalCogInteriorSamplesBuffer = {x:[], y:[]};
+    var externalCogExteriorSamplesBuffer = {x:[], y:[]};
 
-    var smallCog1_InteriorSamplesBuffer = {a:[], b:[]};
-    var smallCog1_ExteriorSamplesBuffer = {a:[], b:[]};
-    var smallCog2_InteriorSamplesBuffer = {a:[], b:[]};
-    var smallCog2_ExteriorSamplesBuffer = {a:[], b:[]};
-    var smallCog3_InteriorSamplesBuffer = {a:[], b:[]};
-    var smallCog3_ExteriorSamplesBuffer = {a:[], b:[]};
-    var smallCog4_InteriorSamplesBuffer = {a:[], b:[]};
-    var smallCog4_ExteriorSamplesBuffer = {a:[], b:[]};
+    var smallCog1_InteriorSamplesBuffer = {x:[], y:[]};
+    var smallCog1_ExteriorSamplesBuffer = {x:[], y:[]};
+    var smallCog2_InteriorSamplesBuffer = {x:[], y:[]};
+    var smallCog2_ExteriorSamplesBuffer = {x:[], y:[]};
+    var smallCog3_InteriorSamplesBuffer = {x:[], y:[]};
+    var smallCog3_ExteriorSamplesBuffer = {x:[], y:[]};
+    var smallCog4_InteriorSamplesBuffer = {x:[], y:[]};
+    var smallCog4_ExteriorSamplesBuffer = {x:[], y:[]};
 
-    var spiral1_SampleBuffer = {a:[], b:[]};
-    var spiral2_SampleBuffer = {a:[], b:[]};
-    var spiral3_SampleBuffer = {a:[], b:[]};
+    var spiral1_SampleBuffer = {x:[], y:[]};
+    var spiral2_SampleBuffer = {x:[], y:[]};
+    var spiral3_SampleBuffer = {x:[], y:[]};
 
     //Properties for cog with spirals
     var cog1_MovementProperties = {
@@ -55,11 +55,11 @@
         for (var i = 0; i <= totalSamples; i++) {
             angle = (i + movementOffset) * angleScale * velocityScale;
 
-            interiorSamplesArray.a[i] = Math.sin(angle) * interiorScale + xOffset;
-            interiorSamplesArray.b[i] = Math.cos(angle) * interiorScale + yOffset;
+            interiorSamplesArray.x[i] = Math.sin(angle) * interiorScale + xOffset;
+            interiorSamplesArray.y[i] = Math.cos(angle) * interiorScale + yOffset;
 
-            exteriorSamplesArray.a[i] = Math.sin(angle) * exteriorScale + xOffset;
-            exteriorSamplesArray.b[i] = Math.cos(angle) * exteriorScale + yOffset;
+            exteriorSamplesArray.x[i] = Math.sin(angle) * exteriorScale + xOffset;
+            exteriorSamplesArray.y[i] = Math.cos(angle) * exteriorScale + yOffset;
         }
     }
 
@@ -69,8 +69,8 @@
         for (var i = 0; i <= totalSamples; i++) {
             angle = ((i + phase) * 2 + movementOffset) * angleScale * velocityScale;
 
-            spiralSamplesArray.a[i] = Math.sin(angle) * i / spiralScale + xOffset;
-            spiralSamplesArray.b[i] = Math.cos(angle) * i / spiralScale + yOffset;
+            spiralSamplesArray.x[i] = Math.sin(angle) * i / spiralScale + xOffset;
+            spiralSamplesArray.y[i] = Math.cos(angle) * i / spiralScale + yOffset;
         }
     }
 
@@ -79,11 +79,11 @@
         for (var i = 0; i <= totalSamples; i++) {
             thePlotBufferArray[plotIndexInBuffer][i] = {};
             if ((i & 1) === 0) {
-                thePlotBufferArray[plotIndexInBuffer][i].x = interiorSamplesArray.a[i];
-                thePlotBufferArray[plotIndexInBuffer][i].y = interiorSamplesArray.b[i];
+                thePlotBufferArray[plotIndexInBuffer][i].x = interiorSamplesArray.x[i];
+                thePlotBufferArray[plotIndexInBuffer][i].y = interiorSamplesArray.y[i];
             } else {
-                thePlotBufferArray[plotIndexInBuffer][i].x = exteriorSamplesArray.a[i];
-                thePlotBufferArray[plotIndexInBuffer][i].y = exteriorSamplesArray.b[i];
+                thePlotBufferArray[plotIndexInBuffer][i].x = exteriorSamplesArray.x[i];
+                thePlotBufferArray[plotIndexInBuffer][i].y = exteriorSamplesArray.y[i];
             }
         }
     }
@@ -92,8 +92,8 @@
     function updatePlotBufferForSpirals(thePlotBufferArray, SamplesArray, totalSamples, plotIndexInBuffer) {
         for (var i = 0; i <= totalSamples; i++) {
             thePlotBufferArray[plotIndexInBuffer][i] = {};
-            thePlotBufferArray[plotIndexInBuffer][i].x = SamplesArray.a[i];
-            thePlotBufferArray[plotIndexInBuffer][i].y = SamplesArray.b[i];
+            thePlotBufferArray[plotIndexInBuffer][i].x = SamplesArray.x[i];
+            thePlotBufferArray[plotIndexInBuffer][i].y = SamplesArray.y[i];
         }
     }
 
