@@ -4,6 +4,7 @@
     'use strict';
     var graph;
     var graph2;
+    var graph3;
     var globalIndex = 0;
 
     var plots = 1;
@@ -11,6 +12,8 @@
     var isamples = 100;
     var plotBuffer1 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
     var plotBuffer2 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
+    var plotBuffer3 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
+
     var bigCogInteriorSamplesBuffer = {x:[], y:[]};
     var bigCogExteriorSamplesBuffer = {x:[], y:[]};
     var externalCogInteriorSamplesBuffer = {x:[], y:[]};
@@ -136,7 +139,7 @@
         var angleScale = 2 * Math.PI / isamples;
         var velocityScale;
 
-        //Generate samples for cogs and spirals
+        //Generate samples for cogs
         //big cog
         interiorScale = 0.95;
         exteriorScale = 1.05;
@@ -182,14 +185,44 @@
     }
 
 
+    function updateBufferForThirdGraph(plotBuffer) {
+        var globalIndex_div = globalIndex / 10;
+        var interiorScale;
+        var exteriorScale;
+        var angleScale = 2 * Math.PI / isamples;
+        var velocityScale;
+
+        //Generate samples for cogs
+        //big cog
+        interiorScale = 0.95;
+        exteriorScale = 1.05;
+        velocityScale = 1;
+        generateCogPoints(bigCogInteriorSamplesBuffer, bigCogExteriorSamplesBuffer, isamples, globalIndex_div, -3, 0, angleScale, velocityScale, interiorScale, exteriorScale);
+
+        //small cog
+        interiorScale = 0.95 * 0.333333 / 1.12;
+        exteriorScale = 1.05 * 0.333333 * 1.12;
+        velocityScale = 3.333333;
+
+        //right cog
+        generateCogPoints(smallCog1_InteriorSamplesBuffer, smallCog1_ExteriorSamplesBuffer, isamples / 3 + 2, globalIndex_div /* + 0.0333333 * 6 */, 3, 0,  angleScale, velocityScale, interiorScale, exteriorScale);
+
+        //Update global buffer with samples from cogs and spirals buffers
+        //big cog
+        updatePlotBufferForCogs(plotBuffer, bigCogInteriorSamplesBuffer, bigCogExteriorSamplesBuffer, isamples, 0);
+
+        //small cogs
+        updatePlotBufferForCogs(plotBuffer, smallCog1_InteriorSamplesBuffer, smallCog1_ExteriorSamplesBuffer, isamples / 3 - 3, 1);
+    }
+
+
     function booleanToDir(aBool, increment)
     {
-        if (aBool === true) {
+        if (aBool) {
             return increment
         } else {
             return -increment
         }
-
     }
 
     function computeCog1_Dirs(cogMovementProperties) {
@@ -209,6 +242,7 @@
     function updateDataAndDraw() {
         updateBufferForFirstGraph(plotBuffer1, cog1_MovementProperties.XOffset, cog1_MovementProperties.YOffset);
         updateBufferForSecondGraph(plotBuffer2);
+        updateBufferForThirdGraph(plotBuffer3, 0, 0);
 
         computeCog1_Dirs(cog1_MovementProperties);
 
@@ -217,13 +251,16 @@
 
         graph.setData(plotBuffer1);
         graph2.setData(plotBuffer2);
+        graph3.setData(plotBuffer2);
     }
 
     updateBufferForFirstGraph(plotBuffer1, cog1_MovementProperties.XOffset, cog1_MovementProperties.YOffset);
     updateBufferForSecondGraph(plotBuffer2);
+    updateBufferForThirdGraph(plotBuffer3, 0, 0);
 
     graph = document.querySelector("#graph1");
     graph2 = document.querySelector("#graph2");
+    graph3 = document.querySelector("#graph3");
     var fps_display = document.querySelector("#fps");
 
     function updateDataAndRAF() {
