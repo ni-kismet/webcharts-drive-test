@@ -34,108 +34,94 @@
         }
     }
 
+
+    function generateCogPoints(interiorSamplesArray, exteriorSamplesArray, totalSamples, movementOffset, xOffset, yOffset, angleScale, velocityScale, interiorScale, exteriorScale) {
+        var angle = 0;
+        for (var i = 0; i <= totalSamples; i++) {
+            angle = (i + movementOffset) * angleScale * velocityScale;
+
+            interiorSamplesArray.a[i] = Math.sin(angle) * interiorScale + xOffset;
+            interiorSamplesArray.b[i] = Math.cos(angle) * interiorScale + yOffset;
+
+            exteriorSamplesArray.a[i] = Math.sin(angle) * exteriorScale + xOffset;
+            exteriorSamplesArray.b[i] = Math.cos(angle) * exteriorScale + yOffset;
+        }
+    }
+
+
+    function generateSpiralPoints(spiralSamplesArray, totalSamples, movementOffset, phase, xOffset, yOffset, angleScale, velocityScale, spiralScale) {
+        var angle = 0;
+        for (var i = 0; i <= totalSamples; i++) {
+            angle = ((i + phase) * 2 + movementOffset) * angleScale * velocityScale;
+
+            spiralSamplesArray.a[i] = Math.sin(angle) * i / spiralScale + xOffset;
+            spiralSamplesArray.b[i] = Math.cos(angle) * i / spiralScale + yOffset;
+        }
+    }
+
+
+    function updatePlotBufferForCogs(thePlotBufferArray, interiorSamplesArray, exteriorSamplesArray, totalSamples, plotIndexInBuffer) {
+        for (var i = 0; i <= totalSamples; i++) {
+            thePlotBufferArray[plotIndexInBuffer][i] = {};
+            if (i % 2 === 0) {
+                thePlotBufferArray[plotIndexInBuffer][i].x = interiorSamplesArray.a[i];
+                thePlotBufferArray[plotIndexInBuffer][i].y = interiorSamplesArray.b[i];
+            } else {
+                thePlotBufferArray[plotIndexInBuffer][i].x = exteriorSamplesArray.a[i];
+                thePlotBufferArray[plotIndexInBuffer][i].y = exteriorSamplesArray.b[i];
+            }
+        }
+    }
+
+
+    function updatePlotBufferForSpirals(thePlotBufferArray, SamplesArray, totalSamples, plotIndexInBuffer) {
+        for (var i = 0; i <= totalSamples; i++) {
+            thePlotBufferArray[plotIndexInBuffer][i] = {};
+            thePlotBufferArray[plotIndexInBuffer][i].x = SamplesArray.a[i];
+            thePlotBufferArray[plotIndexInBuffer][i].y = SamplesArray.b[i];
+        }
+    }
+
+
     function updateCircle(plotBuffer) {
         var globalIndex_div = globalIndex / 10;
-        var globalIndex2_div = globalIndex / 3.333333;
-        var isamples_div2 = isamples / 2;
-        var isamples_div3 = isamples / 3;
-        var isamples_div23 = isamples * 2 / 3;
-        var angle = 0;
-        var angle1 = 0;
-        var angle2 = 0;
-        var angle3 = 0;
-        var scale1;
-        var scale2;
+        var interiorScale;
+        var exteriorScale;
         var angleScale = 2 * Math.PI / isamples;
-        var smallCogOffset = 1.38;
+        var velocityScale;
 
-        scale1 = 0.95;
-        scale2 = 1.05;
-        for (var i = 0; i <= isamples; i++) {
-            angle = (i + globalIndex_div) * angleScale;
+        //Generate samples for cogs and spirals
+        //big cog
+        interiorScale = 0.95;
+        exteriorScale = 1.05;
+        velocityScale = 1;
+        generateCogPoints(buffer1, buffer2, isamples, globalIndex_div, 0, 0, angleScale, velocityScale, interiorScale, exteriorScale);
 
-            buffer1.a[i] = Math.sin(angle) * scale1;
-            buffer1.b[i] = Math.cos(angle) * scale1;
-
-            buffer2.a[i] = Math.sin(angle) * scale2;
-            buffer2.b[i] = Math.cos(angle) * scale2;
-        }
-
-        scale1 = 0.95 * 0.333333 / 1.12;
-        scale2 = 1.05 * 0.333333 * 1.12;
-        for (var i = 0; i <= isamples / 3 + 2; i++) {
-            angle = (i - globalIndex_div) * angleScale * 3.333333;
-            buffer3.a[i] = Math.sin(angle) * scale1 + smallCogOffset;
-            buffer3.b[i] = Math.cos(angle) * scale1 + 0.0333333;
-
-            buffer4.a[i] = Math.sin(angle) * scale2 + smallCogOffset;
-            buffer4.b[i] = Math.cos(angle) * scale2 + 0.0333333;
-
-            buffer5.a[i] = Math.sin(angle) * scale1;
-            buffer5.b[i] = Math.cos(angle) * scale1 + smallCogOffset;
-
-            buffer6.a[i] = Math.sin(angle) * scale2;
-            buffer6.b[i] = Math.cos(angle) * scale2 + smallCogOffset;
-        }
+        //small cogs
+        interiorScale = 0.95 * 0.333333 / 1.12;
+        exteriorScale = 1.05 * 0.333333 * 1.12;
+        velocityScale = 3.333333;
+        generateCogPoints(buffer3, buffer4, isamples / 3 + 2, -globalIndex_div, 1.38, 0.0333333, angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(buffer5, buffer6, isamples / 3 + 2, -globalIndex_div, 0,    1.38,      angleScale, velocityScale, interiorScale, exteriorScale);
 
         //spirals
-        scale1 = isamples * 1.1;
-        for (var i = 0; i <= isamples; i++) {
-            angle1 = (i * 2 + globalIndex) * angleScale;
-            angle2 = ((i + isamples_div3) * 2 + globalIndex) * angleScale;
-            angle3 = ((i + isamples_div23) * 2 + globalIndex) * angleScale;
+        velocityScale = 1;
+        generateSpiralPoints(buffer7, isamples, globalIndex, 0,                0, 0, angleScale, velocityScale, isamples * 1.1);
+        generateSpiralPoints(buffer8, isamples, globalIndex, isamples / 3,     0, 0, angleScale, velocityScale, isamples * 1.1);
+        generateSpiralPoints(buffer9, isamples, globalIndex, isamples * 2 / 3, 0, 0, angleScale, velocityScale, isamples * 1.1);
 
-            buffer7.a[i] = Math.sin(angle1) * i / scale1;
-            buffer7.b[i] = Math.cos(angle1) * i / scale1;
+        //Update global buffer with samples from cogs and spirals buffers
+        //big cog
+        updatePlotBufferForCogs(plotBuffer, buffer1, buffer2, isamples, 0);
 
-            buffer8.a[i] = Math.sin(angle2) * i / scale1;
-            buffer8.b[i] = Math.cos(angle2) * i / scale1;
-
-            buffer9.a[i] = Math.sin(angle3) * i / scale1;
-            buffer9.b[i] = Math.cos(angle3) * i / scale1;
-        }
-
-
-        for (var i = 0; i <= isamples; i++) {
-            plotBuffer[0][i] = {};
-            if (i % 2 === 0) {
-                plotBuffer[0][i].x = buffer1.a[i];
-                plotBuffer[0][i].y = buffer1.b[i];
-            } else {
-                plotBuffer[0][i].x = buffer2.a[i];
-                plotBuffer[0][i].y = buffer2.b[i];
-            }
-        }
-
-        for (var i = 0; i <= isamples / 3 - 3; i++) {
-            plotBuffer[1][i] = {};
-            plotBuffer[2][i] = {};
-            if (i % 2 === 0) {
-                plotBuffer[1][i].x = buffer3.a[i];
-                plotBuffer[1][i].y = buffer3.b[i];
-                plotBuffer[2][i].x = buffer5.a[i];
-                plotBuffer[2][i].y = buffer5.b[i];
-            } else {
-                plotBuffer[1][i].x = buffer4.a[i];
-                plotBuffer[1][i].y = buffer4.b[i];
-                plotBuffer[2][i].x = buffer6.a[i];
-                plotBuffer[2][i].y = buffer6.b[i];
-            }
-        }
+        //small cogs
+        updatePlotBufferForCogs(plotBuffer, buffer3, buffer4, isamples / 3 - 3, 1);
+        updatePlotBufferForCogs(plotBuffer, buffer5, buffer6, isamples / 3 - 3, 2);
 
         //spirals
-        for (var i = 0; i <= isamples; i++) {
-            plotBuffer[3][i] = {};
-            plotBuffer[4][i] = {};
-            plotBuffer[5][i] = {};
-
-            plotBuffer[3][i].x = buffer7.a[i];
-            plotBuffer[3][i].y = buffer7.b[i];
-            plotBuffer[4][i].x = buffer8.a[i];
-            plotBuffer[4][i].y = buffer8.b[i];
-            plotBuffer[5][i].x = buffer9.a[i];
-            plotBuffer[5][i].y = buffer9.b[i];
-        }
+        updatePlotBufferForSpirals(plotBuffer, buffer7, isamples, 3);
+        updatePlotBufferForSpirals(plotBuffer, buffer8, isamples, 4);
+        updatePlotBufferForSpirals(plotBuffer, buffer9, isamples, 5);
 
         globalIndex += (isamples/60) | 0;
         globalIndex %= isamples;
