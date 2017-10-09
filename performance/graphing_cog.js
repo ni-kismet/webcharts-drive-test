@@ -10,7 +10,7 @@
     var samples = 100000;
     var isamples = 100;
     //var buffer = [];
-    var buffer = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
+    //var buffer = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
     var plotBuffer1 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
     var plotBuffer2 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
     var buffer1 = {a:[], b:[]};
@@ -83,7 +83,38 @@
     }
 
 
-    function updateCircle(plotBuffer) {
+    function updateBufferForFirstGraph(plotBuffer) {
+        var globalIndex_div = globalIndex / 10;
+        var interiorScale;
+        var exteriorScale;
+        var angleScale = 2 * Math.PI / isamples;
+        var velocityScale;
+
+        //Generate samples for cog and spirals
+        //big cog
+        interiorScale = 0.95;
+        exteriorScale = 1.05;
+        velocityScale = 1;
+        generateCogPoints(buffer1, buffer2, isamples, globalIndex_div, 0, 0, angleScale, velocityScale, interiorScale, exteriorScale);
+
+        //spirals
+        velocityScale = 1;
+        generateSpiralPoints(buffer7, isamples, globalIndex, 0,                0, 0, angleScale, velocityScale, isamples * 1.1);
+        generateSpiralPoints(buffer8, isamples, globalIndex, isamples / 3,     0, 0, angleScale, velocityScale, isamples * 1.1);
+        generateSpiralPoints(buffer9, isamples, globalIndex, isamples * 2 / 3, 0, 0, angleScale, velocityScale, isamples * 1.1);
+
+        //Update global buffer with samples from cogs and spirals buffers
+        //big cog
+        updatePlotBufferForCogs(plotBuffer, buffer1, buffer2, isamples, 0);
+
+        //spirals
+        updatePlotBufferForSpirals(plotBuffer, buffer7, isamples, 3);
+        updatePlotBufferForSpirals(plotBuffer, buffer8, isamples, 4);
+        updatePlotBufferForSpirals(plotBuffer, buffer9, isamples, 5);
+    }
+
+
+    function updateBufferForSecondGraph(plotBuffer) {
         var globalIndex_div = globalIndex / 10;
         var interiorScale;
         var exteriorScale;
@@ -104,12 +135,6 @@
         generateCogPoints(buffer3, buffer4, isamples / 3 + 2, -globalIndex_div, 1.38, 0.0333333, angleScale, velocityScale, interiorScale, exteriorScale);
         generateCogPoints(buffer5, buffer6, isamples / 3 + 2, -globalIndex_div, 0,    1.38,      angleScale, velocityScale, interiorScale, exteriorScale);
 
-        //spirals
-        velocityScale = 1;
-        generateSpiralPoints(buffer7, isamples, globalIndex, 0,                0, 0, angleScale, velocityScale, isamples * 1.1);
-        generateSpiralPoints(buffer8, isamples, globalIndex, isamples / 3,     0, 0, angleScale, velocityScale, isamples * 1.1);
-        generateSpiralPoints(buffer9, isamples, globalIndex, isamples * 2 / 3, 0, 0, angleScale, velocityScale, isamples * 1.1);
-
         //Update global buffer with samples from cogs and spirals buffers
         //big cog
         updatePlotBufferForCogs(plotBuffer, buffer1, buffer2, isamples, 0);
@@ -118,18 +143,12 @@
         updatePlotBufferForCogs(plotBuffer, buffer3, buffer4, isamples / 3 - 3, 1);
         updatePlotBufferForCogs(plotBuffer, buffer5, buffer6, isamples / 3 - 3, 2);
 
-        //spirals
-        updatePlotBufferForSpirals(plotBuffer, buffer7, isamples, 3);
-        updatePlotBufferForSpirals(plotBuffer, buffer8, isamples, 4);
-        updatePlotBufferForSpirals(plotBuffer, buffer9, isamples, 5);
-
-
     }
 
 
     function updateDataAndDraw() {
-        updateCircle(plotBuffer1);
-        updateCircle(plotBuffer2);
+        updateBufferForFirstGraph(plotBuffer1);
+        updateBufferForSecondGraph(plotBuffer2);
 
         globalIndex += (isamples/60) | 0;
         globalIndex %= isamples;
@@ -138,8 +157,8 @@
         graph2.setData(plotBuffer2);
     }
 
-    updateCircle(plotBuffer1);
-    updateCircle(plotBuffer2);
+    updateBufferForFirstGraph(plotBuffer1);
+    updateBufferForSecondGraph(plotBuffer2);
 
     graph = document.querySelector("#graph1");
     graph2 = document.querySelector("#graph2");
