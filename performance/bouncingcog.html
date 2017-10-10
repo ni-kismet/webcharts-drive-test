@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Webcharts Graph performance test</title>
+    <title>Webcharts XY Graph Examples</title>
     <link rel="stylesheet" href="../node_modules/ni-webcharts/styles/webchartsLight.css" />
     <link rel="import" href="../node_modules/ni-webcharts/dist/webcharts.min.html"/>
     <script type="text/javascript" src="../node_modules/webcomponents-lite/webcomponents-lite.js"></script>
@@ -12,7 +12,7 @@
             width:830px;
             height: 800px;
             min-height: 50px;
-            border: 1px solid #C7CCD0;
+            border: 0px solid #C7CCD0;
         }
 
         ni-cartesian-graph text {
@@ -26,9 +26,9 @@
     </style>
 </head>
 <body>
-    <h1>Webcharts Graph performance</h1>
+    <h1>Webcharts XY Graph Examples</h1>
 
-    <ni-cartesian-graph id="graph1" value="[0, 10, 200, 3, 40, 500, 6, 70, 800]">
+    <ni-cartesian-graph id="graph1">
       <ni-cartesian-axis grid-lines label="X" axis-position="bottom" minimum = "-4" maximum = "4" auto-scale="none" axis-ref="Cog_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
       <ni-cartesian-axis grid-lines label="Y" axis-position="left" minimum = "-4" maximum = "4" auto-scale="none" axis-ref="Cog_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
 
@@ -56,7 +56,7 @@
     </ni-cartesian-graph>
 
 
-    <ni-cartesian-graph id="graph2" value="[0, 10, 200, 3, 40, 500, 6, 70, 800]">
+    <ni-cartesian-graph id="graph2">
       <ni-cartesian-axis grid-lines label="X" axis-position="bottom" minimum = "-4" maximum = "4" auto-scale="none" axis-ref="BigCog_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
       <ni-cartesian-axis grid-lines label="Y" axis-position="left" minimum = "-4" maximum = "4" auto-scale="none" axis-ref="BigCog_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
 
@@ -96,7 +96,7 @@
     </ni-cartesian-graph>
 
 
-    <ni-cartesian-graph id="graph3" value="[0, 10, 200, 3, 40, 500, 6, 70, 800]">
+    <ni-cartesian-graph id="graph3">
       <ni-cartesian-axis grid-lines label="X" axis-position="bottom" minimum = "-4" maximum = "4" auto-scale="none" axis-ref="BigCog_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
       <ni-cartesian-axis grid-lines label="Y" axis-position="left" minimum = "-4" maximum = "4" auto-scale="none" axis-ref="BigCog_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
 
@@ -113,13 +113,10 @@
         <ni-cartesian-plot-renderer line-width="2" line-stroke="#44FF44" area-base-line="zero" area-fill="auto"></ni-cartesian-plot-renderer>
       </ni-cartesian-plot>
       <ni-cartesian-plot show label="Plot 3" xaxis="Chain_XPlot" yaxis="Chain_YPlot">
-        <ni-cartesian-plot-renderer line-width="3" line-stroke="#222244" area-base-line="zero" area-fill="" point-color="#AABBCC" point-size="4"></ni-cartesian-plot-renderer>
+        <ni-cartesian-plot-renderer line-width="3" line-stroke="#445544" area-base-line="zero" area-fill="" point-color="#CCBBCC" point-size="4"></ni-cartesian-plot-renderer>
       </ni-cartesian-plot>
     </ni-cartesian-graph>
 
-
-    <div id="fps"></div>
-    <script defer type="text/javascript" src="fps_display.js"></script>
     <script defer type="text/javascript" src="graphing_cog.js"></script>
 </body>
 </html>

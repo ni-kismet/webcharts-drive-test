@@ -7,7 +7,7 @@
     const cSmallCog3X = 3.5;
     const cSmallCog3Y = 0;
 
-    var graph;
+    var graph1;
     var graph2;
     var graph3;
     var globalIndex = 0;
@@ -50,7 +50,7 @@
     //boundaries of cogs with chain
     const cBigCog3_Radius = 1;
     const cSmallCog3_Radius = 0.333333;
-    
+
     var chartStep = 9/samples;
     var initbuffer = [[]];
 
@@ -319,7 +319,7 @@
         globalIndex += (isamples/60) | 0;
         globalIndex %= isamples;
 
-        graph.setData(plotBuffer1);
+        graph1.setData(plotBuffer1);
         graph2.setData(plotBuffer2);
         graph3.setData(plotBuffer3);
     }
@@ -328,22 +328,20 @@
     updateBufferForSecondGraph(plotBuffer2);
     updateBufferForThirdGraph(plotBuffer3, 0, 0);
 
-    graph = document.querySelector("#graph1");
+    graph1 = document.querySelector("#graph1");
     graph2 = document.querySelector("#graph2");
     graph3 = document.querySelector("#graph3");
-    var fps_display = document.querySelector("#fps");
 
     function updateDataAndRAF() {
         window.requestAnimationFrame(updateDataAndRAF);
         updateDataAndDraw();
-        fps_display.update(plots * samples);
     };
 
 
-    if (graph.isReady) {
+    if (graph1.isReady) {
         window.requestAnimationFrame(updateDataAndRAF);
     } else {
-        graph.onReady = function() {
+        graph1.onReady = function() {
             window.requestAnimationFrame(updateDataAndRAF);
         };
     }
