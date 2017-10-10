@@ -37,7 +37,7 @@
     var spiral2_SampleBuffer = {x:[], y:[]};
     var spiral3_SampleBuffer = {x:[], y:[]};
 
-    var chainSampleBuffer = {x:[], y:[], loc:[]}
+    var chainSampleBuffer = {x:[], y:[]}
 
     //Properties for cog with spirals
     var cog1_MovementProperties = {
@@ -50,16 +50,7 @@
     //boundaries of cogs with chain
     const cBigCog3_Radius = 1;
     const cSmallCog3_Radius = 0.333333;
-    var cBigCog3_Left = cBigCog3X - cBigCog3_Radius;
-    var cBigCog3_Right = cBigCog3X + cBigCog3_Radius;
-    var cBigCog3Y_Top = cBigCog3Y + cBigCog3_Radius;
-    var cBigCog3Y_Bottom = cBigCog3Y - cBigCog3_Radius;
-
-    var cSmallCog3_Left = cSmallCog3X - cSmallCog3_Radius;
-    var cSmallCog3_Right = cSmallCog3X + cSmallCog3_Radius;
-    var cSmallCog3Y_Top = cSmallCog3Y + cSmallCog3_Radius;
-    var cSmallCog3Y_Bottom = cSmallCog3Y - cSmallCog3_Radius;
-
+    
     var chartStep = 9/samples;
     var initbuffer = [[]];
 
@@ -79,7 +70,6 @@
         for (var i = 0; i < loc1_Pins; i++) {
             angle = (i + movementOffset) * angleScale * bigCogVelocityScale;
 
-            pinsSamplesArray.loc[i] = 1;
             pinsSamplesArray.x[i] = Math.sin(angle) * bigCogVelocityScale + bigCogXOffset;
             pinsSamplesArray.y[i] = Math.cos(angle) * bigCogVelocityScale + 0;
         }
@@ -88,7 +78,6 @@
         for (var i = loc1_Pins; i < loc1_Pins + loc2_Pins; i++) {
             angle = (i + movementOffset) * angleScale * bigCogVelocityScale;
 
-            pinsSamplesArray.loc[i] = 2;
             pinsSamplesArray.x[i] = angle * bigCogVelocityScale + bigCogXOffset;
             pinsSamplesArray.y[i] = -angle / 8.4 * bigCogVelocityScale + 1.004;
         }
@@ -97,7 +86,6 @@
         for (var i = loc1_Pins + loc2_Pins; i < loc1_Pins + loc2_Pins + loc3_Pins; i++) {
             angle = (i + movementOffset + 12.3) * angleScale * smallCogVelocityScale;
 
-            pinsSamplesArray.loc[i] = 3;
             pinsSamplesArray.x[i] = Math.sin(angle) * smallCogVelocityScale / 10.5 + smallCogXOffset;
             pinsSamplesArray.y[i] = Math.cos(angle) * smallCogVelocityScale / 10.5 - 0.01;
         }
@@ -106,15 +94,13 @@
         for (var i = loc1_Pins + loc2_Pins + loc3_Pins; i < loc1_Pins + loc2_Pins + loc3_Pins + loc4_Pins - 1; i++) {
             angle = (i + movementOffset) * angleScale * bigCogVelocityScale;
 
-            pinsSamplesArray.loc[i] = 4;
             pinsSamplesArray.x[i] = -angle * bigCogVelocityScale + 3 * smallCogXOffset - 0.05;
             pinsSamplesArray.y[i] = 0.43 - angle / 9 * bigCogVelocityScale;
         }
 
         //section 4-1 (one link):
         var i = loc1_Pins + loc2_Pins + loc3_Pins + loc4_Pins - 1;
-        angle = (0 + movementOffset) * angleScale * bigCogVelocityScale
-        pinsSamplesArray.loc[i] = 4;
+        angle = (0 + movementOffset) * angleScale * bigCogVelocityScale;
         pinsSamplesArray.x[i] = Math.sin(angle) * bigCogVelocityScale + bigCogXOffset;
         pinsSamplesArray.y[i] = Math.cos(angle) * bigCogVelocityScale + 0;
     }
