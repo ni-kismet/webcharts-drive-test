@@ -103,6 +103,36 @@
             pinsSamplesArray.x[i] = Math.sin(angle) * bigCogVelocityScale + bigCogXOffset;
             pinsSamplesArray.y[i] = Math.cos(angle) * bigCogVelocityScale + 0;
         }
+
+        for (var i = loc1_Pins; i < loc1_Pins + loc2_Pins; i++) {
+            angle = (i + movementOffset) * angleScale * bigCogVelocityScale;
+
+            pinsSamplesArray.loc[i] = 2;
+            pinsSamplesArray.x[i] = angle * bigCogVelocityScale + bigCogXOffset;
+            pinsSamplesArray.y[i] = -angle / 9 * bigCogVelocityScale + 1;
+        }
+
+        for (var i = loc1_Pins + loc2_Pins; i < loc1_Pins + loc2_Pins + loc3_Pins; i++) {
+            angle = (i + movementOffset + 12) * angleScale * smallCogVelocityScale;
+
+            pinsSamplesArray.loc[i] = 3;
+            pinsSamplesArray.x[i] = Math.sin(angle) * smallCogVelocityScale / 9.8 + smallCogXOffset;
+            pinsSamplesArray.y[i] = Math.cos(angle) * smallCogVelocityScale / 9.8 + 0;
+        }
+
+        for (var i = loc1_Pins + loc2_Pins + loc3_Pins; i < loc1_Pins + loc2_Pins + loc3_Pins + loc4_Pins - 1; i++) {
+            angle = (i + movementOffset) * angleScale * bigCogVelocityScale;
+
+            pinsSamplesArray.loc[i] = 4;
+            pinsSamplesArray.x[i] = -angle * bigCogVelocityScale + 3 * smallCogXOffset - 0.05;
+            pinsSamplesArray.y[i] = 0.430 - angle / 9 * bigCogVelocityScale;
+        }
+
+        var i = loc1_Pins + loc2_Pins + loc3_Pins + loc4_Pins - 1;
+        angle = (0 + movementOffset) * angleScale * bigCogVelocityScale
+        pinsSamplesArray.loc[i] = 4;
+        pinsSamplesArray.x[i] = Math.sin(angle) * bigCogVelocityScale + bigCogXOffset;
+        pinsSamplesArray.y[i] = Math.cos(angle) * bigCogVelocityScale + 0;
     }
 
 
@@ -272,7 +302,7 @@
         generateCogPoints(smallCog1_InteriorSamplesBuffer, smallCog1_ExteriorSamplesBuffer, isamples / 3 + 2, globalIndex_div /* + 0.0333333 * 6 */, 3.5, 0,  angleScale, velocityScale, interiorScale, exteriorScale);
 
         //chain
-        generateChainPinPoints(chainSampleBuffer, globalIndexChain_div - 25, 25, 40, 8, 40, cBigCog3X, cSmallCog3X, angleScale * 2, 1, 3.333333, cBigCog3_Radius, cSmallCog3_Radius);
+        generateChainPinPoints(chainSampleBuffer, globalIndexChain_div - 25, 25, 48, 8, 48, cBigCog3X, cSmallCog3X, angleScale * 2, 1, 3.333333, cBigCog3_Radius, cSmallCog3_Radius);
 
         //Update global buffer with samples from cogs and spirals buffers
         //big cog
@@ -282,7 +312,7 @@
         updatePlotBufferForCogs(plotBuffer, smallCog1_InteriorSamplesBuffer, smallCog1_ExteriorSamplesBuffer, isamples / 3 - 3, 1);
 
         //chain
-        updatePlotBufferForChain(plotBuffer, chainSampleBuffer, 25 + 40 + 8 + 40, 2);
+        updatePlotBufferForChain(plotBuffer, chainSampleBuffer, 25 + 48 + 8 + 48, 2);
     }
 
 
