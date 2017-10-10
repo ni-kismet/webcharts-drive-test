@@ -17,7 +17,7 @@
     var isamples = 100;
     var plotBuffer1 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
     var plotBuffer2 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
-    var plotBuffer3 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
+    var plotBuffer3 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
 
     var bigCogInteriorSamplesBuffer = {x:[], y:[]};
     var bigCogExteriorSamplesBuffer = {x:[], y:[]};
@@ -73,29 +73,9 @@
     }
 
 
-    //this function assumes that both cogs have the same y coordinate and the big cog is placed to the left of the small cog
-    function chainXYToLocation(xPin, yPin) {
-       if (xPin <= cBigCog3X) {
-           return 1;
-       }
-
-       if ((xPin >= cBigCog3X) && (xPin <= cSmallCog3X) && (yPin >= cSmallCog3Y)) {
-           return 2;
-       }
-
-       if (xPin >= cSmallCog3X) {
-           return 3;
-       }
-
-       if ((xPin >= cBigCog3X) && (xPin <= cSmallCog3X) && (yPin <= cSmallCog3Y)) {
-           return 4;
-       }
-       return 0; //this indicates an undefined case
-    }
-
-
     function generateChainPinPoints(pinsSamplesArray, movementOffset, loc1_Pins, loc2_Pins, loc3_Pins, loc4_Pins, bigCogXOffset, smallCogXOffset, angleScale, bigCogVelocityScale, smallCogVelocityScale, bigCogScale, smallCogScale) {
         var angle = 0;
+        //section 1:
         for (var i = 0; i < loc1_Pins; i++) {
             angle = (i + movementOffset) * angleScale * bigCogVelocityScale;
 
@@ -104,30 +84,34 @@
             pinsSamplesArray.y[i] = Math.cos(angle) * bigCogVelocityScale + 0;
         }
 
+        //section 2:
         for (var i = loc1_Pins; i < loc1_Pins + loc2_Pins; i++) {
             angle = (i + movementOffset) * angleScale * bigCogVelocityScale;
 
             pinsSamplesArray.loc[i] = 2;
             pinsSamplesArray.x[i] = angle * bigCogVelocityScale + bigCogXOffset;
-            pinsSamplesArray.y[i] = -angle / 9 * bigCogVelocityScale + 1;
+            pinsSamplesArray.y[i] = -angle / 8.4 * bigCogVelocityScale + 1.004;
         }
 
+        //section 3:
         for (var i = loc1_Pins + loc2_Pins; i < loc1_Pins + loc2_Pins + loc3_Pins; i++) {
-            angle = (i + movementOffset + 12) * angleScale * smallCogVelocityScale;
+            angle = (i + movementOffset + 12.3) * angleScale * smallCogVelocityScale;
 
             pinsSamplesArray.loc[i] = 3;
-            pinsSamplesArray.x[i] = Math.sin(angle) * smallCogVelocityScale / 9.8 + smallCogXOffset;
-            pinsSamplesArray.y[i] = Math.cos(angle) * smallCogVelocityScale / 9.8 + 0;
+            pinsSamplesArray.x[i] = Math.sin(angle) * smallCogVelocityScale / 10.5 + smallCogXOffset;
+            pinsSamplesArray.y[i] = Math.cos(angle) * smallCogVelocityScale / 10.5 - 0.01;
         }
 
+        //section 4:
         for (var i = loc1_Pins + loc2_Pins + loc3_Pins; i < loc1_Pins + loc2_Pins + loc3_Pins + loc4_Pins - 1; i++) {
             angle = (i + movementOffset) * angleScale * bigCogVelocityScale;
 
             pinsSamplesArray.loc[i] = 4;
             pinsSamplesArray.x[i] = -angle * bigCogVelocityScale + 3 * smallCogXOffset - 0.05;
-            pinsSamplesArray.y[i] = 0.430 - angle / 9 * bigCogVelocityScale;
+            pinsSamplesArray.y[i] = 0.43 - angle / 9 * bigCogVelocityScale;
         }
 
+        //section 4-1 (one link):
         var i = loc1_Pins + loc2_Pins + loc3_Pins + loc4_Pins - 1;
         angle = (0 + movementOffset) * angleScale * bigCogVelocityScale
         pinsSamplesArray.loc[i] = 4;
@@ -291,7 +275,7 @@
         interiorScale = 0.95;
         exteriorScale = 1.05;
         velocityScale = 1;
-        generateCogPoints(bigCogInteriorSamplesBuffer, bigCogExteriorSamplesBuffer, isamples, globalIndex_div, -2.5, 0, angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(bigCogInteriorSamplesBuffer, bigCogExteriorSamplesBuffer, isamples, globalIndex_div, cBigCog3X, 0, angleScale, velocityScale, interiorScale, exteriorScale);
 
         //small cog
         interiorScale = 0.95 * 0.333333 / 1.12;
@@ -299,10 +283,10 @@
         velocityScale = 3.333333;
 
         //right cog
-        generateCogPoints(smallCog1_InteriorSamplesBuffer, smallCog1_ExteriorSamplesBuffer, isamples / 3 + 2, globalIndex_div /* + 0.0333333 * 6 */, 3.5, 0,  angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(smallCog1_InteriorSamplesBuffer, smallCog1_ExteriorSamplesBuffer, isamples / 3 + 2, globalIndex_div + 0.5, cSmallCog3X - 0.01, -0.01,  angleScale, velocityScale, interiorScale, exteriorScale);
 
         //chain
-        generateChainPinPoints(chainSampleBuffer, globalIndexChain_div - 25, 25, 48, 8, 48, cBigCog3X, cSmallCog3X, angleScale * 2, 1, 3.333333, cBigCog3_Radius, cSmallCog3_Radius);
+        generateChainPinPoints(chainSampleBuffer, globalIndexChain_div - 25, 25, 47, 8, 49, cBigCog3X, cSmallCog3X, angleScale * 2, 1, 3.333333, cBigCog3_Radius, cSmallCog3_Radius);
 
         //Update global buffer with samples from cogs and spirals buffers
         //big cog
@@ -312,7 +296,7 @@
         updatePlotBufferForCogs(plotBuffer, smallCog1_InteriorSamplesBuffer, smallCog1_ExteriorSamplesBuffer, isamples / 3 - 3, 1);
 
         //chain
-        updatePlotBufferForChain(plotBuffer, chainSampleBuffer, 25 + 48 + 8 + 48, 2);
+        updatePlotBufferForChain(plotBuffer, chainSampleBuffer, 25 + 47 + 8 + 49, 2);
     }
 
 
@@ -369,48 +353,6 @@
         fps_display.update(plots * samples);
     };
 
-    function setAutoscale(state) {
-        var axes = [].slice.call(graph.querySelectorAll('ni-cartesian-axis'));
-
-        var av= axes.map(function (axis) {
-            var fa = axis.getFlotAxis();
-            return {minimum: fa.datamin, maximum: fa.datamax};
-        });
-
-        axes.forEach(function (axis, i) {
-            if (!state) {
-                var fa = axis.getFlotAxis();
-                axis.minimum = av[i].minimum;
-                axis.maximum = av[i].maximum;
-                axis.autoScale = 'none';
-            } else {
-                axis.autoScale = 'exact';
-            }
-        });
-    }
-
-    var autoscale_form = document.querySelector('#autoscale_form');
-    var rad = autoscale_form.querySelectorAll('input[name="autoscale"]');
-    var onClick = function() {
-        setAutoscale(this.value === '1');
-    };
-
-    for(var i = 0; i < rad.length; i++) {
-        rad[i].onclick = onClick;
-    }
-
-    var pointshape_form = document.querySelector('#pointshape_form');
-    if (pointshape_form) {
-        var ps = pointshape_form.querySelectorAll('input[name="pointshape"]');
-        for (var i = 0; i < ps.length; i++) {
-            ps[i].onclick = function() {
-                var renderers = document.querySelectorAll('ni-cartesian-plot-renderer');
-                for (var j = 0; j < renderers.length; j ++) {
-                    renderers[j].pointShape = this.value;
-                }
-            };
-        }
-    }
 
     if (graph.isReady) {
         window.requestAnimationFrame(updateDataAndRAF);
