@@ -12,8 +12,6 @@
     var graph3;
     var globalIndex = 0;
 
-    var plots = 1;
-    var samples = 100000;
     var isamples = 100;
     var plotBuffer1 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
     var plotBuffer2 = [[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}],[{x:0, y:0}]];
@@ -50,18 +48,6 @@
     //boundaries of cogs with chain
     const cBigCog3_Radius = 1;
     const cSmallCog3_Radius = 0.333333;
-
-    var chartStep = 9/samples;
-    var initbuffer = [[]];
-
-    var initBuffer = function () {
-        if (buffer.length !== plots) {
-            buffer.length = 0;
-            for (var i=0; i < plots; i++) {
-                buffer[i] = [];
-            }
-        }
-    }
 
 
     function generateChainPinPoints(pinsSamplesArray, movementOffset, loc1_Pins, loc2_Pins, loc3_Pins, loc4_Pins, bigCogXOffset, smallCogXOffset, angleScale, bigCogVelocityScale, smallCogVelocityScale, bigCogScale, smallCogScale) {
