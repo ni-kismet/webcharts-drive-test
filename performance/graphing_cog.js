@@ -465,13 +465,9 @@
     }
 
 
-    function booleanToDir(aBool, increment)
+    function booleanToDir(aBoolValue, increment)
     {
-        if (aBool) {
-            return increment
-        } else {
-            return -increment
-        }
+        return aBoolValue ? increment : -increment;
     }
 
     function computeCog1_Dirs(cogMovementProperties) {
@@ -517,7 +513,7 @@
     };
 
 
-    if (graph1.isReady) {
+    if (graph1.isReady && graph2.isReady && graph3.isReady) {
         window.requestAnimationFrame(updateDataAndRAF);
     } else {
         graph1.onReady = function() {
