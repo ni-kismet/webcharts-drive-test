@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>WebCharts XY Graph Examples</title>
+    <link rel="stylesheet" href="../node_modules/ni-webcharts/styles/webchartsLight.css" />
+    <link rel="import" href="../node_modules/ni-webcharts/dist/webcharts.min.html"/>
+    <script type="text/javascript" src="../node_modules/webcomponents-lite/webcomponents-lite.js"></script>
+
+    <style>
+        ni-cartesian-graph {
+            display: inline-block;
+            width: 830px;
+            height: 800px;
+            min-height: 50px;
+            border: 0px;
+        }
+
+        ni-cartesian-graph text {
+            stroke: none;
+            stroke-width: 1px;
+            font-size: 12px;
+            font-family: sans-serif;
+            fill: #222266;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>WebCharts XY Graph Examples</h1>
+
+    <ni-cartesian-graph id="graph1">
+      <ni-cartesian-axis grid-lines label="X" axis-position="bottom" minimum="-4" maximum="4" auto-scale="none" axis-ref="Cog_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
+      <ni-cartesian-axis grid-lines label="Y" axis-position="left" minimum="-4" maximum="4" auto-scale="none" axis-ref="Cog_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
+
+      <ni-cartesian-axis grid-lines label="X" axis-position="top" minimum="-4" maximum="4" auto-scale="none" axis-ref="Spiral1_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
+      <ni-cartesian-axis grid-lines label="Y" axis-position="right" minimum="-4" maximum="4" auto-scale="none" axis-ref="Spiral1_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
+
+      <ni-cartesian-axis grid-lines label="X" axis-position="top" minimum="-4" maximum="4" auto-scale="none" axis-ref="Spiral2_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
+      <ni-cartesian-axis grid-lines label="Y" axis-position="right" minimum="-4" maximum="4" auto-scale="none" axis-ref="Spiral2_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
+
+      <ni-cartesian-axis grid-lines label="X" axis-position="top" minimum="-4" maximum="4" auto-scale="none" axis-ref="Spiral3_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
+      <ni-cartesian-axis grid-lines label="Y" axis-position="right" minimum="-4" maximum="4" auto-scale="none" axis-ref="Spiral3_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
+
+      <ni-cartesian-plot show label="Plot 1" xaxis="Cog_XPlot" yaxis="Cog_YPlot">
+        <ni-cartesian-plot-renderer line-width="2" line-stroke="#8888FF" area-base-line="zero" area-fill="auto"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+      <ni-cartesian-plot show label="Plot 2" xaxis="Spiral1_XPlot" yaxis="Spiral1_YPlot">
+        <ni-cartesian-plot-renderer line-width="5" line-stroke="#FF8888"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+      <ni-cartesian-plot show label="Plot 3" xaxis="Spiral2_XPlot" yaxis="Spiral2_YPlot">
+        <ni-cartesian-plot-renderer line-width="5" line-stroke="#8080FF"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+      <ni-cartesian-plot show label="Plot 4" xaxis="Spiral3_XPlot" yaxis="Spiral3_YPlot">
+        <ni-cartesian-plot-renderer line-width="5" line-stroke="#80FF80"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+    </ni-cartesian-graph>
+
+
+    <ni-cartesian-graph id="graph2">
+      <ni-cartesian-axis grid-lines label="X" axis-position="bottom" minimum="-4" maximum="4" auto-scale="none" axis-ref="BigCog_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
+      <ni-cartesian-axis grid-lines label="Y" axis-position="left" minimum="-4" maximum="4" auto-scale="none" axis-ref="BigCog_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
+
+      <ni-cartesian-axis grid-lines label="X" axis-position="top" minimum="-4" maximum="4" auto-scale="none" axis-ref="SmallCog1_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
+      <ni-cartesian-axis grid-lines label="Y" axis-position="right" minimum="-4" maximum="4" auto-scale="none" axis-ref="SmallCog1_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
+
+      <ni-cartesian-axis grid-lines label="X" axis-position="top" minimum="-4" maximum="4" auto-scale="none" axis-ref="SmallCog2_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
+      <ni-cartesian-axis grid-lines label="Y" axis-position="right" minimum="-4" maximum="4" auto-scale="none" axis-ref="SmallCog2_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
+
+      <ni-cartesian-axis grid-lines label="X" axis-position="top" minimum="-4" maximum="4" auto-scale="none" axis-ref="SmallCog3_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
+      <ni-cartesian-axis grid-lines label="Y" axis-position="right" minimum="-4" maximum="4" auto-scale="none" axis-ref="SmallCog3_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
+
+      <ni-cartesian-axis grid-lines label="X" axis-position="top" minimum="-4" maximum="4" auto-scale="none" axis-ref="SmallCog4_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
+      <ni-cartesian-axis grid-lines label="Y" axis-position="right" minimum="-4" maximum="4" auto-scale="none" axis-ref="SmallCog4_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
+
+      <ni-cartesian-axis grid-lines label="X" axis-position="top" minimum="-4" maximum="4" auto-scale="none" axis-ref="ExternalCog_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
+      <ni-cartesian-axis grid-lines label="Y" axis-position="right" minimum="-4" maximum="4" auto-scale="none" axis-ref="ExternalCog_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
+
+      <ni-cartesian-plot show label="Plot 1" xaxis="BigCog_XPlot" yaxis="BigCog_YPlot">
+        <ni-cartesian-plot-renderer line-width="2" line-stroke="#8888FF" area-base-line="zero" area-fill="auto"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+      <ni-cartesian-plot show label="Plot 2" xaxis="SmallCog1_XPlot" yaxis="SmallCog1_YPlot">
+        <ni-cartesian-plot-renderer line-width="2" line-stroke="#44FF44" area-base-line="zero" area-fill="auto"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+      <ni-cartesian-plot show label="Plot 3" xaxis="SmallCog2_XPlot" yaxis="SmallCog2_YPlot">
+        <ni-cartesian-plot-renderer line-width="2" line-stroke="#FF4444" area-base-line="zero" area-fill="auto"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+      <ni-cartesian-plot show label="Plot 4" xaxis="SmallCog3_XPlot" yaxis="SmallCog3_YPlot">
+        <ni-cartesian-plot-renderer line-width="2" line-stroke="#44FF44" area-base-line="zero" area-fill="auto"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+      <ni-cartesian-plot show label="Plot 5" xaxis="SmallCog4_XPlot" yaxis="SmallCog4_YPlot">
+        <ni-cartesian-plot-renderer line-width="2" line-stroke="#FF4444" area-base-line="zero" area-fill="auto"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+      <ni-cartesian-plot show label="Plot 6" xaxis="ExternalCog_XPlot" yaxis="ExternalCog_YPlot">
+        <ni-cartesian-plot-renderer line-width="2" line-stroke="#888844" area-base-line="zero" area-fill=""></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+    </ni-cartesian-graph>
+
+
+    <ni-cartesian-graph id="graph3">
+      <ni-cartesian-axis grid-lines label="X" axis-position="bottom" minimum="-4" maximum="4" auto-scale="none" axis-ref="BigCog_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
+      <ni-cartesian-axis grid-lines label="Y" axis-position="left" minimum="-4" maximum="4" auto-scale="none" axis-ref="BigCog_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
+
+      <ni-cartesian-axis grid-lines label="X" axis-position="top" minimum="-4" maximum="4" auto-scale="none" axis-ref="SmallCog1_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
+      <ni-cartesian-axis grid-lines label="Y" axis-position="right" minimum="-4" maximum="4" auto-scale="none" axis-ref="SmallCog1_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
+
+      <ni-cartesian-axis grid-lines label="X" axis-position="top" minimum="-4" maximum="4" auto-scale="none" axis-ref="Chain_XPlot" zoom="none" pan="none"></ni-cartesian-axis>
+      <ni-cartesian-axis grid-lines label="Y" axis-position="right" minimum="-4" maximum="4" auto-scale="none" axis-ref="Chain_YPlot" zoom="none" pan="none"></ni-cartesian-axis>
+
+      <ni-cartesian-plot show label="Plot 1" xaxis="BigCog_XPlot" yaxis="BigCog_YPlot">
+        <ni-cartesian-plot-renderer line-width="2" line-stroke="#8888FF" area-base-line="zero" area-fill="auto"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+      <ni-cartesian-plot show label="Plot 2" xaxis="SmallCog1_XPlot" yaxis="SmallCog1_YPlot">
+        <ni-cartesian-plot-renderer line-width="2" line-stroke="#44FF44" area-base-line="zero" area-fill="auto"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+      <ni-cartesian-plot show label="Plot 3" xaxis="Chain_XPlot" yaxis="Chain_YPlot">
+        <ni-cartesian-plot-renderer line-width="3" line-stroke="#445544" area-base-line="zero" area-fill="" point-color="#CCBBCC" point-size="4"></ni-cartesian-plot-renderer>
+      </ni-cartesian-plot>
+    </ni-cartesian-graph>
+
+    <script defer type="text/javascript" src="graphing_cog.js"></script>
+</body>
+</html>
