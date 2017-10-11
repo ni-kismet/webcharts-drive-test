@@ -50,7 +50,21 @@
     const cSmallCog3_Radius = 0.333333;
 
 
-    function generateChainPinPoints(pinsSamplesArray, movementOffset, loc1_Pins, loc2_Pins, loc3_Pins, loc4_Pins, bigCogXOffset, smallCogXOffset, angleScale, bigCogVelocityScale, smallCogVelocityScale, bigCogScale, smallCogScale) {
+    function generateChainPinPoints(
+        pinsSamplesArray,
+        movementOffset,
+        loc1_Pins,
+        loc2_Pins,
+        loc3_Pins,
+        loc4_Pins,
+        bigCogXOffset,
+        smallCogXOffset,
+        angleScale,
+        bigCogVelocityScale,
+        smallCogVelocityScale,
+        bigCogScale,
+        smallCogScale
+    ) {
         var angle = 0;
         //section 1:
         for (var i = 0; i < loc1_Pins; i++) {
@@ -92,7 +106,18 @@
     }
 
 
-    function generateCogPoints(interiorSamplesArray, exteriorSamplesArray, totalSamples, movementOffset, xOffset, yOffset, angleScale, velocityScale, interiorScale, exteriorScale) {
+    function generateCogPoints(
+        interiorSamplesArray,
+        exteriorSamplesArray,
+        totalSamples,
+        movementOffset,
+        xOffset,
+        yOffset,
+        angleScale,
+        velocityScale,
+        interiorScale,
+        exteriorScale
+    ) {
         var angle = 0;
 
         for (var i = 0; i <= totalSamples; i++) {
@@ -107,7 +132,17 @@
     }
 
 
-    function generateSpiralPoints(spiralSamplesArray, totalSamples, movementOffset, phase, xOffset, yOffset, angleScale, velocityScale, spiralScale) {
+    function generateSpiralPoints(
+        spiralSamplesArray,
+        totalSamples,
+        movementOffset,
+        phase,
+        xOffset,
+        yOffset,
+        angleScale,
+        velocityScale,
+        spiralScale
+    ) {
         var angle = 0;
         for (var i = 0; i <= totalSamples; i++) {
             angle = ((i + phase) * 2 + movementOffset) * angleScale * velocityScale;
@@ -118,7 +153,13 @@
     }
 
 
-    function updatePlotBufferForCogs(thePlotBufferArray, interiorSamplesArray, exteriorSamplesArray, totalSamples, plotIndexInBuffer) {
+    function updatePlotBufferForCogs(
+        thePlotBufferArray,
+        interiorSamplesArray,
+        exteriorSamplesArray,
+        totalSamples,
+        plotIndexInBuffer
+    ) {
         for (var i = 0; i <= totalSamples; i++) {
             thePlotBufferArray[plotIndexInBuffer][i] = {};
             if ((i & 1) === 0) {
@@ -132,7 +173,12 @@
     }
 
 
-    function updatePlotBufferForSpirals(thePlotBufferArray, SamplesArray, totalSamples, plotIndexInBuffer) {
+    function updatePlotBufferForSpirals(
+        thePlotBufferArray,
+        SamplesArray,
+        totalSamples,
+        plotIndexInBuffer
+    ) {
         for (var i = 0; i <= totalSamples; i++) {
             thePlotBufferArray[plotIndexInBuffer][i] = {};
             thePlotBufferArray[plotIndexInBuffer][i].x = SamplesArray.x[i];
@@ -141,7 +187,12 @@
     }
 
 
-    function updatePlotBufferForChain(thePlotBufferArray, SamplesArray, totalSamples, plotIndexInBuffer) {
+    function updatePlotBufferForChain(
+        thePlotBufferArray,
+        SamplesArray,
+        totalSamples,
+        plotIndexInBuffer
+    ) {
         for (var i = 0; i <= totalSamples; i++) {
             thePlotBufferArray[plotIndexInBuffer][i] = {};
             thePlotBufferArray[plotIndexInBuffer][i].x = SamplesArray.x[i];
@@ -162,13 +213,55 @@
         interiorScale = 0.95;
         exteriorScale = 1.05;
         velocityScale = 1;
-        generateCogPoints(bigCogInteriorSamplesBuffer, bigCogExteriorSamplesBuffer, isamples, globalIndex_div, cogXOffset, cogYOffset, angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(
+            bigCogInteriorSamplesBuffer,
+            bigCogExteriorSamplesBuffer,
+            isamples,
+            globalIndex_div,
+            cogXOffset,
+            cogYOffset,
+            angleScale,
+            velocityScale,
+            interiorScale,
+            exteriorScale
+        );
 
         //spirals
         velocityScale = 1;
-        generateSpiralPoints(spiral1_SampleBuffer, isamples, globalIndex, 0,                cogXOffset, cogYOffset, angleScale, velocityScale, isamples * 1.1);
-        generateSpiralPoints(spiral2_SampleBuffer, isamples, globalIndex, isamples / 3,     cogXOffset, cogYOffset, angleScale, velocityScale, isamples * 1.1);
-        generateSpiralPoints(spiral3_SampleBuffer, isamples, globalIndex, isamples * 2 / 3, cogXOffset, cogYOffset, angleScale, velocityScale, isamples * 1.1);
+        generateSpiralPoints(
+            spiral1_SampleBuffer,
+            isamples,
+            globalIndex,
+            0,
+            cogXOffset,
+            cogYOffset,
+            angleScale,
+            velocityScale,
+            isamples * 1.1
+        );
+
+        generateSpiralPoints(
+            spiral2_SampleBuffer,
+            isamples, globalIndex,
+            isamples / 3,
+            cogXOffset,
+            cogYOffset,
+            angleScale,
+            velocityScale,
+            isamples * 1.1
+        );
+
+        generateSpiralPoints(
+            spiral3_SampleBuffer,
+            isamples,
+            globalIndex,
+            isamples * 2 / 3,
+            cogXOffset,
+            cogYOffset,
+            angleScale,
+            velocityScale,
+            isamples * 1.1
+        );
 
         //Update global buffer with samples from cogs and spirals buffers
         //big cog
@@ -193,7 +286,18 @@
         interiorScale = 0.95;
         exteriorScale = 1.05;
         velocityScale = 1;
-        generateCogPoints(bigCogInteriorSamplesBuffer, bigCogExteriorSamplesBuffer, isamples, globalIndex_div, 0, 0, angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(
+            bigCogInteriorSamplesBuffer,
+            bigCogExteriorSamplesBuffer,
+            isamples,
+            globalIndex_div,
+            0,
+            0,
+            angleScale,
+            velocityScale,
+            interiorScale,
+            exteriorScale
+        );
 
         //small cogs
         interiorScale = 0.95 * 0.333333 / 1.12;
@@ -201,22 +305,75 @@
         velocityScale = 3.333333;
 
         //right cog
-        generateCogPoints(smallCog1_InteriorSamplesBuffer, smallCog1_ExteriorSamplesBuffer, isamples / 3 + 2, -globalIndex_div + 0.0333333 * 6, 1.38, 0.0333333 / 2,  angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(
+            smallCog1_InteriorSamplesBuffer,
+            smallCog1_ExteriorSamplesBuffer,
+            isamples / 3 + 2,
+            -globalIndex_div + 0.0333333 * 6,
+            1.38, 0.0333333 / 2,
+            angleScale,
+            velocityScale,
+            interiorScale,
+            exteriorScale
+        );
 
         //up cog
-        generateCogPoints(smallCog2_InteriorSamplesBuffer, smallCog2_ExteriorSamplesBuffer, isamples / 3 + 2, -globalIndex_div, 0,    1.38,       angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(
+            smallCog2_InteriorSamplesBuffer,
+            smallCog2_ExteriorSamplesBuffer,
+            isamples / 3 + 2,
+            -globalIndex_div,
+            0,
+            1.38,
+            angleScale,
+            velocityScale,
+            interiorScale,
+            exteriorScale
+        );
 
         //left cog
-        generateCogPoints(smallCog3_InteriorSamplesBuffer, smallCog3_ExteriorSamplesBuffer, isamples / 3 + 2, -globalIndex_div - 0.0333333 * 6, -1.38, 0.0333333 / 2, angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(
+            smallCog3_InteriorSamplesBuffer,
+            smallCog3_ExteriorSamplesBuffer,
+            isamples / 3 + 2,
+            -globalIndex_div - 0.0333333 * 6,
+            -1.38, 0.0333333 / 2,
+            angleScale,
+            velocityScale,
+            interiorScale,
+            exteriorScale
+        );
 
         //down cog
-        generateCogPoints(smallCog4_InteriorSamplesBuffer, smallCog4_ExteriorSamplesBuffer, isamples / 3 + 2, -globalIndex_div + 0.0333333 * 12, 0.0333333,    -1.38,      angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(
+            smallCog4_InteriorSamplesBuffer,
+            smallCog4_ExteriorSamplesBuffer,
+            isamples / 3 + 2,
+            -globalIndex_div + 0.0333333 * 12,
+            0.0333333,
+            -1.38,
+            angleScale,
+            velocityScale,
+            interiorScale,
+            exteriorScale
+        );
 
         //external cog
         interiorScale = 0.97 * 1.77;
         exteriorScale = 1.03 * 1.77;
         velocityScale = 0.5;
-        generateCogPoints(externalCogInteriorSamplesBuffer, externalCogExteriorSamplesBuffer, isamples * 3, -globalIndex_div, 0, 0, angleScale * 2, velocityScale / 1.5, interiorScale, exteriorScale);
+        generateCogPoints(
+            externalCogInteriorSamplesBuffer,
+            externalCogExteriorSamplesBuffer,
+            isamples * 3,
+            -globalIndex_div,
+            0,
+            0,
+            angleScale * 2,
+            velocityScale / 1.5,
+            interiorScale,
+            exteriorScale
+        );
 
 
         //Update global buffer with samples from cogs and spirals buffers
@@ -247,7 +404,18 @@
         interiorScale = 0.95;
         exteriorScale = 1.05;
         velocityScale = 1;
-        generateCogPoints(bigCogInteriorSamplesBuffer, bigCogExteriorSamplesBuffer, isamples, globalIndex_div, cBigCog3X, 0, angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(
+            bigCogInteriorSamplesBuffer,
+            bigCogExteriorSamplesBuffer,
+            isamples,
+            globalIndex_div,
+            cBigCog3X,
+            0,
+            angleScale,
+            velocityScale,
+            interiorScale,
+            exteriorScale
+        );
 
         //small cog
         interiorScale = 0.95 * 0.333333 / 1.12;
@@ -255,10 +423,35 @@
         velocityScale = 3.333333;
 
         //right cog
-        generateCogPoints(smallCog1_InteriorSamplesBuffer, smallCog1_ExteriorSamplesBuffer, isamples / 3 + 2, globalIndex_div + 0.5, cSmallCog3X - 0.01, -0.01,  angleScale, velocityScale, interiorScale, exteriorScale);
+        generateCogPoints(
+            smallCog1_InteriorSamplesBuffer,
+            smallCog1_ExteriorSamplesBuffer,
+            isamples / 3 + 2,
+            globalIndex_div + 0.5,
+            cSmallCog3X - 0.01,
+            -0.01,
+            angleScale,
+            velocityScale,
+            interiorScale,
+            exteriorScale
+        );
 
         //chain
-        generateChainPinPoints(chainSampleBuffer, globalIndexChain_div - 25, 25, 47, 8, 49, cBigCog3X, cSmallCog3X, angleScale * 2, 1, 3.333333, cBigCog3_Radius, cSmallCog3_Radius);
+        generateChainPinPoints(
+            chainSampleBuffer,
+            globalIndexChain_div - 25,
+            25,
+            47,
+            8,
+            49,
+            cBigCog3X,
+            cSmallCog3X,
+            angleScale * 2,
+            1,
+            3.333333,
+            cBigCog3_Radius,
+            cSmallCog3_Radius
+        );
 
         //Update global buffer with samples from cogs and spirals buffers
         //big cog
@@ -319,8 +512,8 @@
     graph3 = document.querySelector("#graph3");
 
     function updateDataAndRAF() {
-        window.requestAnimationFrame(updateDataAndRAF);
         updateDataAndDraw();
+        window.requestAnimationFrame(updateDataAndRAF);
     };
 
 
