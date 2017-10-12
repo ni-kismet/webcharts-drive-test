@@ -62,6 +62,7 @@ Licensed under the MIT license.
                 intersectionColor: 'darkgray',
                 intersectionLabelPosition: 'bottom-right',
                 snapToPlot: undefined,
+                interpolate: false,
                 defaultxaxis: 1,
                 defaultyaxis: 1
             });
@@ -239,7 +240,16 @@ Licensed under the MIT license.
                 cursor: cursor.name,
                 points: []
             };
+            if (cursor.interpolate) {
+                findIntersectionByInterpolation(plot, cursor, intersections);
+            } else {
+                findNearbyPointsIntersection(plot, cursor, intersections)
+            }
 
+            return intersections;
+        }
+
+        function findNearbyPointsIntersection (plot, cursor, intersections) {
             var cursorLastMouseX = cursor.mousePosition.relativeX * plot.width(),
                 cursorLastMouseY = cursor.mousePosition.relativeY * plot.height(),
                 nearestPoint = plot.findNearbyItem(cursorLastMouseX, cursorLastMouseY, function(seriesIndex) {
@@ -261,8 +271,33 @@ Licensed under the MIT license.
                     seriesIndex: nearestPoint.seriesIndex
                 });
             }
+        }
 
-            return intersections;
+        function findIntersectionByInterpolation(plot, cursor, intersections) {
+            var pos = plot.c2p({
+                left: cursor.x,
+                top: cursor.y
+            });
+
+            var axes = plot.getAxes();
+            if (pos.x < axes.xaxis.min || pos.x > axes.xaxis.max ||
+                pos.y < axes.yaxis.min || pos.y > axes.yaxis.max) {
+                return;
+            }
+
+            var interpolationPoint = plot.findNearbyInterpolationPoint(pos.x, pos.y, function(seriesIndex) {
+                return cursor.snapToPlot === -1 || seriesIndex === cursor.snapToPlot;
+            });
+
+            if (interpolationPoint) {
+                intersections.points.push({
+                    x: interpolationPoint.datapoint[0],
+                    y: interpolationPoint.datapoint[1],
+                    leftPoint: interpolationPoint.leftPoint,
+                    rightPoint: interpolationPoint.rightPoint,
+                    seriesIndex: interpolationPoint.seriesIndex
+                });
+            }
         }
 
         function handleCursorMove(e, x, y, pageX, pageY) {

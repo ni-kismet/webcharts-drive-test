@@ -6,7 +6,7 @@
   "license": "https://www.ni.com/legal/license/",
   "homepage": "https://github.com/ni-kismet/",
   "dependencies": {
-    "ni-webcharts": "0.8.7",
+    "ni-webcharts": "0.8.8",
     "ni-webcharts-legends": "0.2.13",
     "pako": "1.0.4"
   }

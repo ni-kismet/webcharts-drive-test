@@ -27,6 +27,7 @@ The plugin supports these options:
             showLabel: true or false,
             showValues: true or false,
             snapToPlot: undefined, -1, 0 or positive number,
+            interpolate: true or false,
             defaultxaxis: 1,
             defaultyaxis: 1,
             symbol: 'cross', 'triangle' ...,
@@ -48,7 +49,7 @@ The plugin supports these options:
 
 **name** is a string containing the name/label of the cursor.
 
-**mode** is one of "x", "y" or "xy". The "x" mode enables a vertical cursor that lets you trace the values on the x axis, "y" enables a horizontal cursor and "xy" enables them both. "xy" is default.
+**mode** is one of "x", "y" or "xy". The "x" mode enables a vertical cursor that lets you trace the values on the x axis, "y" enables a horizontal cursor and "xy" enables them both. "xy" is default. This is used only for configuring the drawing of vertical and horizontal line.
 
 **color** is the color of the cursor (default is "rgba(170, 0, 0, 0.80)")
 
@@ -67,6 +68,8 @@ The plugin supports these options:
 **showValues** the coordinate of the cursor (relative to the specified plot or axis) will be displayed next to the cursor manipulator.
 
 **snapToPlot** specifies a plot to which the cursor will snap. If set to -1 then the cursor will snap to any plot. If not specified or set to undefined, NaN or any value smaller than -1 then the cursor will be free.
+
+**interpolate** if true, the position of the cursor will be set as interpolation on OY axis between nearest points to it's position. Otherwise, it will snap to the nearest point.
 
 **defaultxaxis**: the one-based index of the x axis to follow when the cursor is snapping to no plot
 
