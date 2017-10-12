@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Demo Time Axes</title>
+    <title>Heart beat</title>
     <link rel="stylesheet" href="../node_modules/ni-webcharts/styles/webchartsLight.css" />
     <link rel="stylesheet" href="../node_modules/jqwidgets-scripts/jqwidgets/styles/jqx.base.css" />
     <link rel="stylesheet" href="../node_modules/jqwidgets-scripts/jqwidgets/styles/jqx.fresh.css" />
@@ -51,9 +51,9 @@
 <body>
 
     <div id="page-wrap">
-        <h1>Waveform generator connected to a Chart</h1>
+        <h1>Heart beat waveform generator connected to a Chart</h1>
         <div id="chart div" style="position: relative;">
-            <ni-chart id="chart" graph-ref="28" buffer-size="1000" value="[]">
+            <ni-chart id="chart" graph-ref="28" buffer-size="100000" value="[]">
                 <ni-cartesian-axis show label="Absolute" format="LVTime" show-label show-tick-labels="all" axis-position="bottom" auto-scale="sliding-window" minimum="0" maximum="1000" grid-lines show-ticks axis-ref="x1"></ni-cartesian-axis>
                 <ni-cartesian-axis show label="Relative" format="LVRelativeTime" show-label show-tick-labels="all" axis-position="bottom" auto-scale="sliding-window" minimum="0" maximum="1000" show-ticks axis-ref="x2"></ni-cartesian-axis>
                 <ni-cartesian-axis show label="RelativeSeconds" format="LVRelativeSeconds" show-label show-tick-labels="all" axis-position="bottom" auto-scale="sliding-window" minimum="0" maximum="1000" show-ticks axis-ref="x3"></ni-cartesian-axis>
@@ -96,7 +96,7 @@
             </tr>
         </table>
     </div>
-    <script defer type="text/javascript" src="./time-axes.js"></script>
+    <script defer type="text/javascript" src="./heart-beat.js"></script>
 </body>
 
 </html>

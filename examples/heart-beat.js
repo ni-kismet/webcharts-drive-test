@@ -19,22 +19,19 @@
 
     function generateData(waveform) {
         w = 2*Math.PI*freq;
+        var R = -0.0000156 * (t-20)**4 + 2.5,
+            T = -0.0000156 * (t-20)**4 + 6,
+            b = 0;
+        b += (0 < t && t < 40) ? R : 0;
+        b += (200 < t && t < 360) ? T : 0;
         switch(waveform) {
             case "1":
-                //Sine wave
-                return a * Math.sin(t*w);
+                //return a * Math.sin(t*w);
+                return R;
             case "2":
-                //Square wave
-                return a * Math.sign(Math.sin(t*w));
+                return T;
             case "3":
-                //Sawtooth wave
                 return (-2*a/Math.PI) * Math.atan(1/Math.tan(w*t/2));
-            case "4":
-                //Triange wave
-                return (2*a/Math.PI) * Math.asin(Math.sin(t*w));
-            case "5":
-                //Random
-                return (Math.random()*10*t) * Math.sin(t*w*Math.random());
         }
     }
 
@@ -46,12 +43,12 @@
           }
 
           hb = chartElement.getHistoryBuffer();
-          hb.setWidth(3);
+          hb.setWidth(2);
       }
 
       if (generate) {
-          hb.push([generateData("1"), generateData("2"), generateData("3")]);
-          t += 0.001;
+          hb.push([generateData("1"), generateData("2")/*, generateData("3")*/]);
+          t += 1;
       }
     }
     setInterval(updateChart, 1);
