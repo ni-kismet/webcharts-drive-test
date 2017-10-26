@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="../node_modules/ni-webcharts-legends/styles/webcharts-legends.css" />
     <link rel="stylesheet" href="../fiftyShadesOfPink.css" />
 
-    <link rel="import" href="../node_modules/ni-webcharts/dist/webcharts.min.html"/>
-    <link rel="import" href="../node_modules/ni-webcharts-legends/dist/webcharts-legends.min.html"/>
+    <link rel="import" href="../node_modules/ni-webcharts/dist/es5-minified/webcharts.min.html"/>
+    <link rel="import" href="../node_modules/ni-webcharts-legends/dist/es5-minified/webcharts-legends.min.html"/>
 
     <script type="text/javascript" src="../node_modules/webcomponents-lite/webcomponents-lite.js"></script>
     <script type="text/javascript" src="../node_modules/pako/dist/pako.min.js"></script>
@@ -175,8 +175,8 @@
                     <ni-cartesian-plot-renderer line-width="1" line-stroke="rgb(210, 180, 180)"></ni-cartesian-plot-renderer>
                 </ni-cartesian-plot>
             </ni-cartesian-graph>
-            <ni-graph-tools graph-name='28'></ni-graph-tools>
-            <ni-plot-legend graph-name='28'></ni-plot-legend>
+            <ni-graph-tools graph-ref='28'></ni-graph-tools>
+            <ni-plot-legend graph-ref='28'></ni-plot-legend>
         </div>
         <p class="paragraph">
             Amplitude spectral density:
@@ -193,7 +193,7 @@
                 </ni-cartesian-plot>
             </ni-cartesian-graph>
             <!-- cursors + bar-fill don't play well together -->
-            <ni-plot-legend graph-name='30'></ni-plot-legend>
+            <ni-plot-legend graph-ref='30'></ni-plot-legend>
         </div>
         <p class="paragraph">
             Whitened and [20, 300] Hz bandpass filter:
@@ -221,7 +221,7 @@
 
             </ni-cartesian-graph>
                 <!-- cursors + bar-fill don't play well together -->
-            <ni-plot-legend graph-name='32'></ni-plot-legend>
+            <ni-plot-legend graph-ref='32'></ni-plot-legend>
         </div>
         <p class="paragraph">
             The next graph is the spectrogram of the whitened signal recorded by the Handford Observatory zoomed in around the moment of the merging of the two black holes.

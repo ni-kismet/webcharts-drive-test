@@ -171,8 +171,8 @@ function IntensityGraph() {
                 pixelRatio = plot.getSurface().pixelRatio,
                 yaxes = plot.getYAxes(),
                 colorScaleAxis = yaxes.filter(function (axis) { return isColorScale(axis); })[0],
-                minData = (colorScaleAxis && colorScaleAxis.options.autoscale !== 'none') ? colorScaleAxis.min : serie.intensitygraph.min,
-                maxData = (colorScaleAxis && colorScaleAxis.options.autoscale !== 'none') ? colorScaleAxis.max : serie.intensitygraph.max;
+                minData = (colorScaleAxis && colorScaleAxis.options.autoScale !== 'none') ? colorScaleAxis.min : serie.intensitygraph.min,
+                maxData = (colorScaleAxis && colorScaleAxis.options.autoScale !== 'none') ? colorScaleAxis.max : serie.intensitygraph.max;
 
             //  The pixelRatio needs to be took into account because the size
             //of the element can be different from the canvas backing store size.

@@ -132,7 +132,9 @@ The plugin adds some public methods to the plot:
 
 * plot.getIntersections(cursor)
 
-    returns the intersections of the cursor with plots 	
+    returns the intersections of the cursor with plots. This can be the nearest
+    point of the plot or the interpolated nearest values, depending on the cursor
+    interpolate option. 	
 
 * plot.formatCursorPosition(plot, cursor)
 
