@@ -26,6 +26,7 @@
             font-family: sans-serif;
             fill: #222266;
         }
+
     </style>
 </head>
 
@@ -33,15 +34,20 @@
     <div id="page-wrap">
         <h1>Vostok ice core temperatures and CO2 concentrations</h1>
 
+        <br>
         <p>
             This graph shows CO2 concentrations and temperatures measured from
             the ice core driled from the Vostok site in Antarctica spanning an
             interval of 420 thousand years.
         </p>
+        <br>
         <p>
             It is also demonstating the multiple axis and multiple plots abilities
             of webcharts.
+        <br>
+        <br>
         </p>
+
         <ni-cartesian-graph id="graph1" value="[]">
             <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Time (years before present)" axis-position="bottom"></ni-cartesian-axis>
             <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Temperature variations (&#176; C)" axis-position="left" grid-lines></ni-cartesian-axis>
@@ -54,9 +60,12 @@
             </ni-cartesian-plot>
         </ni-cartesian-graph>
         <p>
+            <br>
+            <br>
             The sources of the data that powers this graph are:
                 <ul>
                     <li><a href="https://www.ncdc.noaa.gov/cdo/f?p=519:1:::::P1_study_id:2426">Vostok - Deuterium Data and Temperature Reconstruction</a></li>
+                    <br>
                     <li><a href="https://www.ncdc.noaa.gov/cdo/f?p=519:1:::::P1_study_id:2442">Vostok - Carbon Dioxide Data</a></li>
                 </ul>
         </p>
