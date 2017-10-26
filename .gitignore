@@ -6,6 +6,10 @@ node_modules/@jqwidgets/jqx-element/*
 !node_modules/@jqwidgets/jqx-element/package.json
 !node_modules/@jqwidgets/jqx-element/source-minified/
 
+node_modules/three/*
+!node_modules/three/package.json
+!node_modules/three/build/
+
 node_modules/**/coverage/*
 node_modules/jquery/src/*
 
