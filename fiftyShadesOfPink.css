@@ -38,7 +38,7 @@ ni-intensity-graph {
     padding: 20px;
     display: inline-block;
     min-height: 20px;
-    color: #d2b4b4;
+    fill: #d2b4b4;
     background-image: url("./examples/peace.png");
     background-repeat: no-repeat;
     background-position: 100% 100%;
