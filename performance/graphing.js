@@ -43,7 +43,7 @@
                     iindex = 0;
                 }
                 buffer[j][i] = initbuffer[0][iindex];
-                buffer[j][i] += offset;     // trying hard to prvent numbers to be allocated on the heap;
+                buffer[j][i] += offset;     // trying hard to prevent numbers to be allocated on the heap;
             }
             if (buffer[j].length !== samples) {
                 buffer[j].length = samples;
@@ -88,6 +88,18 @@
         });
     }
 
+    $('#data_form input').on('change', function() {
+        var val = $('input[name="randomdata"]:checked', '#data_form').val();
+        if (val==='1') {
+            for (var i = 0; i < isamples; i++) {
+                initbuffer[0][i] = Math.random()*isamples+1;
+            }
+        } else {
+            for (var i = 0; i < isamples; i++) {
+                initbuffer[0][i] = i%isamples;
+            }
+        }
+    });
     var autoscale_form = document.querySelector('#autoscale_form');
     var rad = autoscale_form.querySelectorAll('input[name="autoscale"]');
     var onClick = function() {
