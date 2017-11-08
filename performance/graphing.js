@@ -90,7 +90,7 @@
 
     $('#data_form input').on('change', function() {
         var val = $('input[name="randomdata"]:checked', '#data_form').val();
-        if (val==='1') {
+        if (val === '1') {
             for (var i = 0; i < isamples; i++) {
                 initbuffer[0][i] = Math.random()*isamples+1;
             }
