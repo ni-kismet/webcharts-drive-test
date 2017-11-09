@@ -27,7 +27,7 @@
 <body>
     <h1>Webcharts Graph performance</h1>
 
-    <ni-cartesian-graph id="graph1" value="[0, 10, 200, 3, 40, 500, 6, 70, 800]">
+    <ni-cartesian-graph id="graph1" value="[]">
       <ni-cartesian-axis show grid-lines label="Time" axis-position="bottom" ></ni-cartesian-axis>
       <ni-cartesian-axis show grid-lines label="Amplitude" axis-position="left" ></ni-cartesian-axis>
       <ni-cartesian-plot show label="Plot 1">
@@ -79,6 +79,12 @@
             <input type="radio" name="pointshape" value="cross" checked="checked" />cross<br />
             <input type="radio" name="pointshape" value="ellipse" />ellipse<br />
             <input type="radio" name="pointshape" value="plus" />plus<br />
+        </fieldset>
+
+        <fieldset id="data_form" style="display: inline-block;">
+            <legend>Data type</legend>
+            <input type="radio" name="randomdata" value="0" checked="checked"/> Sequential <br />
+            <input type="radio" name="randomdata" value="1" /> Random <br />
         </fieldset>
     </div>
 
