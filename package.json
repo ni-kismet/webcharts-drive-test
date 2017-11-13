@@ -8,6 +8,7 @@
   "dependencies": {
     "ni-webcharts": "1.0.1",
     "ni-webcharts-legends": "1.0.0",
-    "pako": "1.0.4"
+    "pako": "1.0.4",
+    "url-search-params-polyfill": "^2.0.1"
   }
 }
