@@ -4,8 +4,6 @@
     'use strict';
     var graph;
     var globalIndex = 0;
-    var NIAnalogWaveform = window.NIAnalogWaveform;
-    var NITimestamp = window.NITimestamp;
     var startDate= Date.now();
 
     var plots = 1;
@@ -16,6 +14,8 @@
     var initbuffer = [];
 
     var initBuffer = function () {
+        var NIAnalogWaveform = window.NIAnalogWaveform;
+        var NITimestamp = window.NITimestamp;
         if (buffer.length !== plots) {
             buffer.length = 0;
             for (var i=0; i < plots; i++) {
@@ -30,6 +30,7 @@
 
     // update data reuses the same buffer, so no memory is allocated here, except the first time when it runs
     function updateDataAndDraw() {
+        var NITimestamp = window.NITimestamp;
         var offset;
         var iindex;
         var now = new NITimestamp(new Date(startDate));
