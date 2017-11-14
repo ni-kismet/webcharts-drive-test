@@ -44,18 +44,23 @@ ni-intensity-graph {
     background-position: 100% 100%;
 }
 
+ni-cartesian-graph .flot-x-axis text,
+ni-cartesian-graph .flot-y-axis text,
+ni-chart .flot-x-axis text,
+ni-chart .flot-y-axis text,
+ni-intensity-graph .flot-x-axis text,
+ni-intensity-graph .flot-y-axis text,
+.snapshot .flot-x-axis text,
+.snapshot .flot-y-axis text {
+    fill: #d2b4b4;
+    font-size: 12px;
+    font-family: sans-serif;
+}
 
-}
-ni-cartesian-axis {
-    font-family: "Times New Roman";
-    border-color: #d2b4b4;
-    font-size: 16px;
-    font-style: normal;
-}
-ni-cartesian-graph .axisLabels,
-ni-chart .axisLabels,
-ni-intensity-graph .axisLabels {
-    font-family: "Times New Roman";
-    font-size: 16px;
-    color: #d2b4b4;
+ni-cartesian-graph text.axisLabels,
+ni-chart text.axisLabels,
+ni-intensity-graph text.axisLabels {
+    font-size: 14px;
+    fill: #d2b4b4;
+    font-family: sans-serif;
 }
