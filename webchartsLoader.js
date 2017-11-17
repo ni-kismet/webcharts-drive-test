@@ -7,7 +7,6 @@ var arr = [
     "../node_modules/flot-charting-plugin/dist/es5/jquery.flot.charting.js",
     "../node_modules/flot-intensitygraph-plugin/jquery.flot.intensitygraph.js",
     "../node_modules/three/build/three.min.js",
-    "../node_modules/url-search-params-polyfill/index.js",
     "../node_modules/flot-glplotter-plugin/jquery.flot.glplotter.js",
     "../node_modules/webcomponents-lite/webcomponents-lite.js",
     "../node_modules/@jqwidgets/jqx-element/source-minified/jqxelement-polyfills.js",
