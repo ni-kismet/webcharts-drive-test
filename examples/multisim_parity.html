@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Multisim graph parity</title>
+    <link rel="stylesheet" href="../node_modules/ni-webcharts/styles/webchartsLight.css" />
+
+    <script>
+        window.i18nPath = window.i18nPath || '../'; //relative to the user_app.html file
+        window.i18nFiles = window.i18nFiles || [];
+        window.i18nFiles.push('node_modules/ni-webcharts/messages/Webcharts');
+    </script>
+
+    <script defer type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script defer type="text/javascript" src="../webchartsLoader.js"></script>
+
+    <style>
+        #page-wrap {
+            width: 800px;
+            margin: 0 auto;
+        }
+        ni-cartesian-graph {
+            display: inline-block;
+            width: 900px;
+            height: 500px;
+            min-height: 50px;
+        }
+
+        ni-cartesian-graph .flot-x-axis text,
+        ni-cartesian-graph .flot-y-axis text,
+        .snapshot .flot-x-axis text,
+        .snapshot .flot-y-axis text {
+            font-family: "Times New Roman", serif;
+            font-size: 11px;
+            fill: #5f5f5f;
+        }
+
+        ni-cartesian-graph text.axisLabels,
+        .snapshot text.axisLabels {
+            font-family: "Times New Roman", serif;
+            fill: #5f5f5f;
+        }
+
+        ni-cursor {
+            color: #00cc44;
+        }
+
+        .thumbLabel {
+            fill:rgba(255, 255, 255, 0.8);
+            font-size: 18px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            cursor: move;
+            pointer-events: all;
+        }
+        .thumbIcon {
+            stroke: rgba(0, 204, 68, 0.8);
+            stroke-width: 2px;
+            fill: rgba(0, 204, 68, 0.8);
+            cursor: move;
+            pointer-events: all;
+        }
+
+        .legend {
+            font-size: 15px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="page-wrap">
+        <br>
+        <p>
+            <h2> Example of WebCharts team's graph similar to Multisim's graph features set
+            <br>
+            <br>
+        </p>
+
+        <ni-cartesian-graph id="graph1" graph-ref="1602" value="[]">
+            <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Time(s)" axis-position="bottom" grid-lines auto-scale="none", minimum=200000 maximum=240000></ni-cartesian-axis>
+            <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Voltage(V)" axis-position="left" grid-lines zoom="axis" pan="axis" auto-scale="none", minimum=0 maximum=35></ni-cartesian-axis>
+            <ni-cartesian-axis axis-ref = "CO2" show show-ticks show-minor-ticks show-label label="Current(A)" axis-position="right" zoom="axis" pan="axis" auto-scale="none" minimum=115 maximum=265></ni-cartesian-axis>
+            <ni-cartesian-plot show label="Temperature">
+                <ni-cartesian-plot-renderer line-width="1"></ni-cartesian-plot-renderer>
+            </ni-cartesian-plot>
+            <ni-cartesian-plot show label="CO2" yaxis = "CO2">
+                <ni-cartesian-plot-renderer line-width="0" point-shape="ellipse" point-color="#d6c100"></ni-cartesian-plot-renderer>
+            </ni-cartesian-plot>
+            <ni-cursor label="C1" show mode="y" show-thumbs="l" target-shape="diamond" crosshair-style="horizontal" y=0.2 x=0.3></ni-cursor>
+            <ni-cursor label="C2" show mode="xy" snap-to-plot="0" show-thumbs="t" target-shape="diamond" crosshair-style="both" interpolate></ni-cursor>
+        </ni-cartesian-graph>
+        <ni-light-plot-legend show graph-ref="1602" position="ne"></ni-light-plot-legend>
+    </div>
+
+    <script type="text/javascript" src="./data/vostok_time.js"></script>
+    <script type="text/javascript" src="./data/vostok_co2nat.js"></script>
+
+    <script>
+        var graph = document.querySelector('#graph1');
+        var data = [];
+        data[0] = window.vostok_time.map(function(d) {
+            return {
+                time: -d['age'] + 430000,
+                temp: d['temp'] + 10
+            };
+        });
+
+        data[1] = window.vostok_co2nat.map(function(d) {
+            return {
+                time: -d['age']  + 430000,
+                co2: d['CO2']
+            };
+        });
+
+        graph.setAttribute('value', JSON.stringify(data));
+    </script>
+</body>
+
+</html>
