@@ -19,6 +19,14 @@
             width: 800px;
             margin: 0 auto;
         }
+
+        p {
+            padding: 1cm 0cm 0cm 3cm;
+        }
+        ul {
+            padding: 1em 0cm 0cm 5cm;
+        }
+
         ni-cartesian-graph {
             display: inline-block;
             width: 900px;
@@ -46,19 +54,15 @@
         }
 
         .thumbLabel {
-            fill:rgba(255, 255, 255, 0.8);
+            fill:rgba(255, 255, 255, 1);
             font-size: 18px;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
             cursor: move;
             pointer-events: all;
         }
         .thumbIcon {
-            stroke: rgba(0, 204, 68, 0.8);
+            stroke: rgba(0, 204, 68, 1);
             stroke-width: 2px;
-            fill: rgba(0, 204, 68, 0.8);
+            fill: rgba(0, 204, 68, 1);
             cursor: move;
             pointer-events: all;
         }
@@ -73,11 +77,9 @@
 <body>
     <div id="page-wrap">
         <br>
-        <p>
-            <h2> Example of WebCharts team's graph similar to Multisim's graph features set
-            <br>
-            <br>
-        </p>
+        <h2> Example of WebCharts team's graph similar to Multisim's graph features set </h2>
+        <br>
+        <br>
 
         <ni-cartesian-graph id="graph1" graph-ref="1602" value="[]">
             <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Time(s)" axis-position="bottom" grid-lines auto-scale="none", minimum=200000 maximum=240000></ni-cartesian-axis>
@@ -93,6 +95,17 @@
             <ni-cursor label="C2" show mode="xy" snap-to-plot="0" show-thumbs="t" target-shape="diamond" crosshair-style="both" interpolate></ni-cursor>
         </ni-cartesian-graph>
         <ni-light-plot-legend show graph-ref="1602" position="ne"></ni-light-plot-legend>
+
+        <p>
+            This examples ilustrates the following features offered by webcharts:
+            <ul>
+                <li> cursors with thumbs
+                <li> light plot legend
+                <li> lines and points plot renderer
+                <li> pan and zoom mode customization based on mouse position
+                <li> inline css styling of elements
+            </ul>
+        </p>
     </div>
 
     <script type="text/javascript" src="./data/vostok_time.js"></script>
