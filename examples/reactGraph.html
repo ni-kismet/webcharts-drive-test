@@ -146,11 +146,6 @@ class App extends React.Component {
         this.setState(prevState => ({
             plotcodes: prevState.plotcodes.concat(plotInfo)
         }));
-        
-        var theGraph = document.getElementById('graph1');
-        theGraph.setData(this.getAllGraphData(this.state));
-        theGraph.graph.setupGrid();
-        theGraph.graph.draw();
     };
         
     genPlotDataValues = () => {
@@ -176,6 +171,11 @@ class App extends React.Component {
     }
  
 	render() {
+      var theGraph = document.getElementById('graph1');
+      if (theGraph != null) {
+          theGraph.setData(this.getAllGraphData(this.state));
+      }
+    
   	return(
     	<div>
         <GraphContent plots={this.state.plotcodes} />
