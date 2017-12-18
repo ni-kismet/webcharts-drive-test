@@ -1,195 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Webcharts Graph with React</title>
-    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
-    
-    <link rel="stylesheet" href="../node_modules/ni-webcharts/styles/webchartsLight.css" />
-    <link rel="stylesheet" href="../node_modules/jqwidgets-scripts/jqwidgets/styles/jqx.base.css" />
-    <link rel="stylesheet" href="../node_modules/jqwidgets-scripts/jqwidgets/styles/jqx.fresh.css" />
-    <link rel="stylesheet" href="../node_modules/ni-webcharts-legends/styles/webcharts-legends.icons.css" />
-    <link rel="stylesheet" href="../node_modules/ni-webcharts-legends/styles/webcharts-legends.css">
-    
-    <script>
-        window.i18nPath = window.i18nPath || '../'; //relative to the user_app.html file
-        window.i18nFiles = window.i18nFiles || [];
-        window.i18nFiles.push('node_modules/ni-webcharts/messages/Webcharts');
-    </script>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Webcharts Graph with React</title>
+        <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 
-    <script defer type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
-    <script defer type="text/javascript" src="../webchartsLoader.js"></script>
-    
-    <style>
-        body {
-            background-color: white;
-        }
+        <link rel="stylesheet" href="../node_modules/ni-webcharts/styles/webchartsLight.css" />
+        <link rel="stylesheet" href="../node_modules/jqwidgets-scripts/jqwidgets/styles/jqx.base.css" />
+        <link rel="stylesheet" href="../node_modules/jqwidgets-scripts/jqwidgets/styles/jqx.fresh.css" />
+        <link rel="stylesheet" href="../node_modules/ni-webcharts-legends/styles/webcharts-legends.icons.css" />
+        <link rel="stylesheet" href="../node_modules/ni-webcharts-legends/styles/webcharts-legends.css">
 
-        ni-cartesian-graph {
-            display: inline-block;
-            width:800px;
-            height: 400px;
-            min-height: 50px;
-            padding-top: 35px;
-            background-color: white;
-        }
-        
-        ni-graph-tools {
-            position: absolute;
-            left: 0px;
-            top: 0px;
-        }
+        <script>
+            window.i18nPath = window.i18nPath || '../'; //relative to the user_app.html file
+            window.i18nFiles = window.i18nFiles || [];
+            window.i18nFiles.push('node_modules/ni-webcharts/messages/Webcharts');
+        </script>
 
-        ni-plot-legend {
-            position: absolute;
-            width: 175px;
-            left: 799px;
-            top: 0px;
-        }
+        <script defer type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
+        <script defer type="text/javascript" src="../webchartsLoader.js"></script>
 
-        ni-scale-legend {
-            position: absolute;
-            left: 799px;
-            top: 328px;
-            height: 70px;
-        }
+        <style>
+            body {
+                background-color: white;
+            }
 
-        ni-cursor-legend {
-            /*position: absolute;*/
-            width: 400px;
-            left: 0px;
-            top: 399px;
-        }
-    </style>
-  </head>
-  
-  <body>
-    <h1>Webcharts Graph</h1>
+            ni-cartesian-graph {
+                display: inline-block;
+                width:800px;
+                height: 400px;
+                min-height: 50px;
+                padding-top: 35px;
+                background-color: white;
+            }
 
-    <h2>Arrays of numbers</h2>
-    
-    <div id="root"></div>
-    <script type="text/babel">
+            ni-graph-tools {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+            }
 
-const PlotCode = (props) => {
-	  return (
-        <ni-cartesian-plot show label={props.plotLabel}>
-            <ni-cartesian-plot-renderer line-width="2" line-stroke={props.plotColor}></ni-cartesian-plot-renderer>
-        </ni-cartesian-plot>
-    );
-};
+            ni-plot-legend {
+                position: absolute;
+                width: 175px;
+                left: 799px;
+                top: 0px;
+            }
 
-const PlotList = (props) => {
-	  return (
-            props.plotCodes.map(plot => <PlotCode key={plot.index} {...plot} />)
-    );
-};
+            ni-scale-legend {
+                position: absolute;
+                left: 799px;
+                top: 328px;
+                height: 70px;
+            }
 
-class GraphContent extends React.Component {
-  render() {
-    return (
-      <div>
-          <div style={{position: "relative"}} >
-          <ni-cartesian-graph id="graph1" graph-ref="28" value="[[0, 10, 200, 3, 40, 500, 6, 70, 800], [1, 20, 600, 40, 5], [60, 80, 660, 100, 65]]">
-            <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Time" axis-position="bottom" grid-lines></ni-cartesian-axis>
-            <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Amplitude" axis-position="left" auto-scale="exact" grid-lines></ni-cartesian-axis>
-            <PlotList plotCodes={this.props.plots} />
-          </ni-cartesian-graph>
+            ni-cursor-legend {
+                /*position: absolute;*/
+                width: 400px;
+                left: 0px;
+                top: 399px;
+            }
+        </style>
+    </head>
 
-          <ni-scale-legend graph-ref="28"></ni-scale-legend>
-          <ni-plot-legend graph-ref="28"></ni-plot-legend>
-          <ni-graph-tools graph-ref="28"></ni-graph-tools>
-          <ni-light-plot-legend show graph-ref="28" position="nw"></ni-light-plot-legend>
-          <br/>
-          <ni-cursor-legend graph-ref="28"></ni-cursor-legend>
-          </div>
-      </div>
-    );
-  }
-}
+    <body>
+        <h1>Webcharts Graph</h1>
 
-class PlotOpsButton extends React.Component {
-  handleClick = () => {
-    this.props.onClickFunction(this.props.plotContent);
-  };
-  
-	render() {
-  	return (
-  	  <button onClick={this.handleClick}>
-        {this.props.operation}
-      </button>
-    );
-  }
-}
+        <h2>Arrays of numbers</h2>
 
-class App extends React.Component {
-	  state = {
-        counter: 30,
-        plotcodes: [
-            {index: 0, plotLabel: 'Plot_1', plotColor: "#82A3D1", data: [0, 10, 200, 3, 40, 500, 6, 70, 800]}, 
-            {index: 1, plotLabel: 'Plot_2', plotColor: "#862323", data: [1, 20, 600, 40, 5]},
-            {index: 2, plotLabel: 'Plot_3', plotColor: "#86FF23", data: [60, 80, 660, 100, 65]}
-        ]
-    };
-    
-    getAllGraphData = (plotState) => {
-        var result = [];
-        for (var i = 0; i < plotState.plotcodes.length; i++) {
-            result.push(plotState.plotcodes[i].data);
-        }
-        return result;
-    }
-    
-    addNewPlot = (plotInfo) => {
-        this.setState(prevState => ({
-            plotcodes: prevState.plotcodes.concat(plotInfo)
-        }));
-    };
-        
-    genPlotDataValues = () => {
-        var Result = [];
-        for (var i = 0; i < Math.random() * 50; i++) {
-            Result.push(Math.random() * 200);
-        }
-        return Result;
-    }
-    
-    //function addapted from https://stackoverflow.com/questions/1484506/random-color-generator
-    getRandomColor = () => {
-        var letters = '0123456789ABCDEF';
-        var color = '#';
-        for (var i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
-    
-    genPlotContent = (id) => {
-        return {index: id, plotLabel: 'Plot_' + id, plotColor: this.getRandomColor(), data: this.genPlotDataValues()}
-    }
- 
-	render() {
-      var theGraph = document.getElementById('graph1');
-      if (theGraph != null) {
-          theGraph.setData(this.getAllGraphData(this.state));
-      }
-    
-  	return(
-    	<div>
-        <GraphContent plots={this.state.plotcodes} />
-        <PlotOpsButton operation={"Add plot"} onClickFunction={this.addNewPlot} plotContent={this.genPlotContent(this.state.plotcodes.length + 1)} />
-    	</div>
-    );
-  }
-}    
-       
-      ReactDOM.render(
-        <App />,
-        document.getElementById('root')
-      );
+        <div id="root"></div>
+        <script type="text/babel">
 
-    </script>
-  </body>
+            const PlotCode = (props) => {
+            	  return (
+                    <ni-cartesian-plot show label={props.plotLabel}>
+                        <ni-cartesian-plot-renderer line-width="2" line-stroke={props.plotColor}></ni-cartesian-plot-renderer>
+                    </ni-cartesian-plot>
+                );
+            };
+
+            const PlotList = (props) => {
+            	  return (
+                        props.plotCodes.map(plot => <PlotCode key={plot.index} {...plot} />)
+                );
+            };
+
+            class GraphContent extends React.Component {
+              render() {
+                return (
+                  <div>
+                      <div style={{position: "relative"}} >
+                      <ni-cartesian-graph id="graph1" graph-ref="28" value="[[0, 10, 200, 3, 40, 500, 6, 70, 800], [1, 20, 600, 40, 5], [60, 80, 660, 100, 65]]">
+                        <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Time" axis-position="bottom" grid-lines></ni-cartesian-axis>
+                        <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Amplitude" axis-position="left" auto-scale="exact" grid-lines></ni-cartesian-axis>
+                        <PlotList plotCodes={this.props.plots} />
+                      </ni-cartesian-graph>
+
+                      <ni-scale-legend graph-ref="28"></ni-scale-legend>
+                      <ni-plot-legend graph-ref="28"></ni-plot-legend>
+                      <ni-graph-tools graph-ref="28"></ni-graph-tools>
+                      <ni-light-plot-legend show graph-ref="28" position="nw"></ni-light-plot-legend>
+                      <br/>
+                      <ni-cursor-legend graph-ref="28"></ni-cursor-legend>
+                      </div>
+                  </div>
+                );
+              }
+            }
+
+            class PlotOpsButton extends React.Component {
+              handleClick = () => {
+                this.props.onClickFunction(this.props.plotContent);
+              };
+
+            	render() {
+              	return (
+              	  <button onClick={this.handleClick}>
+                    {this.props.operation}
+                  </button>
+                );
+              }
+            }
+
+            class App extends React.Component {
+                state = {
+                    counter: 30,
+                    plotcodes: [
+                        {index: 0, plotLabel: 'Plot_1', plotColor: "#82A3D1", data: [0, 10, 200, 3, 40, 500, 6, 70, 800]},
+                        {index: 1, plotLabel: 'Plot_2', plotColor: "#862323", data: [1, 20, 600, 40, 5]},
+                        {index: 2, plotLabel: 'Plot_3', plotColor: "#86FF23", data: [60, 80, 660, 100, 65]}
+                    ]
+                };
+
+                getAllGraphData = (plotState) => {
+                    var result = [];
+                    for (var i = 0; i < plotState.plotcodes.length; i++) {
+                        result.push(plotState.plotcodes[i].data);
+                    }
+                    return result;
+                }
+
+                addNewPlot = (plotInfo) => {
+                    this.setState(prevState => ({
+                        plotcodes: prevState.plotcodes.concat(plotInfo)
+                    }));
+                };
+
+                genPlotDataValues = () => {
+                    var Result = [];
+                    for (var i = 0; i < Math.random() * 50; i++) {
+                        Result.push(Math.random() * 200);
+                    }
+                    return Result;
+                }
+
+                //function addapted from https://stackoverflow.com/questions/1484506/random-color-generator
+                getRandomColor = () => {
+                    var letters = '0123456789ABCDEF';
+                    var color = '#';
+                    for (var i = 0; i < 6; i++) {
+                        color += letters[Math.floor(Math.random() * 16)];
+                    }
+                    return color;
+                }
+
+                genPlotContent = (id) => {
+                    return {index: id, plotLabel: 'Plot_' + id, plotColor: this.getRandomColor(), data: this.genPlotDataValues()}
+                }
+
+            	render() {
+                    var theGraph = document.getElementById('graph1');
+                    if (theGraph != null) {
+                        theGraph.setData(this.getAllGraphData(this.state));
+                    }
+
+                  	return(
+                    	<div>
+                        <GraphContent plots={this.state.plotcodes} />
+                        <PlotOpsButton operation={"Add plot"} onClickFunction={this.addNewPlot} plotContent={this.genPlotContent(this.state.plotcodes.length + 1)} />
+                    	</div>
+                    );
+                }
+            } //class App
+
+            ReactDOM.render(
+                <App />,
+                document.getElementById('root')
+            );
+
+        </script>
+    </body>
 </html>
