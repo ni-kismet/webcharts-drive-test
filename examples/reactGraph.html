@@ -83,7 +83,7 @@
 
             const PlotList = (props) => {
             	  return (
-                        props.plotCodes.map(plot => <PlotCode key={plot.index} {...plot} />)
+                        props.plotCodes.map(plot => <PlotCode key={plot.id} {...plot} />)
                 );
             };
 
@@ -128,11 +128,33 @@
                 state = {
                     counter: 30,
                     plotcodes: [
-                        {index: 0, plotLabel: 'Plot_1', plotColor: "#82A3D1", data: [0, 10, 200, 3, 40, 500, 6, 70, 800]},
-                        {index: 1, plotLabel: 'Plot_2', plotColor: "#862323", data: [1, 20, 600, 40, 5]},
-                        {index: 2, plotLabel: 'Plot_3', plotColor: "#86FF23", data: [60, 80, 660, 100, 65]}
+                        {id: 1, plotLabel: 'Plot_1', plotColor: "#82A3D1", data: [0, 10, 200, 3, 40, 500, 6, 70, 800]},
+                        {id: 2, plotLabel: 'Plot_2', plotColor: "#862323", data: [1, 20, 600, 40, 5]},
+                        {id: 3, plotLabel: 'Plot_3', plotColor: "#86FF23", data: [60, 80, 660, 100, 65]}
                     ]
                 };
+
+                getAnAvailableID = (plotState) => {
+                    function idExists(id) {
+                        var result = false;
+                        for (var i = 0; i < plotState.plotcodes.length; i++) {
+                            if (plotState.plotcodes[i].id === id) {
+                                result = true;
+                                break;
+                            }
+                        }
+                        return result;
+                    }
+
+                    var result = -1;
+                    for (var i = 1; i <= plotState.plotcodes.length + 1; i++) {
+                        if (!idExists(i)) {
+                            result = i;
+                            break;
+                        }
+                    }
+                    return result;
+                }
 
                 getAllGraphData = (plotState) => {
                     var result = [];
@@ -145,6 +167,18 @@
                 addNewPlot = (plotInfo) => {
                     this.setState(prevState => ({
                         plotcodes: prevState.plotcodes.concat(plotInfo)
+                    }));
+                };
+
+                removeFirstPlot = (plotInfo) => {
+                    this.setState(prevState => ({
+                        plotcodes: prevState.plotcodes.slice(1, prevState.plotcodes.length)
+                    }));
+                };
+
+                removeLastPlot = (plotInfo) => {
+                    this.setState(prevState => ({
+                        plotcodes: prevState.plotcodes.slice(0, prevState.plotcodes.length - 1)
                     }));
                 };
 
@@ -167,7 +201,11 @@
                 }
 
                 genPlotContent = (id) => {
-                    return {index: id, plotLabel: 'Plot_' + id, plotColor: this.getRandomColor(), data: this.genPlotDataValues()}
+                    return {id: id, plotLabel: 'Plot_' + id, plotColor: this.getRandomColor(), data: this.genPlotDataValues()}
+                }
+
+                genDummyPlotContent = () => {
+                    return {id: -1, plotLabel: 'NoPlot', plotColor: '#00FFFF', data: []}
                 }
 
             	render() {
@@ -179,7 +217,11 @@
                   	return(
                     	<div>
                             <GraphContent plots={this.state.plotcodes} />
-                            <PlotOpsButton operation={"Add plot"} onClickFunction={this.addNewPlot} plotContent={this.genPlotContent(this.state.plotcodes.length + 1)} />
+                            <PlotOpsButton operation={"Add plot"} onClickFunction={this.addNewPlot} plotContent={this.genPlotContent(this.getAnAvailableID(this.state))} />
+                            &nbsp;
+                            <PlotOpsButton operation={"Delete first plot"} onClickFunction={this.removeFirstPlot} plotContent={this.genDummyPlotContent()} />
+                            &nbsp;
+                            <PlotOpsButton operation={"Delete last plot"} onClickFunction={this.removeLastPlot} plotContent={this.genDummyPlotContent()} />
                     	</div>
                     );
                 }
