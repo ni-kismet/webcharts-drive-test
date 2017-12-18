@@ -86,6 +86,12 @@
                 );
             };
 
+            const NIScaleLegend = (props) => {
+            	  return (
+                      <ni-scale-legend graph-ref={props.graphRef}></ni-scale-legend>
+                );
+            };
+
             class GraphContent extends React.Component {
                 render() {
                     return (
@@ -97,7 +103,7 @@
                                     <PlotList plotCodes={this.props.plots} />
                                 </ni-cartesian-graph>
 
-                                <ni-scale-legend graph-ref="28"></ni-scale-legend>
+                                <NIScaleLegend graphRef={"28"}/>
                                 <ni-plot-legend graph-ref="28"></ni-plot-legend>
                                 <ni-graph-tools graph-ref="28"></ni-graph-tools>
                                 <ni-light-plot-legend show graph-ref="28" position="nw"></ni-light-plot-legend>
@@ -195,7 +201,7 @@
                     return Result;
                 }
 
-                //function addapted from https://stackoverflow.com/questions/1484506/random-color-generator
+                //function adapted from https://stackoverflow.com/questions/1484506/random-color-generator
                 getRandomColor = () => {
                     var letters = '0123456789ABCDEF';
                     var color = '#';
