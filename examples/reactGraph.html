@@ -182,6 +182,12 @@
                     }));
                 };
 
+                removeAllPlots = (plotInfo) => {
+                    this.setState(prevState => ({
+                        plotcodes: []
+                    }));
+                };
+
                 genPlotDataValues = () => {
                     var Result = [];
                     for (var i = 0; i < Math.random() * 50; i++) {
@@ -222,6 +228,8 @@
                             <PlotOpsButton operation={"Delete first plot"} onClickFunction={this.removeFirstPlot} plotContent={this.genDummyPlotContent()} />
                             &nbsp;
                             <PlotOpsButton operation={"Delete last plot"} onClickFunction={this.removeLastPlot} plotContent={this.genDummyPlotContent()} />
+                            &nbsp;
+                            <PlotOpsButton operation={"Delete all plots"} onClickFunction={this.removeAllPlots} plotContent={this.genDummyPlotContent()} />
                     	</div>
                     );
                 }
