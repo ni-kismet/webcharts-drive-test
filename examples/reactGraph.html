@@ -88,39 +88,39 @@
             };
 
             class GraphContent extends React.Component {
-              render() {
-                return (
-                  <div>
-                      <div style={{position: "relative"}} >
-                      <ni-cartesian-graph id="graph1" graph-ref="28" value="[[0, 10, 200, 3, 40, 500, 6, 70, 800], [1, 20, 600, 40, 5], [60, 80, 660, 100, 65]]">
-                        <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Time" axis-position="bottom" grid-lines></ni-cartesian-axis>
-                        <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Amplitude" axis-position="left" auto-scale="exact" grid-lines></ni-cartesian-axis>
-                        <PlotList plotCodes={this.props.plots} />
-                      </ni-cartesian-graph>
+                render() {
+                    return (
+                        <div>
+                            <div style={{position: "relative"}} >
+                                <ni-cartesian-graph id="graph1" graph-ref="28" value="[[0, 10, 200, 3, 40, 500, 6, 70, 800], [1, 20, 600, 40, 5], [60, 80, 660, 100, 65]]">
+                                    <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Time" axis-position="bottom" grid-lines></ni-cartesian-axis>
+                                    <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Amplitude" axis-position="left" auto-scale="exact" grid-lines></ni-cartesian-axis>
+                                    <PlotList plotCodes={this.props.plots} />
+                                </ni-cartesian-graph>
 
-                      <ni-scale-legend graph-ref="28"></ni-scale-legend>
-                      <ni-plot-legend graph-ref="28"></ni-plot-legend>
-                      <ni-graph-tools graph-ref="28"></ni-graph-tools>
-                      <ni-light-plot-legend show graph-ref="28" position="nw"></ni-light-plot-legend>
-                      <br/>
-                      <ni-cursor-legend graph-ref="28"></ni-cursor-legend>
-                      </div>
-                  </div>
-                );
-              }
-            }
+                                <ni-scale-legend graph-ref="28"></ni-scale-legend>
+                                <ni-plot-legend graph-ref="28"></ni-plot-legend>
+                                <ni-graph-tools graph-ref="28"></ni-graph-tools>
+                                <ni-light-plot-legend show graph-ref="28" position="nw"></ni-light-plot-legend>
+                                <br/>
+                                <ni-cursor-legend graph-ref="28"></ni-cursor-legend>
+                            </div>
+                        </div>
+                    ); //return
+                } //render
+            } //class GraphContent
 
             class PlotOpsButton extends React.Component {
-              handleClick = () => {
-                this.props.onClickFunction(this.props.plotContent);
-              };
+                handleClick = () => {
+                    this.props.onClickFunction(this.props.plotContent);
+                };
 
             	render() {
-              	return (
-              	  <button onClick={this.handleClick}>
-                    {this.props.operation}
-                  </button>
-                );
+                  	return (
+                  	    <button onClick={this.handleClick}>
+                            {this.props.operation}
+                        </button>
+                    );
               }
             }
 
@@ -178,8 +178,8 @@
 
                   	return(
                     	<div>
-                        <GraphContent plots={this.state.plotcodes} />
-                        <PlotOpsButton operation={"Add plot"} onClickFunction={this.addNewPlot} plotContent={this.genPlotContent(this.state.plotcodes.length + 1)} />
+                            <GraphContent plots={this.state.plotcodes} />
+                            <PlotOpsButton operation={"Add plot"} onClickFunction={this.addNewPlot} plotContent={this.genPlotContent(this.state.plotcodes.length + 1)} />
                     	</div>
                     );
                 }
