@@ -73,7 +73,7 @@
         <script type="text/babel">
 
             const PlotCode = (props) => {
-            	  return (
+            	return (
                     <ni-cartesian-plot show label={props.plotLabel}>
                         <ni-cartesian-plot-renderer line-width="2" line-stroke={props.plotColor}></ni-cartesian-plot-renderer>
                     </ni-cartesian-plot>
@@ -81,21 +81,52 @@
             };
 
             const PlotList = (props) => {
-            	  return (
-                        props.plotCodes.map(plot => <PlotCode key={plot.id} {...plot} />)
+            	return (
+                    props.plotCodes.map(plot => <PlotCode key={plot.id} {...plot} />)
                 );
             };
 
             const NIScaleLegend = (props) => {
-            	  return (
-                      <ni-scale-legend graph-ref={props.graphRef}></ni-scale-legend>
+            	return (
+                    <ni-scale-legend graph-ref={props.graphRef}></ni-scale-legend>
                 );
             };
 
+            class NILightLegendOpsButton extends React.Component {
+                handleClick = () => {
+                    this.props.onClickFunction();
+                };
+
+            	render() {
+                  	return (
+                  	    <button onClick={this.handleClick}>
+                            {this.props.operation}
+                        </button>
+                    );
+              }
+            }
+
             class GraphContent extends React.Component {
+                state = {
+                    lightPlotLegendPosition: 0
+                };
+
+                selectNextLightPlotLegendPosition = () => {
+                    this.setState(prevState => ({
+                        lightPlotLegendPosition: prevState.lightPlotLegendPosition + 1
+                    }));
+                }
+
+                getLightPlotLegendPositionAsString = () => {
+                    const positions = ['nw', 'ne', 'se', 'sw'];
+                    return positions[this.state.lightPlotLegendPosition % 4];
+                }
+
                 render() {
                     return (
                         <div>
+                            <PlotOpsButton operation={"Select next NILightPlotLegend position"} onClickFunction={this.selectNextLightPlotLegendPosition} />
+                            <br/><br/>
                             <div style={{position: "relative"}} >
                                 <ni-cartesian-graph id="graph1" graph-ref="28" value="[[0, 10, 200, 3, 40, 500, 6, 70, 800], [1, 20, 600, 40, 5], [60, 80, 660, 100, 65]]">
                                     <ni-cartesian-axis show show-ticks show-minor-ticks show-label label="Time" axis-position="bottom" grid-lines></ni-cartesian-axis>
@@ -106,7 +137,7 @@
                                 <NIScaleLegend graphRef={"28"}/>
                                 <ni-plot-legend graph-ref="28"></ni-plot-legend>
                                 <ni-graph-tools graph-ref="28"></ni-graph-tools>
-                                <ni-light-plot-legend show graph-ref="28" position="nw"></ni-light-plot-legend>
+                                <ni-light-plot-legend show graph-ref="28" position={this.getLightPlotLegendPositionAsString()}></ni-light-plot-legend>
                                 <br/>
                                 <ni-cursor-legend graph-ref="28"></ni-cursor-legend>
                             </div>
