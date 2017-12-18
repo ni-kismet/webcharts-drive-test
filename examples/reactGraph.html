@@ -57,7 +57,6 @@
             }
 
             ni-cursor-legend {
-                /*position: absolute;*/
                 width: 400px;
                 left: 0px;
                 top: 399px;
@@ -210,6 +209,7 @@
                     return {id: id, plotLabel: 'Plot_' + id, plotColor: this.getRandomColor(), data: this.genPlotDataValues()}
                 }
 
+                //required to generate an "empty" object, compatible with handleClick handler from PlotOpsButton class
                 genDummyPlotContent = () => {
                     return {id: -1, plotLabel: 'NoPlot', plotColor: '#00FFFF', data: []}
                 }
